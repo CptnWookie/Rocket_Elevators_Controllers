@@ -1,0 +1,131 @@
+//Rocket Elevators Residential Controller
+
+
+//DEFINE SECTION
+
+DEFINE Column USING id AND status:
+    ID: id,
+    Status: status,
+    ElevatorList: SET to empty List
+    SEQUENCE createElevatorList USING elevator_amount
+        [...]
+        [...]
+    ENDSEQUENCE
+ENDDEFINE
+SET column1 TO INSTANTIATE Column WITH 1 AND online
+SET column1 status TO offline
+
+
+
+DEFINE Elevator USING id, status AND direction
+    Id: id,
+    Status: status,
+    Direction: direction,
+ENDDEFINE
+SET elevatorA TO INSTANTIATE elevator WITH A and online
+SET elevatorA status TO offline
+SET elevatorB TO INSTANTIATE elevator WITH B and online
+SET elevatorB status TO offline
+
+
+DEFINE CallButton USING id, status AND direction
+    Id: id,
+    Status: status,
+    Direction: direction,
+ENDDEFINE
+
+
+
+
+
+
+//DEFINE SECTION
+
+
+//Request Elevators
+SEQUENCE requestElevators USING floor and direction
+    
+    CALL findElevator WITH floor and direction returning bestElevator
+
+    //if direction EQUAL To "UP" THEN
+    //If Direction Up selected, call elevatorA up to requested floor
+    //If Direction Down selected, call elevatorB down to requestion floor        
+    //When arriving at destination, open doors
+
+ENDSEQUENCE   
+
+
+
+//Request Level
+SEQUENCE requestLevel USING (parameters X Y Z)
+    Push desired Floor Button
+    Close doors
+    Start moving
+    If going up, destination level > current level to move
+        Else do nothing
+    If going down, desination level < current level to move
+        Else do nothing        
+ENDSEQUENCE
+
+
+
+
+//Elevator Origin
+SEQUENCE elevatorOrigin USING (parametes X Y Z)
+    originA = Level 1
+    originB = Level 10
+    If elevatorA moved THEN bring back to originA
+    If elevatorB moved THEN bring back to originB
+
+ENDSEQUENCE
+
+
+
+//Find Elevator
+SEQUENCE findElevator USING elevatorFloorLevel and curentDirection
+
+    READ elevatorFloorLevel and curentDirection of elevatorAA
+    READ elevatorFloorLevel and curentDirection of elevatorAB     
+
+ENDSEQUENCE
+
+
+//Best Elevator
+SEQUENCE bestElevator USING userFloorLevel, elevatorFloorLevel, curentDirection and requestedDirection
+
+    FOR requestedDirection EQUAL TO "UP"
+            IF requestedDirection EQUAL TO "UP" 
+
+ENDSEQUENCE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEFINE elevator USING id AND status
+    Id: id,
+    Status: status,
+    direction: direction,
+    //SEQUENCE createDirectionList USING direction_amount,
+        //["UP", "DOWN", "IDLE"]
+        //ENDSEQUENCE
+    //floorLevelList: SET to empty List,
+    //SEQUENCE createFloorList USING floor_amount,
+        //["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        //ENDSEQUENCE
+ENDDEFINE
+SET elevatorA TO INSTANTIATE elevator WITH A and online
+SET elevatorA status TO offline
+SET elevatorB TO INSTANTIATE elevator WITH B and online
+SET elevatorB status TO offline

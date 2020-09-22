@@ -43,7 +43,7 @@ SET elevatorsDoorsB status TO offline
 
 
 
-DEFINE callButton USING id, status, AND direction
+DEFINE CallButton USING id, status, AND direction
     Id: id,
     Status: status,
     Direction: direction,
@@ -66,7 +66,7 @@ SET doorsB TO INSTANTIATE doors WITH B AND online
 SET doorsB status TO offline
 
 
-DEFINE floorRequestButton USING id, status, AND floor
+DEFINE FloorRequestButton USING id, status, AND floor
     Id: id,
     Status: status,
     Floor: floor,

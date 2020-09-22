@@ -3,47 +3,37 @@
 
 //DEFINE SECTION
 
-DEFINE column USING id AND status:
+DEFINE Column USING id AND status:
     ID: id,
     Status: status,
-    ElevatorList: SET to empty List,
+    ElevatorList: SET to empty List
+
     SEQUENCE createElevatorList USING elevator_amount
-        [elevatorA]
-        [elevatorB]
+        [...]
+        [...]
     ENDSEQUENCE
+
 ENDDEFINE
 
 SET column1 TO INSTANTIATE Column WITH 1 AND online
+
 SET column1 status TO offline
 
 
 
-DEFINE elevator USING id, status AND direction
+DEFINE Elevator USING id, status AND direction
     Id: id,
     Status: status,
     Direction: direction,
-    CallButtonList: SET to empty List,
-    ElevatorsDoorsList: SET to empty List,
-    SEQUENCE createCallButtonList USING callButton_amount
-        [callButtonUp]
-        [callButtonDown]
-    ENDSEQUENCE
-    SEQUENCE createElevatorsDoorsList USING elevatorsDoors_amount
-        [elevatorsDoorsA]
-        [elevatorsDoorsB]        
 ENDDEFINE
-SET callButtonUp TO INSTANTIATE callButton WITH Up AND online
-SET callButtonUp status to offline 
-SET callButtonDown TO INSTANTIATE callButton WITH Down AND online
-SET callButtonDown status to offline 
-SET elevatorsDoorsA TO INSTANTIATE elevatorsDoors WITH A AND online
-SET elevatorsDoorsA status TO offline
-SET elevatorsDoorsB TO INSTANTIATE elevatorsDoors WITH B AND online
-SET elevatorsDoorsB status TO offline
+SET elevatorA TO INSTANTIATE elevator WITH A AND online
+SET elevatorA status TO offline
+SET elevatorB TO INSTANTIATE elevator WITH B AND online
+SET elevatorB status TO offline
 
 
 
-DEFINE callButton USING id, status, AND direction
+DEFINE CallButton USING id, status, AND direction
     Id: id,
     Status: status,
     Direction: direction,
@@ -61,32 +51,11 @@ DEFINE doors USING id, status, AND state
     State: state,
 ENDDEFINE
 SET doorsA TO INSTANTIATE doors WITH A AND online
-SET doorsA status TO offline
-SET doorsB TO INSTANTIATE doors WITH B AND online
-SET doorsB status TO offline
+SET callButtonUp status TO offline
+SET callButtonDown TO INSTANTIATE callButton WITH Down AND online
+SET callButtonDown status TO offline
 
 
-DEFINE floorRequestButton USING id, status, AND floor
-    Id: id,
-    Status: status,
-    Floor: floor,
-ENDDEFINE
-SET floorRequestButton1 TO INSTANTIATE callButton WITH 1 AND online
-SET floorRequestButton1 status TO offline
-SET floorRequestButton2 TO INSTANTIATE callButton WITH 2 AND online
-SET floorRequestButton2 status TO offline
-SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
-SET floorRequestButton status TO offline
-SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
-SET floorRequestButton status TO offline
-SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
-SET floorRequestButton status TO offline
-SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
-SET floorRequestButton status TO offline
-SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
-SET floorRequestButton status TO offline
-SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
-SET floorRequestButton status TO offline
 
 
 
