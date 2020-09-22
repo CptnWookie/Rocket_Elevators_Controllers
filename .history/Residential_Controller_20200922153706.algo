@@ -24,42 +24,44 @@ DEFINE elevator USING id, status AND direction
     FloorRequestButtonList: SET to empty List,
     ElevatorsDoorsList: SET to empty List,
     SEQUENCE createfloorRequestButtonList USING floorRequestButton_amount
-        floorLevel = 1 to 10
+        floorLevelNumber = 10
         SET floorRequestButton FOR EACH floorLevel 
+        
+        [floorRequestButton1]
+        [floorRequestButton2]
+        [floorRequestButton3]
+        [floorRequestButton4]
+        [floorRequestButton5]
+        [floorRequestButton6]
+        [floorRequestButton7]
+        [floorRequestButton8]
+        [floorRequestButton9]
+        [floorRequestButton10]
     ENDSEQUENCE
     SEQUENCE createElevatorsDoorsList USING elevatorsDoors_amount
         [elevatorsDoorsA]
         [elevatorsDoorsB]        
-    ENDDEFINE
-    FOR EACH floorRequestButton
-        SET floorRequestButton"floorLevel" TO INSTANTIATE floorRequestButton WITH "floorLevel" AND pressed
-        SET floorRequestButton"floorLevel" TO  notPressed
-    ENDFOR
-    SET elevatorsDoorsA TO INSTANTIATE elevatorsDoors WITH A AND online
-    SET elevatorsDoorsA status TO offline
-    SET elevatorsDoorsB TO INSTANTIATE elevatorsDoors WITH B AND online
-    SET elevatorsDoorsB status TO offline
+ENDDEFINE
+FOR EACH floorRequestButton
+    SET floorRequestButton"number" TO INSTANTIATE floorRequestButton WITH "number" AND pressed
+    SET floorRequestButton"number" TO  notPressed
+ENDFOR
+SET elevatorsDoorsA TO INSTANTIATE elevatorsDoors WITH A AND online
+SET elevatorsDoorsA status TO offline
+SET elevatorsDoorsB TO INSTANTIATE elevatorsDoors WITH B AND online
+SET elevatorsDoorsB status TO offline
 
 
 
--------------ICI-------------
 DEFINE callButton USING id, status, AND direction
     Id: id,
     Status: status,
     Direction: direction,
-    SEQUENCE createCallButtonList USING callButton_amount
-        floorLevel = 1 to 10
-        SET callButton FOR EACH floorLevel 
-    ENDSEQUENCE
 ENDDEFINE
-FOR EACH callButton
-        SET callButtonUp"floorLevel" TO INSTANTIATE callButton WITH Up"floorLevel" AND pressed
-        SET callButtonUp"floorLevel" TO  notPressed
-        ET callButtonDown"floorLevel" TO INSTANTIATE callButton WITH Down"floorLevel" AND pressed
-        SET callButtonDown"floorLevel" TO  notPressed
-    ENDFOR
------------------------------
-
+SET callButtonUp TO INSTANTIATE callButton WITH Up AND online
+SET callButtonUp status TO offline
+SET callButtonDown TO INSTANTIATE callButton WITH Down AND online
+SET callButtonDown status TO offline
 
 
 

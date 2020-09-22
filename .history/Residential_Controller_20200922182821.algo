@@ -42,7 +42,7 @@ DEFINE elevator USING id, status AND direction
 
 
 
--------------ICI-------------
+-------------ICI--------------------------------
 DEFINE callButton USING id, status, AND direction
     Id: id,
     Status: status,
@@ -58,7 +58,7 @@ FOR EACH callButton
         ET callButtonDown"floorLevel" TO INSTANTIATE callButton WITH Down"floorLevel" AND pressed
         SET callButtonDown"floorLevel" TO  notPressed
     ENDFOR
------------------------------
+--------------------------------
 
 
 
