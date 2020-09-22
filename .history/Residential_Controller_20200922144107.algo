@@ -85,21 +85,21 @@ SET floorRequestButton1 TO INSTANTIATE floorRequestButton WITH 1 AND online
 SET floorRequestButton1 status TO offline
 SET floorRequestButton2 TO INSTANTIATE floorRequestButton WITH 2 AND online
 SET floorRequestButton2 status TO offline
-SET floorRequestButton3 TO INSTANTIATE floorRequestButton WITH 3 AND online
+SET floorRequestButton3 TO INSTANTIATE floorRequestButton WITH 1 AND online
 SET floorRequestButton3 status TO offline
-SET floorRequestButton4 TO INSTANTIATE floorRequestButton WITH 4 AND online
+SET floorRequestButton4 TO INSTANTIATE floorRequestButton WITH 1 AND online
 SET floorRequestButton4 status TO offline
-SET floorRequestButton5 TO INSTANTIATE floorRequestButton5 WITH 5 AND online
+SET floorRequestButton5 TO INSTANTIATE floorRequestButton5 WITH 1 AND online
 SET floorRequestButton5 status TO offline
-SET floorRequestButton6 TO INSTANTIATE floorRequestButton WITH 6 AND online
+SET floorRequestButton6 TO INSTANTIATE callButton WITH 1 AND online
 SET floorRequestButton6 status TO offline
-SET floorRequestButton7 TO INSTANTIATE floorRequestButton WITH 7 AND online
+SET floorRequestButton7 TO INSTANTIATE callButton WITH 1 AND online
 SET floorRequestButton7 status TO offline
-SET floorRequestButton8 TO INSTANTIATE floorRequestButton WITH 8 AND online
+SET floorRequestButton8 TO INSTANTIATE callButton WITH 1 AND online
 SET floorRequestButton8 status TO offline
-SET floorRequestButton9 TO INSTANTIATE floorRequestButton WITH 9 AND online
+SET floorRequestButton9 TO INSTANTIATE callButton WITH 1 AND online
 SET floorRequestButton9 status TO offline
-SET floorRequestButton10 TO INSTANTIATE floorRequestButton WITH 10 AND online
+SET floorRequestButton10 TO INSTANTIATE callButton WITH 1 AND online
 SET floorRequestButton10 status TO offline
 
 

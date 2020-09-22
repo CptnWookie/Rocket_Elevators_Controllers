@@ -12,6 +12,7 @@ DEFINE column USING id AND status:
         [elevatorB]
     ENDSEQUENCE
 ENDDEFINE
+
 SET column1 TO INSTANTIATE Column WITH 1 AND online
 SET column1 status TO offline
 
@@ -54,18 +55,19 @@ SET callButtonDown status TO offline
 
 
 
+
 DEFINE elevatorsDoors USING id, status, AND state
     Id: id,
     Status: status,
     State: state,
 ENDDEFINE
-SET elevatorsDoorsA TO INSTANTIATE elevatorsDoors WITH A AND online
-SET elevatorsDoorsA status TO offline
-SET elevatorsDoorsB TO INSTANTIATE elevatorsDoors WITH B AND online
-SET elevatorsDoorsB status TO offline
+SET elevatorsDoorsA TO INSTANTIATE doors WITH A AND online
+SET doorsA status TO offline
+SET doorsB TO INSTANTIATE doors WITH B AND online
+SET doorsB status TO offline
 
 
-DEFINE floorsDoors USING id, status, AND state
+DEFINE doors USING id, status, AND state
     Id: id,
     Status: status,
     State: state,
@@ -81,28 +83,22 @@ DEFINE floorRequestButton USING id, status, AND floor
     Status: status,
     Floor: floor,
 ENDDEFINE
-SET floorRequestButton1 TO INSTANTIATE floorRequestButton WITH 1 AND online
+SET floorRequestButton1 TO INSTANTIATE callButton WITH 1 AND online
 SET floorRequestButton1 status TO offline
-SET floorRequestButton2 TO INSTANTIATE floorRequestButton WITH 2 AND online
+SET floorRequestButton2 TO INSTANTIATE callButton WITH 2 AND online
 SET floorRequestButton2 status TO offline
-SET floorRequestButton3 TO INSTANTIATE floorRequestButton WITH 3 AND online
-SET floorRequestButton3 status TO offline
-SET floorRequestButton4 TO INSTANTIATE floorRequestButton WITH 4 AND online
-SET floorRequestButton4 status TO offline
-SET floorRequestButton5 TO INSTANTIATE floorRequestButton5 WITH 5 AND online
-SET floorRequestButton5 status TO offline
-SET floorRequestButton6 TO INSTANTIATE floorRequestButton WITH 6 AND online
-SET floorRequestButton6 status TO offline
-SET floorRequestButton7 TO INSTANTIATE floorRequestButton WITH 7 AND online
-SET floorRequestButton7 status TO offline
-SET floorRequestButton8 TO INSTANTIATE floorRequestButton WITH 8 AND online
-SET floorRequestButton8 status TO offline
-SET floorRequestButton9 TO INSTANTIATE floorRequestButton WITH 9 AND online
-SET floorRequestButton9 status TO offline
-SET floorRequestButton10 TO INSTANTIATE floorRequestButton WITH 10 AND online
-SET floorRequestButton10 status TO offline
-
-
+SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
+SET floorRequestButton status TO offline
+SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
+SET floorRequestButton status TO offline
+SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
+SET floorRequestButton status TO offline
+SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
+SET floorRequestButton status TO offline
+SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
+SET floorRequestButton status TO offline
+SET floorRequestButton TO INSTANTIATE callButton WITH 1 AND online
+SET floorRequestButton status TO offline
 
 
 

@@ -99,7 +99,7 @@ SET floorRequestButton8 TO INSTANTIATE floorRequestButton WITH 8 AND online
 SET floorRequestButton8 status TO offline
 SET floorRequestButton9 TO INSTANTIATE floorRequestButton WITH 9 AND online
 SET floorRequestButton9 status TO offline
-SET floorRequestButton10 TO INSTANTIATE floorRequestButton WITH 10 AND online
+SET floorRequestButton10 TO INSTANTIATE floorRequestButton WITH 1 AND online
 SET floorRequestButton10 status TO offline
 
 
