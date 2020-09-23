@@ -3,7 +3,7 @@
 
 //DEFINE SECTION
 
-DEFINE column USING id AND status AND numberOfFloor:
+DEFINE column USING id AND status AND :
     ID: id,
     Status: status,
     ElevatorList: SET to empty List,
