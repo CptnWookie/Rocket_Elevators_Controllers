@@ -24,10 +24,10 @@ SET column1 TO INSTANTIATE column WITH 1 AND online
 
 
 
-DEFINE elevator USING id AND status AND directions AND numberOfFloors
+DEFINE elevator USING id AND status AND direction AND numberOfFloors
     ID: id,
     Status: status,
-    Directions: directions,
+    Direction: direction,
     FloorRequestButtonList: SET TO empty List,
     SEQUENCE createFloorRequestButtonList USING numberOfFloors
         numberOfFloors = 10
@@ -42,7 +42,7 @@ ENDDEFINE
 DEFINE callButton USING id AND status AND directions AND numberOfFloors
     ID: id,
     Status: status,
-    Directions: directions,
+    Direction: direction,
     SEQUENCE createCallButtonList USING numberOfFloors
         numberOfFloors = 10
         direction = "UP" or "DOWN"
@@ -91,20 +91,33 @@ ENDDEFINE
 'Sequence Section'
 
 SEQUENCE requestElevators USING numberOfFloors AND directions
-    CALL findElevator WITH numberOfFloors AND directions returning bestElevator
+    
+    CALL findElevator WITH floor AND direction returning bestElevator
+
+    //if direction EQUAL TO "UP" THEN
+    //If Direction Up selected, call elevatorA up TO requested floor
+    //If Direction Down selected, call elevatorB down TO requestion floor        
+    //When arriving at destination, open doors
+
 ENDSEQUENCE   
 
 
 SEQUENCE findElevator USING elevatorFloorLevel AND curentDirection
+
     READ elevatorFloorLevel AND curentDirection OF elevatorAA
     READ elevatorFloorLevel AND curentDirection OF elevatorAB     
+
 ENDSEQUENCE
 
 
+//Best Elevator
 SEQUENCE bestElevator USING userFloorLevel, elevatorFloorLevel, curentDirection AND requestedDirection
+
     FOR requestedDirection EQUAL TO "UP"
             IF requestedDirection EQUAL TO "UP" 
+
 ENDSEQUENCE
+
 
 
 SEQUENCE requestLevel USING (parameters X Y Z)
@@ -116,6 +129,8 @@ SEQUENCE requestLevel USING (parameters X Y Z)
     If going down, desination level < current level TO move
         Else do nothing        
 ENDSEQUENCE
+
+
 
 
 SEQUENCE elevatorOrigin USING (parametes X Y Z)

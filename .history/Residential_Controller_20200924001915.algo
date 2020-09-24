@@ -107,6 +107,7 @@ SEQUENCE bestElevator USING userFloorLevel, elevatorFloorLevel, curentDirection 
 ENDSEQUENCE
 
 
+
 SEQUENCE requestLevel USING (parameters X Y Z)
     Push desired Floor Button
     Close doors
@@ -116,6 +117,8 @@ SEQUENCE requestLevel USING (parameters X Y Z)
     If going down, desination level < current level TO move
         Else do nothing        
 ENDSEQUENCE
+
+
 
 
 SEQUENCE elevatorOrigin USING (parametes X Y Z)

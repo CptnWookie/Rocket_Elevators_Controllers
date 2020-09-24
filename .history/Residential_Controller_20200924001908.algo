@@ -101,10 +101,14 @@ SEQUENCE findElevator USING elevatorFloorLevel AND curentDirection
 ENDSEQUENCE
 
 
+//Best Elevator
 SEQUENCE bestElevator USING userFloorLevel, elevatorFloorLevel, curentDirection AND requestedDirection
+
     FOR requestedDirection EQUAL TO "UP"
             IF requestedDirection EQUAL TO "UP" 
+
 ENDSEQUENCE
+
 
 
 SEQUENCE requestLevel USING (parameters X Y Z)
@@ -116,6 +120,8 @@ SEQUENCE requestLevel USING (parameters X Y Z)
     If going down, desination level < current level TO move
         Else do nothing        
 ENDSEQUENCE
+
+
 
 
 SEQUENCE elevatorOrigin USING (parametes X Y Z)
