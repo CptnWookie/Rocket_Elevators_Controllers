@@ -112,7 +112,7 @@ ENDSEQUENCE
 
 
 SEQUENCE findElevator USING numberOfFloors AND directions
-    READ column1.elevatorsList WITH numberOfFloors AND directions
+    READ column1.elevatorsList WITH numberOfFloors AND
 ENDSEQUENCE
 
 

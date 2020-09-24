@@ -90,43 +90,7 @@ ENDDEFINE
 
 'Sequence Section'
 
-SEQUENCE initSystem USING numberOfFloors AND numberOfElevators
-    SET column1 TO INSTANTIATE column WITH 1 AND numberOfFloors AND numberOfElevators AND online
-    CALL column1.createElevatorsList
-ENDSEQUENCE
-
-
-
-SEQUENCE requestElevators USING numberOfFloors AND directions
-    IF callButton IS pressed
-        READ callButton.directions AND callButton.numberOfFloors
-        CALL findElevator WITH numberOfFloors AND directions RETURNING bestElevators
-        SET bestElevators.status TO "Online"
-        INIT moveElevators TO requestElevators.numberOfFloors WITH numberOfFloors AND directions
-        THEN SET bestElevator.status TO "Idle"
-        THEN SET elevatorsDoors.status TO "Open"
-        THEN SET floorDoors.status TO "Open"
-    ENDIF
-ENDSEQUENCE   
-
-
-
-SEQUENCE findElevator USING numberOfFloors AND directions
-    READ column1.elevatorsList WITH numberOfFloors AND directions
-ENDSEQUENCE
-
-
-
-
-
-
-
-
-
-
-
-SEQUENCE requestElevators USING numberOfFloors AND directions
-    CALL findElevator WITH numberOfFloors AND directions returning bestElevator
+SEQUENCE requestElevators
 ENDSEQUENCE   
 
 

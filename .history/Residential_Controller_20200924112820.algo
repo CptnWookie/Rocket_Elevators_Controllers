@@ -104,15 +104,11 @@ SEQUENCE requestElevators USING numberOfFloors AND directions
         SET bestElevators.status TO "Online"
         INIT moveElevators TO requestElevators.numberOfFloors WITH numberOfFloors AND directions
         THEN SET bestElevator.status TO "Idle"
-        THEN SET elevatorsDoors.status TO "Open"
-        THEN SET floorDoors.status TO "Open"
-    ENDIF
 ENDSEQUENCE   
 
 
 
-SEQUENCE findElevator USING numberOfFloors AND directions
-    READ column1.elevatorsList WITH numberOfFloors AND directions
+SEQUENCE findElevator USING 
 ENDSEQUENCE
 
 
