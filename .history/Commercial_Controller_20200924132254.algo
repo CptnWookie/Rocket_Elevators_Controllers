@@ -1,20 +1,36 @@
-//Rocket Elevators Residential Controller
+//Rocket Elevators Commercial Controller - Classic
 
 "Inventory List
+- Battery
 - Column
 - Elevators (Cages)
 - Call Buttons
 - Doors
-- Floor Request Buttons"
+- Floor Request Buttons
+- Floor Display"
 
 
 'DEFINE SECTION'
+DEFINE battery USING id AND status AND numberOfColumn:
+    ID: id,
+    Status: status,
+    ColumnList: SET TO empty List,
+    SEQUENCE createColumnList USING numberOfColumn
+        numberOfColumn = 4
+        FOR EACH numberOfColumn
+            ADD (INSTANTIATE column WITH "numberOfColumn" AND "Offline") TO ColumnList
+        ENDFOR
+    ENDSEQUENCE
+ENDDEFINE
+
+
+
 DEFINE column USING id AND status AND numberOfFloors AND numberOfElevators:
     ID: id,
     Status: status,
     ElevatorsList: SET TO empty List,
     SEQUENCE createElevatorsList USING numberOfElevators
-        numberOfElevators = 2
+        numberOfElevators = 3
         FOR EACH numberOfElevators
             ADD (INSTANTIATE elevator WITH "numberOfElevators" AND "IDLE") TO elevatorsList
         ENDFOR
@@ -78,9 +94,11 @@ ENDDEFINE
 
 
 
-DEFINE initSystem USING numberOfFloors AND numberOfElevators
-    SET column1 TO INSTANTIATE column WITH 1 AND numberOfFloors AND numberOfElevators AND online
-    CALL column1.createElevatorsList
+DEFINE floorDisplay USING id AND status AND numberOfFloors
+    ID: id,
+    Status: status,
+    FloorsList: SET TO empty List,
+    SEQUENCE create
 ENDDEFINE
 
 'DEFINE SECTION'
@@ -114,48 +132,3 @@ SEQUENCE findElevator USING numberOfFloors AND directions
     READ column1.elevatorsList WITH numberOfFloors AND directions
 ENDSEQUENCE
 
-
-
-
-
-
-
-
-
-
-
-SEQUENCE requestElevators USING numberOfFloors AND directions
-    CALL findElevator WITH numberOfFloors AND directions returning bestElevator
-ENDSEQUENCE   
-
-
-SEQUENCE findElevator USING elevatorFloorLevel AND curentDirection
-    READ elevatorFloorLevel AND curentDirection OF elevatorAA
-    READ elevatorFloorLevel AND curentDirection OF elevatorAB     
-ENDSEQUENCE
-
-
-SEQUENCE bestElevator USING userFloorLevel, elevatorFloorLevel, curentDirection AND requestedDirection
-    FOR requestedDirection EQUAL TO "UP"
-            IF requestedDirection EQUAL TO "UP" 
-ENDSEQUENCE
-
-
-SEQUENCE requestLevel USING (parameters X Y Z)
-    Push desired Floor Button
-    Close doors
-    Start moving
-    If going up, destination level > current level TO move
-        Else do nothing
-    If going down, desination level < current level TO move
-        Else do nothing        
-ENDSEQUENCE
-
-
-SEQUENCE elevatorOrigin USING (parametes X Y Z)
-    originA = Level 1
-    originB = Level 10
-    If elevatorA moved THEN bring back TO originA
-    If elevatorB moved THEN bring back TO originB
-
-ENDSEQUENCE
