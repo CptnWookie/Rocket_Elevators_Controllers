@@ -1,0 +1,22 @@
+DEFINE HUmain
+    yeux
+    poids
+    taille 
+    age 
+    ID 
+
+    SEQUENCE respirer
+    ENDSEQUENCE
+
+
+    SEQUENCE respirer
+    ENDSEQUENCE
+
+
+    SEQUENCE respirer
+    ENDSEQUENCE
+
+ENDDEFINE
+
+
+INIT 

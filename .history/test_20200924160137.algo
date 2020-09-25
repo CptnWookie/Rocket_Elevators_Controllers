@@ -1,0 +1,15 @@
+DEFINE battery
+    columnList: empty List
+    status: online
+
+
+DEFINE column
+
+
+DEFINE elevator
+
+
+DEFINE callButton
+
+
+

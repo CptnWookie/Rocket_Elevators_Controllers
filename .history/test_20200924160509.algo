@@ -1,0 +1,36 @@
+DEFINE battery USING amountOF
+    columnList: empty List
+    status: 
+ENDDEFINE
+
+
+
+
+
+DEFINE column
+ENDDEFINE
+
+
+
+
+
+DEFINE elevator
+ENDDEFINE
+
+
+
+
+
+
+DEFINE callButton
+ENDDEFINE
+
+
+
+
+
+
+DEFINE floorButton
+ENDDEFINE
+
+

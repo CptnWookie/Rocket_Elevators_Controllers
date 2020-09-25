@@ -1,0 +1,22 @@
+DEFINE battery
+    columnList: empty List
+    status: 
+
+
+
+
+
+
+DEFINE column
+ENDDEFINE
+
+DEFINE elevator
+
+
+DEFINE callButton
+
+
+DEFINE floorButton
+
+
+

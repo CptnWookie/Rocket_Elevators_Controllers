@@ -1,0 +1,39 @@
+DEFINE HUmain
+    yeux
+    poids
+    taille 
+    age 
+    ID 
+
+    SEQUENCE respirer
+    ENDSEQUENCE
+
+
+    SEQUENCE respirer
+    ENDSEQUENCE
+
+
+    SEQUENCE respirer
+    ENDSEQUENCE
+
+ENDDEFINE
+
+
+INIT Bob TO INSTANTIATE HUmain
+
+
+
+DEFINE battery
+
+
+
+DEFINE column
+
+
+DEFINE elevator
+
+
+DEFINE callButtons
+
+
+

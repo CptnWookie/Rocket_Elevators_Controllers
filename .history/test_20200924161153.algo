@@ -1,0 +1,45 @@
+DEFINE battery USING amountOfColumn
+    columnList: empty List
+    status: Online
+
+    SEQUENCE createColumnList USING amountOfColumn
+        INIT iterator TO 1
+        FOR amountOfColumn
+            INIT newColumn TO INSTANTIATE column WITH iterator AND Online
+            ADD newColumn TO columnList
+            INCREMENT iterator 
+        ENDFOR
+    ENDSEQUENCE
+ENDDEFINE
+
+
+
+DEFINE column USING id
+    ID: id,
+    floorAmount
+ENDDEFINE
+
+
+
+
+
+DEFINE elevator
+ENDDEFINE
+
+
+
+
+
+
+DEFINE callButton
+ENDDEFINE
+
+
+
+
+
+
+DEFINE floorButton
+ENDDEFINE
+
+

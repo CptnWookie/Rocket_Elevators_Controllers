@@ -1,0 +1,55 @@
+DEFINE battery USING _columnAmount AND _floorAmount AND _floorGroup
+    columnList: EMPTY List
+    status: Online
+    callButtonList: EMPTY List
+
+    SEQUENCE createColumnList USING _columnAmount
+        INIT iterator TO 1
+        FOR _columnAmount
+            INIT newColumn TO INSTANTIATE column WITH iterator AND Online
+            ADD newColumn TO columnList
+            INCREMENT iterator 
+        ENDFOR
+    ENDSEQUENCE
+ENDDEFINE
+
+
+
+DEFINE column USING _id AND _floorAmount AND _minimumFloor AND _maximumFloor AND _elevatorAmountPerColumn
+    ID: _id
+    status: Online
+    floorAmount: _floorAmount
+    minimumFloor: _minimumFloor
+    maximumFloor: _maximumFloor
+    elevatorList: EMPTY LIST
+
+    SEQUENCE createElevatorList USING _elevatorAmountPerColumn
+        INIT iterator TO 1
+        FOR _elevatorAmountPerColumn
+            INIT newElevator TO INSTANTIATE elevator WITH iterator
+            INCREMENT iterator
+        ENDFOR
+    SEQUENCE
+ENDDEFINE
+
+
+
+DEFINE elevator USING _id 
+    ID: _id,
+    direction: None             //None, Up, Down
+    status: Idle                //Idle, Moving, Stopped, Maintenance, Offile
+    currentFloor: 1
+    maximumWeight: Over 9000
+    doors: closed
+    requestList: EMPTY List
+
+ENDDEFINE
+
+
+DEFINE callButton USING _id AND _direction AND _floor
+    ID: _id
+    status: OFF
+    direction: _direction
+    floor: _floor
+
+ENDDEFINE

@@ -1,0 +1,67 @@
+DEFINE battery USING columnAmount AND floorAmount AND floorGroup
+    columnList: empty List
+    status: Online
+
+    SEQUENCE createColumnList USING columnAmount
+        INIT iterator TO 1
+        FOR columnAmount
+            INIT newColumn TO INSTANTIATE column WITH iterator AND Online
+            ADD newColumn TO columnList
+            INCREMENT iterator 
+        ENDFOR
+    ENDSEQUENCE
+ENDDEFINE
+
+
+
+DEFINE column USING id AND floorAmount AND minimumFloor AND maximumFloor AND elevatorAmountPerColumn
+    ID: id,
+    status: Online
+    floorAmount: floorAmount
+    minimumFloor: minimumFloor
+    maximumFloor: maximumFloor
+    elevatorList: empty LIST
+
+    SEQUENCE createElevatorList USING elevatorAmountPerColumn
+        INIT iterator
+
+
+
+ENDDEFINE
+
+
+
+
+
+DEFINE elevator
+
+
+
+
+ENDDEFINE
+
+
+
+
+
+
+DEFINE callButton
+
+
+
+
+ENDDEFINE
+
+
+
+
+
+
+DEFINE floorButton
+
+
+
+
+ENDDEFINE
+
+

@@ -1,0 +1,109 @@
+//Rocket Elevators Residential Controller
+
+"Inventory List
+- Column
+- Elevators (Cages)
+- Call Buttons
+- Doors
+- Floor Request Buttons"
+
+
+'DEFINE SECTION'
+DEFINE column USING id AND status AND numberOfFloors AND numberOfElevators:
+    ID: id,
+    Status: status,
+    ElevatorsList: SET TO empty List,
+    SEQUENCE createElevatorsList USING numberOfElevators
+        FOR EACH numberOfElevators
+            ADD (INSTANTIATE elevator WITH "numberOfElevators" AND "IDLE") TO elevatorsList
+        ENDFOR
+    ENDSEQUENCE
+ENDDEFINE
+
+
+
+DEFINE elevator USING id AND status AND directions AND numberOfFloors
+    ID: id,
+    Status: status,
+    Directions: directions,
+    FloorRequestButtonList: SET TO empty List,
+    SEQUENCE createFloorRequestButtonList USING numberOfFloors
+        FOR EACH numberOfFloors
+        ADD (INSTANTIATE floorRequestButton WITH numberOfFloors) TO floorRequestButtonList
+        ENDFOR
+    ENDSEQUENCE
+ENDDEFINE
+
+
+
+DEFINE callButton USING id AND status AND directions AND numberOfFloors
+    ID: id,
+    Status: status,
+    Directions: directions,
+    SEQUENCE createCallButtonList USING numberOfFloors
+        FOR EACH numberOfFloors
+            ADD(INSTANTIATE callButton WITH "UP" AND numberOfFloors) TO callButtonList
+            ADD(INSTANTIATE callButton WITH "DOWN" AND numberOfFloors) TO callButtonList
+            REMOVE callButtonDOWN OF lowestFloor FROM callButtonList
+            REMOVE callButtonUP10 FROM callButtonList
+        ENDFOR
+    ENDSEQUENCE
+ENDDEFINE
+
+
+
+DEFINE doors USING id AND status AND numberOfFloors AND numberOfElevators
+    ID: id,
+    Status: status,
+    ElevatorsDoorsList: SET TO empty List,
+    SEQUENCE createElevatorsDoorsList USING numberOfElevators
+        FOR EACH numberOfElevators
+            ADD(INSTANTIATE doors WITH "elevators" AND numberOfElevators) TO elevatorsDoorsList
+        ENDFOR
+    ENDSEQUENCE
+    FloorDoorsList: SET TO empty List,
+    SEQUENCE createFloorsDoorsList USING numberOfFloors AND numberOfElevators
+        FOR EACH numberOfFloors
+            ADD(INSTANTIATE doors WITH numberOfFloors AND numberOfElevators) to floorsDoorsList
+        ENDFOR
+    ENDSEQUENCE
+ENDDEFINE
+
+
+
+DEFINE initSystem USING numberOfFloors AND numberOfElevators
+    SET column1 TO INSTANTIATE column WITH 1 AND numberOfFloors AND numberOfElevators AND online
+    CALL column1.createElevatorsList
+ENDDEFINE
+
+'DEFINE SECTION'
+
+'------------------------------------------------------------------------------------------------'
+
+'Sequence Section'
+
+SEQUENCE initSystem USING numberOfFloors AND numberOfElevators
+    SET column1 TO INSTANTIATE column WITH 1 AND numberOfFloors AND numberOfElevators AND online
+    CALL column1.createElevatorsList
+ENDSEQUENCE
+
+
+
+SEQUENCE requestElevators USING numberOfFloors AND directions
+    IF callButton IS pressed
+        READ callButton.directions AND callButton.numberOfFloors
+        CALL findElevator WITH numberOfFloors AND directions RETURNING bestElevators
+        SET bestElevators.status TO "Online"
+        INIT moveElevators TO requestElevators.numberOfFloors WITH numberOfFloors AND directions
+        THEN SET bestElevator.status TO "Idle"
+        THEN SET elevatorsDoors.status TO "Open"
+        THEN SET floorDoors.status TO "Open"
+    ENDIF
+ENDSEQUENCE   
+
+
+
+SEQUENCE findElevator USING numberOfFloors AND directions
+    READ column1.elevatorsList WITH numberOfFloors AND directions
+ENDSEQUENCE
+
