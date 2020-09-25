@@ -15,27 +15,25 @@ DEFINE battery USING _columnAmount AND _floorAmount AND _floorGroup AND _elevato
     callButtonList: EMPTY LIST
     floorGroupList: EMPTY LIST
 
-
     SEQUENCE createColumnList USING _columnAmount AND _elevatorAmountPerColumn
         INIT iterator TO 1
-        FOR _columnAmount
+        FOR EACH _columnAmount
             INIT newColumn TO INSTANTIATE column WITH iterator AND _floorAmount AND _minimumFloor AND _maximumFloor AND _elevatorAmountPerColumn
             ADD newColumn TO columnList
             INCREMENT iterator 
         ENDFOR
     ENDSEQUENCE
 
-
     SEQUENCE createCallButtonList USING AND _batteryLowestFloor AND _floorAmount
         INIT iterator TO _batteryLowestFloor
-        FOR _floorAmount
+        FOR EACH _floorAmount
             IF iterator IS NOT EQUAL TO 0
                 IF iterator IS LESS THAN 1
-                    INIT newCallButton TO INSTANTIATE callButton WITH Down AND iterator
+                    INIT newCallButton TO INSTANTIATE callButton WITH Up AND iterator
                     AND newCallButton TO callButtonList
                 ENDIF
                 IF iterator IS GREATER THAN 1
-                    INIT newCallButton TO INSTANTIATE callButton WITH Up AND iterator
+                    INIT newCallButton TO INSTANTIATE callButton WITH Down AND iterator
                     AND newCallButton TO callButtonList
                 ENDIF
                 INCREMENT iterator BY 1
@@ -43,10 +41,9 @@ DEFINE battery USING _columnAmount AND _floorAmount AND _floorGroup AND _elevato
         ENDFOR
     ENDSEQUENCE
 
-
-    SEQUENCE createFloorGroupList USING _floorGroup AND _columnList
+    SEQUENCE createFloorGroupList USING _floorGroup AND _columnList AND _floorAmount AND _floorGroupList
         INIT iterator TO _floorAmount
-        FOR _columnList
+        FOR column IN _columnList
             IF iterator IS NOT EQUAL TO 0
                 IF iterator IS LESS THAN 1
                     INIT newFloorGroup TO INSTANTIATE floorGroup WITH iterator
@@ -67,26 +64,65 @@ DEFINE battery USING _columnAmount AND _floorAmount AND _floorGroup AND _elevato
                 INCREMENT iterator BY 1
             ENDIF
         ENDFOR
+        FOR EACH floorGroup IN _floorGroupList
+            ADD _floorAmount1 TO INSTANTIATE _floorAmount AND 1 TO floorGroup
+        ENDFOR
     ENDSEQUENCE
 
-
-    SEQUENCE requestElevator USING _requestedFloor
-        CALL findBestElevator RETURN elevator
+    SEQUENCE requestElevator USING _requestedFloor  AND _floorGroup 
+        CALL findBestElevator WITH _requestedFloor AND _floorGroup AND _floor RETURN elevator
         ADD requestFloor TO requestList OF elevator
         CALL moveElevator WITH elevator
         CALL openDoors WITH elevator
+        CALL closeDoors WITH elevator
     ENDSEQUENCE
 
+            SEQUENCE findBestElevator USING _requestedFloor AND _floorGroup AND _floor
+                READ requestedFloor WITH callButton.floor
+                DETERMINE floorGroup WITH _floorGroupList AND _requestedFloor RETURN column
+                READ elevator.currentFloor WITH column AND floor
+                    IF elevator.currentFloor IS EQUAL TO callButton.floor
+                        RETURN elevator
+                    ENDIF
+                    IF elevator.requestedFloor IS EQUAL TO callButton.floor
+                        RETURN elevator
+                    ENDIF
+            ENDSEQUENCE    
 
-    SEQUENCE findBestElevator USING _requestedFloor AND _floorGroup
-        INIT floorGroup WITH _requestedFloor
-        RETURN bestElevator 
-    ENDSEQUENCE    
+            SEQUENCE createRequestList WITH _requestedFloor AND _callButton
+                INIT iterator TO 1
+                FOR EACH _requestedFloor
+                    INIT newRequest TO INSTANTIATE request WITH iterator AND _requestedFloor
+                    ADD newRequest TO requestList
+                    INCREMENT iterator BY 1
+                ENDFOR
+            ENDSEQUENCE
 
+            SEQUENCE moveElevator WITH _elevator AND _direction AND _requestedFloor 
+                READ elevator.currentFloor
+                    IF currentFloor IS NOT EQUAL TO _requestedFloor
+                    ENDIF
+                SET elevator.status TO Moving WITH _direction
+            ENDSEQUENCE
+
+            SEQUENCE openDoors WITH _elevator
+                READ status OF _elevator
+                    IF status IS EQUAL TO Idle
+                    ENDIF
+                SET doors.status TO Open
+            ENDSEQUENCE
+
+            SEQUENCE closeDoors
+                READ status OF _elevator
+                    IF status IS NOT EQUAL TO Idle
+                    ENDIF
+                SET doors.status TO Closed
+            ENDSEQUENCE
 
     CALL createColumnList WITH _columnAmount AND _elevatorAmountPerColumn
     CALL createCallButtonList WITH _batteryLowestFloor AND _elevatorAmountPerColumn
-    CALL createFloorGroupList WITH 
+    CALL createFloorGroupList WITH _floorGroup AND _columnList
+    CALL createRequestList WITH requestFloor AND _floorGroup AND _elevator 
 ENDDEFINE
 
 
@@ -117,19 +153,32 @@ DEFINE elevator USING _id
     direction: None             //None, Up, Down
     status: Idle                //Idle, Moving, Stopped, Maintenance, Offile
     currentFloor: 1
+    destination: _requestedFloor
     maximumWeight: Over 9000
     doors: closed
 ENDDEFINE
 
 
-
-DEFINE callButton USING _direction AND _floor       //Main Panel Entrance
+DEFINE callButton USING _direction AND _floor
     status: OFF
     direction: _direction
     floor: _floor
 ENDDEFINE
 
+DEFINE doors USING _id AND _status
+SEQUENCE openDoors WITH _elevator AND _currentFloor AND _requestedFloor
+        READ status OF _elevator
+            IF status IS EQUAL TO Idle
+            ENDIF
+        SET doors.status TO Open
+    ENDSEQUENCE
 
+    SEQUENCE closeDoors
+        READ status OF _elevator
+            IF status IS NOT EQUAL TO Idle
+            ENDIF
+        SET doors.status TO Closed
+    ENDSEQUENCE
 
 DEFINE floorDisplay USING _elevator AND _floor
     Status: Online
@@ -137,23 +186,3 @@ DEFINE floorDisplay USING _elevator AND _floor
         INIT currentFloor TO EACH floor
     ENDFOR
 ENDDEFINE
-
-
---------------------TEST-------------------
-
-_columnAmount AND _floorAmount AND _floorGroup AND _elevatorAmountPerColumn AND _batteryLowestFloor
-INIT battery1 TO INSTANTIATE battery WITH 4, 66, [(-6,1), (1,20), ], 3, -6
-
-    Senario 1 
-CALL requestElevator OF battery1 WITH 1 AND Up
-CALL requestFloor OF battery1 WITH 20
-
-    Senario 2
-CALL requestElevator OF battery1 WITH 1 AND Up
-CALL requestFloor OF battery1 WITH 45
-
-    Senario 3
-CALL requestElevator OF battery1 WITH 4 AND Down
-CALL requestFloor OF battery1 WITH 1
-
---------------------TEST-------------------

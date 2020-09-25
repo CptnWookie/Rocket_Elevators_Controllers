@@ -8,59 +8,124 @@
 - Floor Request Buttons"
 
 
-'DEFINE SECTION'
-DEFINE column USING id AND status AND numberOfFloors AND numberOfElevators:
-    ID: id,
-    Status: status,
-    ElevatorsList: SET TO empty List,
-    SEQUENCE createElevatorsList USING numberOfElevators
-        FOR EACH numberOfElevators
-            ADD (INSTANTIATE elevator WITH "numberOfElevators" AND "IDLE") TO elevatorsList
+DEFINE column USING _id AND _status AND _floorAmount AND _elevatorAmount AND _columnLowestFloor
+    ID: _id
+    status: Online
+    floorAmount: _floorAmount
+    elevatorList: EMPTY LIST
+
+    SEQUENCE createElevatorList USING _elevatorAmount
+        INIT iterator TO 1
+        FOR _elevatorAmount
+            INIT newElevator TO INSTANTIATE elevator WITH iterator
+            INCREMENT iterator
         ENDFOR
+    SEQUENCE
+
+    SEQUENCE requestElevator USING _requestedFloor 
+        CALL findBestElevator WITH _requestedFloor RETURN elevator
+        CALL moveElevator WITH elevator
+        CALL openDoors WITH elevator
+        CALL closeDoors WITH elevator
     ENDSEQUENCE
+
+    SEQUENCE findBestElevator USING _callButton AND _requestedFloor AND _direction AND _status
+        READ floor WITH _callButton
+        READ currentFloor WITH _elevator
+            IF elevator.currentFloor IS EQUAL TO callButton.floor
+                RETURN elevator
+            ENDIF
+            IF elevator.direction IS EQUAL TO callButton.floor
+                RETURN elevator
+            ENDIF
+            IF elevator.status IS EQUAL TO Idle
+                RETURN closest elevator
+    ENDSEQUENCE    
+
+    SEQUENCE moveElevator WITH _elevator AND _direction AND _callButton 
+        READ elevator.currentFloor
+            IF currentFloor IS NOT EQUAL TO _requestedFloor
+            ENDIF
+        SET elevator.status TO Moving WITH _direction TO _requestedFloor
+    ENDSEQUENCE
+
+    SEQUENCE openDoors WITH _status AND _direction
+        READ _status OF _elevator
+            IF _status IS EQUAL TO Idle AND IF _direction IS EQUAL TO None
+            ENDIF
+        SET doors.status TO Open
+    ENDSEQUENCE
+
+    SEQUENCE closeDoors
+        READ status OF _elevator
+            IF status IS NOT EQUAL TO Idle
+            ENDIF
+        SET doors.status TO Closed
+    ENDSEQUENCE
+
+    CALL createElevatorList WITH _elevatorAmount
 ENDDEFINE
 
 
-
-DEFINE elevator USING id AND status AND directions AND numberOfFloors
-    ID: id,
-    Status: status,
-    Directions: directions,
+DEFINE elevator USING _id AND _floorAmount
+    ID: _id,
+    direction: None             //None, Up, Down
+    status: Idle                //Idle, Moving, Stopped, Maintenance, Offile
+    currentFloor: 1
+    destination: _requestedFloor
+    maximumWeight: Over 9000
+    doors: closed
     FloorRequestButtonList: SET TO empty List,
-    SEQUENCE createFloorRequestButtonList USING numberOfFloors
-        FOR EACH numberOfFloors
-        ADD (INSTANTIATE floorRequestButton WITH numberOfFloors) TO floorRequestButtonList
+
+    SEQUENCE createFloorRequestButtonList USING _floorAmount
+        INIT iterator TO 1
+        FOR EACH _floorAmount
+            INIT newFloorRequestButton TO INSTANTIATE floorRequestButton WITH iterator
+            ADD newfloorRequestButton TO floorRequestButtonList
+            INCREMENT iterator BY 1
         ENDFOR
     ENDSEQUENCE
+
+    CALL createFloorRequestButtonList WITH _floorAmount
 ENDDEFINE
 
 
-
-DEFINE callButton USING id AND status AND directions AND numberOfFloors
+DEFINE callButton USING id AND status AND directions AND numberOfFloors AND _columnLowestFloor
     ID: id,
     Status: status,
     Directions: directions,
-    SEQUENCE createCallButtonList USING numberOfFloors
-        FOR EACH numberOfFloors
-            ADD(INSTANTIATE callButton WITH "UP" AND numberOfFloors) TO callButtonList
-            ADD(INSTANTIATE callButton WITH "DOWN" AND numberOfFloors) TO callButtonList
-            REMOVE callButtonDOWN FROM callButtonList OF lowestFloor
-            REMOVE callButtonUP FROM callButtonList OF highestFloor
+    callButtonList: EMPTY LIST
+
+    SEQUENCE createCallButtonList USING AND _columnLowestFloor AND _floorAmount
+        INIT iterator TO _columnLowestFloor
+        FOR EACH _floorAmount
+            IF iterator IS LESS THAN 10
+                INIT newCallButton TO INSTANTIATE callButton WITH Up AND iterator
+                AND newCallButton TO callButtonList
+            ENDIF
+            IF iterator IS GREATER THAN 1
+                INIT newCallButton TO INSTANTIATE callButton WITH Down AND iterator
+                AND newCallButton TO callButtonList
+            ENDIF
+            INCREMENT iterator BY 1
         ENDFOR
     ENDSEQUENCE
-ENDDEFINE
 
+    CALL createCallButtonList WITH _columnLowestFloor AND _floorAmount
+ENDDEFINE
 
 
 DEFINE doors USING id AND status AND numberOfFloors AND numberOfElevators
     ID: id,
     Status: status,
     ElevatorsDoorsList: SET TO empty List,
+    
     SEQUENCE createElevatorsDoorsList USING numberOfElevators
         FOR EACH numberOfElevators
             ADD(INSTANTIATE doors WITH "Elevators" AND numberOfElevators) TO elevatorsDoorsList
         ENDFOR
     ENDSEQUENCE
+    
     FloorDoorsList: SET TO empty List,
     SEQUENCE createFloorsDoorsList USING numberOfFloors AND numberOfElevators
         FOR EACH numberOfFloors
@@ -68,42 +133,3 @@ DEFINE doors USING id AND status AND numberOfFloors AND numberOfElevators
         ENDFOR
     ENDSEQUENCE
 ENDDEFINE
-
-
-
-DEFINE initSystem USING numberOfFloors AND numberOfElevators
-    SET column1 TO INSTANTIATE column WITH 1 AND numberOfFloors AND numberOfElevators AND online
-    CALL column1.createElevatorsList
-ENDDEFINE
-
-'DEFINE SECTION'
-
-'------------------------------------------------------------------------------------------------'
-
-'Sequence Section'
-
-SEQUENCE initSystem USING numberOfFloors AND numberOfElevators
-    SET column1 TO INSTANTIATE column WITH 1 AND numberOfFloors AND numberOfElevators AND online
-    CALL column1.createElevatorsList
-ENDSEQUENCE
-
-
-
-SEQUENCE requestElevators USING numberOfFloors AND directions
-    IF callButton IS pressed
-        READ callButton.directions AND callButton.numberOfFloors
-        CALL findElevator WITH numberOfFloors AND directions RETURNING bestElevators
-        SET bestElevators.status TO "Online"
-        INIT moveElevators TO requestElevators.numberOfFloors WITH numberOfFloors AND directions
-        THEN SET bestElevator.status TO "Idle"
-        THEN SET elevatorsDoors.status TO "Open"
-        THEN SET floorDoors.status TO "Open"
-    ENDIF
-ENDSEQUENCE   
-
-
-
-SEQUENCE findElevator USING numberOfFloors AND directions
-    READ column1.elevatorsList WITH numberOfFloors AND directions
-ENDSEQUENCE
-
