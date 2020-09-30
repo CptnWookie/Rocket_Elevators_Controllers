@@ -15,20 +15,19 @@ class Column {
         
         for (let i = 1; i <= this.floorAmount; i++) {
             if (i == 1) {
-                let callButton = new CallButton("callButtonUP"+i, "up", false);
+                let callButton = new CallButton("callButtonUP"+i, i, "up", false);
                 this.callButtonList.push(callButton);
             } 
             else if (i == 10) {
-                let callButton = new CallButton("callButtonDOWN"+i, "down", false);
+                let callButton = new CallButton("callButtonDOWN"+i, i, "down", false);
                 this.callButtonList.push(callButton);
             }    
             else {
-                this.callButtonList.push(new CallButton("callButtonDOWN"+i, "down", false));
-                this.callButtonList.push(new CallButton("callButtonUP"+i, "up", false));
+                this.callButtonList.push(new CallButton("callButtonDOWN"+i, i, "down", false));
+                this.callButtonList.push(new CallButton("callButtonUP"+i, i, "up", false));
             }
         }
         
-
         for (let i = 1; i <= this.floorAmount; i++) {
             let floorRequestButton = new FloorRequestButton("floorButton"+i, i);
             this.floorRequestButtonList.push(floorRequestButton);
@@ -37,25 +36,80 @@ class Column {
         console.table(this.floorRequestButtonList);
         console.table(this.callButtonList);
     }
+    
+    //CallButton pressed on floor
+    requestedElevator(floor, direction) {
+        console.log('requestedElevator', "Steak");
+        var bestElevator = this.findBestElevator(floor, direction);
+        //bestElevator.floor = this.move(Elevator, floor);
+        console.log('Elevator ' + Elevator.id + ' has been requested');
+        return bestElevator;
+    }
+        
+    //Find the Best Elevator to Send to Call Button Floor 
+    findBestElevator(floor, direction) {
+        console.log('findBestElevator', "Blé d'inde");
+        
+        let bestElevator = null;
+
+        for (var i = 0; i < this.elevatorList.length; i++) {
+            var difference = Math.abs(this.elevatorList[i].position - floor);
+
+            if (direction === 'up' && this.elevatorList[i].elevatorDirection === 'up' && this.elevatorList[i].position >= floor) {
+                bestElevator = this.elevatorList[i];
+            } 
+            else if (direction === 'down' && this.elevatorList[i].elevatorDirection === 'down' && this.elevatorList[i].position >= floor) {
+                    bestElevator = difference;
+            }
+        }
+    }
+
+    //FloorButton pressed inside Elevator
+    requestedFloor(Elevator, floor) {
+        console.log('requestedFloor', "Patate");
+
+        if(floor < Elevator.position) {
+            Elevator.move(floor, 'down', 'moving');
+        }
+        else {
+            Elevator.move(floor, 'up', 'moving');
+            console.log('Move to requested floor');
+        }
+        return requestedFloor;   
+    }
+    
+    //Move Elevator
+    move(floor) {
+        if ((floor - bestElevator.floor) > 0) {
+            this.potition ++;
+        }
+        else {
+            this.position --;
+        }
+
+    } 
 }
 
 
 class Elevator {
-    constructor(id, status, position, direction, floorAmount, doors) {
-        console.log('elevator constructor', id, status, position, direction, floorAmount, doors);
+    constructor(id, status, position, direction, floor, doors) {
+        console.log('elevator constructor', id, status, position, direction, floor, doors);
         this.id = id;
         this.status = status;
         this.position = position;
         this.direction = direction;
-        this.floorAmount = floorAmount;
+        this.floor = floor;
         this.doors = doors;
     }
+
+    
 }
 
 class CallButton {
-    constructor(id, floorAmount) {
+    constructor(id, floor, direction) {
         this.id = id;
-        this.floorAmount = floorAmount;
+        this.direction = direction;
+        this.floor = floor;
     }
 }
 
@@ -64,45 +118,25 @@ class FloorRequestButton {
     constructor(id, floorAmount) {
         this.id = id;
         this.floorAmount = floorAmount;
-        
     }
 }
 
 
-/*
-function requestElevator(requestedFloor, direction) {
-        var bestElevator = this.findBestElevator(requestedFloor, direction);
-        bestElevator.addFloorToList(requestedFloor);
-        selected_ebestElevatorlevator.activateInsideButton(requestedFloor);
-}
-*/  
-
-/*
-function findBestElevator(requestedFloor, direction, position) {
-    console.log(findBestElevator, "Patate")
-
-    var maxDistance = 10;
-    var requestedFloor = null;
-    
-    for (i = 0; i < this.column.elevatorList.length; i++) {
-        var distanceFloorElevator = Math.abs(requestedFloor - this.elevatorList[i].currentFloor);
-        //if ()
-    }
-   return bestElevator;
-}
-*/
-
-/*
-findBestElevator();
-requestElevator();
-*/
 
 
+
+
+/* #################################### TEST ZONE ####################################*/
 var column1 = new Column(10, 2);
-//var elevator1 = new Elevator(elevator1, "online", 1, "none", 2, "closed");
-//var elevator2 = new Elevator(elevator2, "idle", 10, "none", 2, "closed");
-//var elevatorAmount = 2;
-//var floorAmount = 10;
-//var direction = "none";
-//let requestedFloor = 3;
 
+var requestElevator = column1.requestedElevator(2, 'up');
+var requestFloor = column1.requestedFloor(Elevator, 5);
+var bestElevator = column1.findBestElevator(3, 'up');
+
+
+
+
+
+
+
+/* #################################### TEST ZONE ####################################*/
