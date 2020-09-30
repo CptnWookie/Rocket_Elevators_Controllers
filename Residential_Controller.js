@@ -64,30 +64,28 @@ class Column {
         }
     }
 
+
+
+// ---------------------------------- SECTION TO FIX ---------------------------------- 
+
+
     //FloorButton pressed inside Elevator
     requestedFloor(Elevator, floor) {
         console.log('requestedFloor', "Patate");
 
         if(floor < Elevator.position) {
-            Elevator.move(floor, 'down', 'moving');
+            bestElevator.move(floor, 'down', 'moving');
         }
         else {
-            Elevator.move(floor, 'up', 'moving');
+            bestElevator.move(floor, 'up', 'moving');
             console.log('Move to requested floor');
         }
         return requestedFloor;   
     }
-    
-    //Move Elevator
-    move(floor) {
-        if ((floor - bestElevator.floor) > 0) {
-            this.potition ++;
-        }
-        else {
-            this.position --;
-        }
 
-    } 
+    
+//---------------------------------- SECTION TO FIX ---------------------------------- 
+
 }
 
 
@@ -102,6 +100,16 @@ class Elevator {
         this.doors = doors;
     }
 
+    //Move Elevator
+    move(floor) {
+        if ((floor - bestElevator.floor) > 0) {
+            this.potition ++;
+        }
+        else {
+            this.position --;
+        }
+
+    } 
     
 }
 
