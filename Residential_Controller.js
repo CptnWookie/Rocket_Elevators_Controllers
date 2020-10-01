@@ -7,6 +7,7 @@ class Column {
         this.elevatorList = [];
         this.callButtonList = [];
         this.floorRequestButtonList = [];
+        
 
         for (let i = 1; i <= this.elevatorAmount; i++) {
             let elevator = new Elevator("elevator"+i, "idle", 1, "none", 10, "closed");
@@ -31,10 +32,15 @@ class Column {
         for (let i = 1; i <= this.floorAmount; i++) {
             let floorRequestButton = new FloorRequestButton("floorButton"+i, i);
             this.floorRequestButtonList.push(floorRequestButton);
-            }
+        }
+       
+
+        console.log("ELEVATORS LIST");
         console.table(this.elevatorList);
-        console.table(this.floorRequestButtonList);
+        console.log("CALL BUTTON LIST");
         console.table(this.callButtonList);
+        console.log("FLOOR REQUEST BUTTON LIST");
+        console.table(this.floorRequestButtonList);
     }
     
     //CallButton pressed on floor
@@ -44,24 +50,41 @@ class Column {
         //bestElevator.floor = this.move(Elevator, floor);
         console.log('Elevator ' + Elevator.id + ' has been requested');
         return bestElevator;
+    
     }
         
     //Find the Best Elevator to Send to Call Button Floor 
+    
+
     findBestElevator(floor, direction) {
-        console.log('findBestElevator', "Blé d'inde");
-        
-        let bestElevator = null;
+               
+        let bestCase = null;
 
         for (var i = 0; i < this.elevatorList.length; i++) {
             var difference = Math.abs(this.elevatorList[i].position - floor);
-
-            if (direction === 'up' && this.elevatorList[i].elevatorDirection === 'up' && this.elevatorList[i].position >= floor) {
-                bestElevator = this.elevatorList[i];
+            console.log(difference);
+            if (direction === "up" && this.elevatorList[i].direction === "up" && this.elevatorList[i].position <= floor) {
+                bestCase = this.elevatorList[i];
             } 
-            else if (direction === 'down' && this.elevatorList[i].elevatorDirection === 'down' && this.elevatorList[i].position >= floor) {
-                    bestElevator = difference;
+            if (direction === "down" && this.elevatorList[i].direction === "down" && this.elevatorList[i].position >= floor) {
+                bestCase = this.elevatorList[i];
             }
+            if (direction === "up" && this.elevatorList[i].direction === "none" && this.elevatorList[i].position <= floor) {
+                bestCase = this.elevatorList[i];
+            }
+            if (direction === "down" && this.elevatorList[i].direction === "none" && this.elevatorList[i].position >= floor) {
+                bestCase = this.elevatorList[i];
+            }  
+            //else {
+            //    bestCase = Math.min(Math.abs(this.elevatorList[i].position - floor));
+            //}
+            
+            var bestElevator = bestCase;
+        
+        
         }
+        console.log(bestElevator);
+        return bestElevator;
     }
 
 
@@ -71,7 +94,7 @@ class Column {
 
     //FloorButton pressed inside Elevator
     requestedFloor(Elevator, floor) {
-        console.log('requestedFloor', "Patate");
+        console.log("REQUESTED FLOOR");
 
         if(floor < Elevator.position) {
             bestElevator.move(floor, 'down', 'moving');
@@ -98,6 +121,9 @@ class Elevator {
         this.direction = direction;
         this.floor = floor;
         this.doors = doors;
+        this.distance = distance;
+
+        
     }
 
     //Move Elevator
@@ -108,8 +134,9 @@ class Elevator {
         else {
             this.position --;
         }
-
-    } 
+        bestElevator.move();
+    }
+    
     
 }
 
@@ -132,18 +159,24 @@ class FloorRequestButton {
 
 
 
-
-
 /* #################################### TEST ZONE ####################################*/
 var column1 = new Column(10, 2);
+column1.elevatorList[0].id = "A";
+column1.elevatorList[0].position = 2;
+column1.elevatorList[0].direction = 'none';
+column1.elevatorList[0].status = 'idle';
+column1.elevatorList[0].floor = 3;
+column1.elevatorList[1].id = "B";
+column1.elevatorList[1].position = 7;
+column1.elevatorList[1].direction = 'none';
+column1.elevatorList[1].status = 'idle';
+column1.elevatorList[1].floor = 3;
 
-var requestElevator = column1.requestedElevator(2, 'up');
-var requestFloor = column1.requestedFloor(Elevator, 5);
-var bestElevator = column1.findBestElevator(3, 'up');
+
+column1.findBestElevator(3, "up");
 
 
-
-
+/* SCENARIO 1 */
 
 
 
