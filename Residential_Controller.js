@@ -208,20 +208,20 @@ function scenario2() {
     var elevator = column1.requestElevator(1, "up");
     column1.requestFloor(elevator, 6);
 
-    /* for (var i of column1.elevatorList) {
+    for (var i of column1.elevatorList) {
         i.moveElevator();
-    }; */
+    };
 
     console.log("\nSECOND CALL \n");
-    elavator = column1.requestElevator(3, "up");
+    elevator = column1.requestElevator(3, "up");
     column1.requestFloor(elevator, 5);
 
-    /* for (var i of column1.elevatorList) {
+    for (var i of column1.elevatorList) {
         i.moveElevator();
-    }; */
+    }; 
 
     console.log("\nTHIRD CALL \n");
-    elavator = column1.requestElevator(9, "down");
+    elevator = column1.requestElevator(9, "down");
     column1.requestFloor(elevator, 2);
     
 };
@@ -252,7 +252,7 @@ function scenario3() {
     };
 
     console.log("\nSECOND CALL \n");
-    elavator = column1.requestElevator(10, "down");
+    elevator = column1.requestElevator(10, "down");
     column1.requestFloor(elevator, 3);
     
 };
