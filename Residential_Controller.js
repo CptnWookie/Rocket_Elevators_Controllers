@@ -51,22 +51,23 @@ class Column {
     
     //CallButton pressed on floor
     requestedElevator(floor, direction) {
-        console.log("REQUESTED ELEVATOR");
+
+        console.log("INIT ELEVATOR REQUEST...");
+        console.log("LOOKING FOR BEST ELEVATOR...")
+        console.log("BEST ELEVATOR FOUND...");
+
         var bestElevator = this.findBestElevator(floor, direction);
         console.log("Elevator" + bestElevator.id + " has been requested");
         bestElevator.moveElevator(floor);
-        
-        
-    
     }
         
     //Find the Best Elevator to Send to Call Button Floor 
     findBestElevator(floor, direction) {
-               
+        //console.log(findBestElevator);       
         let bestCase = null;
 
         for (var i = 0; i < this.elevatorList.length; i++) {
-            var difference = Math.abs(this.elevatorList[i].position - floor);
+            //var difference = Math.abs(this.elevatorList[i].position - floor);
             //console.log(difference);
             if (direction === "up" && this.elevatorList[i].direction === "up" && this.elevatorList[i].position <= floor) {
                 bestCase = this.elevatorList[i];
@@ -97,11 +98,11 @@ class Column {
     requestedFloor(Elevator, floor) {
         console.log("REQUESTED FLOOR");
 
+        var bestElevator = this.findBestElevator(floor);
         if(floor < Elevator.position) {
-            bestElevator.move(floor, 'down', 'moving');
-        }
-        else {
-            bestElevator.move(floor, 'up', 'moving');
+            bestElevator.moveElevator(floor);
+        } else {
+            bestElevator.moveElevator(floor);
             console.log('Move to requested floor');
         }
         return requestedFloor;   
@@ -168,6 +169,9 @@ class Distance {
 
 /* #################################### TEST ZONE ####################################*/
 var column1 = new Column(10, 2);
+
+/* SCENARIO 1 */
+console.log("SCENARIO 1");
 column1.elevatorList[0].id = "A";
 column1.elevatorList[0].position = 2;
 column1.elevatorList[0].direction = 'none';
@@ -182,11 +186,48 @@ column1.elevatorList[1].floor = 3;
 column1.elevatorList[1].distance = Math.abs(column1.elevatorList[1].position - column1.elevatorList[1].floor);
 
 column1.requestedElevator(3, "up");
+//column1.requestedFloor(7, "up");
 column1.findBestElevator(3, "up");
 
 
-/* SCENARIO 1 */
+/* SCENARIO 2 */
+/*console.log("SCENARIO 2");
+column1.elevatorList[0].id = "A";
+column1.elevatorList[0].position = 10;
+column1.elevatorList[0].direction = 'none';
+column1.elevatorList[0].status = 'idle';
+column1.elevatorList[0].floor = 1;
+column1.elevatorList[0].distance = Math.abs(column1.elevatorList[0].position - column1.elevatorList[0].floor);
+column1.elevatorList[1].id = "B";
+column1.elevatorList[1].position = 3;
+column1.elevatorList[1].direction = 'none';
+column1.elevatorList[1].status = 'idle';
+column1.elevatorList[1].floor = 1;
+column1.elevatorList[1].distance = Math.abs(column1.elevatorList[1].position - column1.elevatorList[1].floor);
 
+column1.requestedElevator(1, "up");
+//column1.requestedFloor(7, "up");
+column1.findBestElevator(1, "up");
+*/
+
+/* SCENARIO 3 */
+console.log("SCENARIO 3");
+column1.elevatorList[0].id = "A";
+column1.elevatorList[0].position = 10;
+column1.elevatorList[0].direction = 'none';
+column1.elevatorList[0].status = 'idle';
+column1.elevatorList[0].floor = 3;
+column1.elevatorList[0].distance = Math.abs(column1.elevatorList[0].position - column1.elevatorList[0].floor);
+column1.elevatorList[1].id = "B";
+column1.elevatorList[1].position = 3;
+column1.elevatorList[1].direction = 'up';
+column1.elevatorList[1].status = 'moving';
+column1.elevatorList[1].floor = 6;
+column1.elevatorList[1].distance = Math.abs(column1.elevatorList[1].position - column1.elevatorList[1].floor);
+
+column1.requestedElevator(3, "down");
+//column1.requestedFloor(7, "up");
+column1.findBestElevator(3, "down");
 
 
 /* #################################### TEST ZONE ####################################*/
