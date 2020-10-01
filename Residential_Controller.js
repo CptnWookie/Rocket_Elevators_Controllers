@@ -58,7 +58,11 @@ class Column {
 
         this.bestElevator = this.findBestElevator(floor, direction);
         console.log("BEST ELEVATOR FOUND...");
-        console.log("Elevator " + this.bestElevator.id + " has been requested");
+        console.log("Elevator " + this.bestElevator.id + " has been requested at Floor " + floor);
+        
+        this.bestElevator.requestList.push(floor);
+        this.bestElevator.moveElevator();
+        return this.bestElevator;
         //bestElevator.moveElevator(floor);
     }
         
@@ -108,16 +112,20 @@ class Column {
 
 // ---------------------------------- SECTION TO FIX IN COLUMN CLASS ---------------------------------- 
     //FloorButton pressed inside Elevator
-    requestFloor(Elevator, floor) {
-        console.log("REQUESTED FLOOR");
+    requestFloor(elevator, floor) {
+        console.log("REQUESTED FLOOR : " + floor);
 
-        if(floor < Elevator.position) {
+        //console.log(elevator);
+        elevator.requestList.push(floor);
+        elevator.moveElevator();
+
+        /* if(floor < Elevator.position) {
             this.bestElevator.moveElevator(floor);
         } else {
             this.bestElevator.moveElevator(floor);
             console.log('Move to requested floor');
-        }
-        return requestedFloor;   
+        } */
+        //return requestedFloor;   
     }
 //---------------------------------- SECTION TO FIX IN COLUMN CLASS ---------------------------------- 
 
@@ -125,30 +133,51 @@ class Column {
 
 
 class Elevator {
-    constructor(id, status, position, direction, floor, doors) {
-        console.log('elevator constructor', id, status, position, direction, floor, doors);
+    constructor(id, status, position, direction, /*floor,*/ doors) {
+        console.log('elevator constructor', id, status, position, direction, /*floor,*/ doors);
         this.id = id;
         this.status = status;
         this.position = position;
         this.direction = direction;
-        this.floor = floor;
+        //this.floor = floor;
         this.doors = doors;
-        //this.distance = distance;
+        this.requestList = [];
         
         
         
     }
 
     //Move Elevator
-    moveElevator(floor) {
-        console.log()
+    moveElevator() {
+        var previousPosition = this.position;
+        while (this.requestList.length != 0) {
+            if (this.potition > this.requestList[0]){
+                this.position--;
+            } else if (this.position < this.requestList[0]) {
+                this.position++;
+            } else if (this.position == this.requestList[0]) {
+                console.log("Elevator " + this.id + " arrived at Floor " + this.position);
+                this.requestList.splice(0, 1);
+            }
+
+            if (previousPosition != this.position) {
+                console.log(this.position);
+                previousPosition = this.position;
+            }
+        }
+        
+        
+        
+        
+        
+        /* console.log()
         var bestElevatorFloor = Elevator.floor;
         if ((floor - bestElevatorFloor) > 0) {
             this.potition ++;
         }
         else {
             this.position --;
-        }
+        } */
         //console.log(moveElevator);
     }
 }
@@ -184,64 +213,72 @@ var column1 = new Column(10, 2);
 
 /* SCENARIO 1 */
 function scenario1() {
-    console.log("-----------------------");
-    console.log("SCENARIO 1");
+    console.log("\n-----------------------\n");
+    console.log("SCENARIO 1\n");
     column1.elevatorList[0].id = "A";
     column1.elevatorList[0].position = 2;
     column1.elevatorList[0].direction = 'idle';
     column1.elevatorList[0].status = 'idle';
-    column1.elevatorList[0].floor = 3;
+    //column1.elevatorList[0].floor = 3;
     column1.elevatorList[1].id = "B";
     column1.elevatorList[1].position = 6;
     column1.elevatorList[1].direction = 'idle';
     column1.elevatorList[1].status = 'idle';
-    column1.elevatorList[1].floor = 3;
+    //column1.elevatorList[1].floor = 3;
 
-    column1.requestElevator(3, "up");
-    column1.requestFloor(7, "up");
-    column1.findBestElevator(3, "up");  
+    var elevator = column1.requestElevator(3, "up");
+    column1.requestFloor(elevator, 7);
+    //column1.findBestElevator(3, "up");  
 };
 
 
 /* SCENARIO 2 */
 function scenario2() {
-console.log("-----------------------");
-console.log("SCENARIO 2");
-column1.elevatorList[0].id = "A";
-column1.elevatorList[0].position = 10;
-column1.elevatorList[0].direction = 'idle';
-column1.elevatorList[0].status = 'idle';
-column1.elevatorList[0].floor = 1;
-column1.elevatorList[1].id = "B";
-column1.elevatorList[1].position = 3;
-column1.elevatorList[1].direction = 'idle';
-column1.elevatorList[1].status = 'idle';
-column1.elevatorList[1].floor = 1;
+    console.log("\n-----------------------\n");
+    console.log("SCENARIO 2\n");
+    column1.elevatorList[0].id = "A";
+    column1.elevatorList[0].position = 10;
+    column1.elevatorList[0].direction = 'idle';
+    column1.elevatorList[0].status = 'idle';
+    //column1.elevatorList[0].floor = 1;
+    column1.elevatorList[1].id = "B";
+    column1.elevatorList[1].position = 3;
+    column1.elevatorList[1].direction = 'idle';
+    column1.elevatorList[1].status = 'idle';
+    //column1.elevatorList[1].floor = 1;
 
-column1.requestElevator(1, "up");
-column1.requestFloor(7, "up");
-column1.findBestElevator(1, "up");
+    var elevator = column1.requestElevator(1, "up");
+    column1.requestFloor(elevator, 6);
+    //column1.findBestElevator(1, "up");
 };
 
 
 /* SCENARIO 3 */
 function scenario3() {
-console.log("-----------------------");
-console.log("SCENARIO 3");
-column1.elevatorList[0].id = "A";
-column1.elevatorList[0].position = 10;
-column1.elevatorList[0].direction = 'idle';
-column1.elevatorList[0].status = 'idle';
-column1.elevatorList[0].floor = 3;
-column1.elevatorList[1].id = "B";
-column1.elevatorList[1].position = 3;
-column1.elevatorList[1].direction = 'up';
-column1.elevatorList[1].status = 'moving';
-column1.elevatorList[1].floor = 6;
+    console.log("\n-----------------------\n");
+    console.log("SCENARIO 3\n");
+    column1.elevatorList[0].id = "A";
+    column1.elevatorList[0].position = 10;
+    column1.elevatorList[0].direction = 'idle';
+    column1.elevatorList[0].status = 'idle';
+    //column1.elevatorList[0].floor = 3;
+    column1.elevatorList[1].id = "B";
+    column1.elevatorList[1].position = 3;
+    column1.elevatorList[1].requestList = [6];
+    column1.elevatorList[1].direction = 'up';
+    column1.elevatorList[1].status = 'moving';
+    //column1.elevatorList[1].floor = 6;
 
-column1.requestElevator(3, "down");
-column1.requestFloor(7, "up");
-column1.findBestElevator(3, "down");
+    var elevator = column1.requestElevator(3, "down");
+    column1.requestFloor(elevator, 2);
+
+    for (var i of column1.elevatorList) {
+        i.moveElevator();
+    };
+
+    elavator = column1.requestElevator(10, "down");
+    column1.requestFloor(elevator, 3);
+    //column1.findBestElevator(3, "down");
 };
 
 
