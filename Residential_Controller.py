@@ -52,7 +52,7 @@ class Column:
 
 
         def findBestElevator(floor, direction):
-            
+            i = 0
             for i in range(self.elevatorList[i]):
                 if floor == self.elevatorList[i].position and self.elevatorList[i].direction == "idle":
                     bestCase = self.elevatorList[i]
@@ -81,7 +81,6 @@ class Column:
             elevator.moveElevator()
         
 
-
 class Elevator:
     def __init__(self, _id):
         self.id = _id
@@ -96,22 +95,19 @@ class Elevator:
     def moveElevator(self, position):
         previousPosition = self.position
 
+        
+        while range(self.requestList[0]) != 0:
+            if self.position > self. requestList[0]:
+                self.position-1
 
+            elif self.position < self.requestList[0]:
+                self.position+1
 
+            elif self.position == self.requestList[0]:
+                self.requestList.splice(0,1)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            if previousPosition is not self.position:
+                previousPosition = self.position
 
 
 class CallButton:
