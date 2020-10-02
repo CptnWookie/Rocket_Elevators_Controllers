@@ -125,6 +125,7 @@ class Elevator {
         while (this.requestList.length != 0) {
             
             if (this.position > this.requestList[0]) {
+                console.log("Elevator " + this.id + " is moving down ... currently at Floor " + this.position);
                 elevatorStatus = "moving";
                 elevatorDirection = "down";
                 this.status = elevatorStatus;
