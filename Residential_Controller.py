@@ -75,20 +75,11 @@ class Column:
                 else: 
                     return bestIdle
                 
+       
+        def requestFloor(elevator, floor):
+            elevator.requestList.append(floor)
+            elevator.moveElevator()
         
-        
-        
-        
-        
-   #     //FloorButton pressed inside Elevator
-    #requestFloor(elevator, floor) {
-     #   console.log("\n---> REQUESTED FLOOR : " + floor + "\n");
-      #  console.log(elevator.id);
-       # elevator.requestList.push(floor);
-        #elevator.moveElevator();
-   # } 
-
-
 
 
 class Elevator:
@@ -100,6 +91,28 @@ class Elevator:
         self.floor = None
         self.doors = 'closed'
         self.requestList = []
+
+
+    def moveElevator(self, position):
+        previousPosition = self.position
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class CallButton:
     def __init__(self, _id, floor, direction):
