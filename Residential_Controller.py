@@ -1,49 +1,50 @@
 
 class Column:
     def __init__(self, floorAmount, elevatorAmount):
+        #print('Column : ', floorAmount, 'Floors and ', elevatorAmount, 'Elevators')
         self.floorAmount = floorAmount
         self.elevatorAmount = elevatorAmount
         self.elevatorList = []
         self.callButtonList = []
         self.floorRequestButtonList = []
         
-        print('ELEVATOR LIST :')
+        #print('ELEVATOR LIST :')
         i = 0
         while i < self.elevatorAmount:
             elevator = Elevator('Elevator {}'.format(i + 1))
             self.elevatorList.append(elevator)
-            print(self.elevatorList[i].id)
+            #print(self.elevatorList[i].id)
             i += 1
         
-        print('')
-        print('FLOOR REQUEST BUTTON LIST :')
+        #print('')
+        #print('FLOOR REQUEST BUTTON LIST :')
         for i in range(10):
             floorRequestButton = FloorRequestButton(i + 1, self.floorAmount)
             self.floorRequestButtonList.append(floorRequestButton)
-            print('FloorRequestButton', self.floorRequestButtonList[i].id)
+            #print('FloorRequestButton', self.floorRequestButtonList[i].id)
 
-        print('')
-        print('CALL BUTTON LIST :')
+        #print('')
+        #print('CALL BUTTON LIST :')
         for i in range(self.floorAmount):
             if i == 0:
                 callButton = CallButton (i + 1, 'off', 'up')
                 self.callButtonList.append(callButton)
-                print('CallButton up {}'.format(self.callButtonList[i].id))
+                #print('CallButton up {}'.format(self.callButtonList[i].id))
             
             elif i == 9:
                 callButton = CallButton(i + 1, 'down', 'off')
                 self.callButtonList.append(callButton)
-                print('CallButton Down {}'.format(self.callButtonList[i].id))
+                #print('CallButton Down {}'.format(self.callButtonList[i].id))
 
             else:
                 callButton = CallButton(i + 1, 'down', 'up')
                 self.callButtonList.append(callButton)
-                print('CallButton Down|Up {}'.format(self.callButtonList[i].id))
+                #print('CallButton Down|Up {}'.format(self.callButtonList[i].id))
 
 
 
         def requestElevator(floor, direction):
-            print('Request Elevator Function')
+            #print('Request Elevator Function')
             
             self.bestElevator = self.findBestElevator(floor, direction)
 
@@ -122,4 +123,52 @@ class FloorRequestButton:
         self.floorAmount = floorAmount
 
 
-c = Column(10, 2)
+#    !!!!!   SCENARIO RESTANT À FAIRE FONCTIONNER     !!!!!    #
+######################### TEST ZONE #########################
+
+
+if __name__ == "__main__":
+
+    def scenario1():
+        columnScenario1 = Column(10, 2)
+        print('\n -----------SCENARIO 1-----------')
+        columnScenario1.elevatorList[0].position = 2
+        columnScenario1.elevatorList[1].position = 6
+
+        elevator = columnScenario1.requestElevator(3, 'up')
+        elevator.requestedFloor(7)
+
+
+    def scenario2():
+        columnScenario2 = Column(10, 2)
+        print('\n -----------SCENARIO 2-----------')
+        columnScenario2.elevatorList[0].position = 10
+        columnScenario2.elevatorList[1].position = 3
+
+        elevator = columnScenario2.requestElevator(1, 'up')
+        elevator.requestedFloor(6)
+        elevator = columnScenario2.requestElevator(3, 'up')
+        elevator.requestedFloor(5)
+        elevator = columnScenario2.requestElevator(9, 'down')
+        elevator.requestedFloor(2)
+
+
+    def scenario3():   
+        columnScenario3 = Column(10, 2)
+        print('\n -----------SCENARIO 3-----------')
+        columnScenario3.elevatorList[0].position = 10
+        columnScenario3.elevatorList[1].position = 3
+        columnScenario3.elevatorList[1].direction = 'up'
+        
+        elevator = columnScenario3.requestElevator(3, 'down')
+        elevator.requestedFloor(2)
+
+        columnScenario3.elevatorList[0].moveElevator(6)
+        
+        elevator = columnScenario3.requestElevator(10, 'down')
+        elevator.requestedFloor(3)
+
+
+scenario1()
+scenario2()
+scenario3()
