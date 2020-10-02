@@ -51,12 +51,14 @@ class Column {
         this.bestElevator = this.findBestElevator(floor, direction);
         
         console.log("BEST ELEVATOR FOUND...");
+        console.log(this.bestElevator);
         console.log("Elevator " + this.bestElevator.id + " has been requested at Floor " + floor);
         
         this.bestElevator.requestList.push(floor);
         this.bestElevator.moveElevator();
+        
 
-        console.log(this.bestElevator.id);
+        //console.log(this.bestElevator.id);
         return this.bestElevator;
     }
         
@@ -65,14 +67,14 @@ class Column {
         
         for (let i = 0; i < this.elevatorList.length; i++) {
             
-            if (floor === this.elevatorList[i].position && this.elevatorList[i].direction === "idle") {
+            if (floor === this.elevatorList[i].position && this.elevatorList[i].status === "idle") {
                 var bestCase = this.elevatorList[i];
             }
-            else if (direction === "up" && (this.elevatorList[i].direction === "up" || this.elevatorList[i].direction === "idle") && this.elevatorList[i].position <= floor){
+            else if (direction === "up" && (this.elevatorList[i].direction === "up" || this.elevatorList[i].status === "idle") && this.elevatorList[i].position <= floor){
                 var bestCase = this.elevatorList[i];
                 
             }
-            else if (direction === "down" && (this.elevatorList[i].direction === "down" || this.elevatorList[i].direction === "idle") && this.elevatorList[i].position >= floor){
+            else if (direction === "down" && (this.elevatorList[i].direction === "down" || this.elevatorList[i].status === "idle") && this.elevatorList[i].position >= floor){
                 var bestCase = this.elevatorList[i];
             }
         }
@@ -100,7 +102,7 @@ class Column {
     //FloorButton pressed inside Elevator
     requestFloor(elevator, floor) {
         console.log("\n---> REQUESTED FLOOR : " + floor + "\n");
-        console.log(elevator.id);
+        //console.log(elevator.id);
         elevator.requestList.push(floor);
         elevator.moveElevator();
     }
@@ -117,31 +119,45 @@ class Elevator {
         this.floor = floor;
         this.doors = doors;
         this.requestList = [];
-        
-        
-        
     }
 
     //Move Elevator
-    moveElevator() {
+    moveElevator(status, direction) {
+        var elevatorStatus = this.status;
+        var elevatorDirection = this.direction;
         var previousPosition = this.position;
         while (this.requestList.length != 0) {
+            
             if (this.position > this.requestList[0]) {
+                console.log("... Elevator " + this.id + " is " + elevatorStatus + " " + elevatorDirection + " ... (Floor " + this.position + ")");
+                elevatorStatus = "moving";
+                elevatorDirection = "down";
                 this.position--;
             } 
             else if (this.position < this.requestList[0]) {
+                console.log("... Elevator " + this.id + " is " + elevatorStatus + " " + elevatorDirection + " ... (Floor " + this.position + ")");
+                elevatorStatus = "moving";
+                elevatorDirection = "up";
                 this.position++;
             } 
             else if (this.position == this.requestList[0]) {
+                elevatorStatus = "idle";
+                elevatorDirection = "idle";
                 console.log("Elevator " + this.id + " arrived at Floor " + this.position);
+                console.log("... Elevator " + this.id + " is now " + elevatorStatus);
+                console.log(elevatorStatus);
+                console.log(elevatorDirection);
+                this.status = elevatorStatus;
+                this.direction = elevatorDirection;
                 this.requestList.splice(0, 1);
+
+                return status, direction;
             }
             
             if (previousPosition != this.position) {
                 console.log("Elevator " + this.id + " is moving... (Floor " + this.position + ")");
                 previousPosition = this.position;
             }
-            
         }
     }
 }
@@ -244,14 +260,17 @@ function scenario3() {
     column1.elevatorList[1].floor = 6;
 
     console.log("FIRST CALL \n");
+    console.log(column1.elevatorList[1]);
     var elevator = column1.requestElevator(3, "down");
     column1.requestFloor(elevator, 2);
+    
 
     for (var i of column1.elevatorList) {
         i.moveElevator();
     };
 
     console.log("\nSECOND CALL \n");
+    console.log(column1.elevatorList[1]);
     elevator = column1.requestElevator(10, "down");
     column1.requestFloor(elevator, 3);
     
