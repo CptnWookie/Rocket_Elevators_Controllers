@@ -1,7 +1,7 @@
 
 class Column {
     constructor(floorAmount, elevatorAmount) {
-        console.log('column constructor', floorAmount, elevatorAmount);
+        //console.log('column constructor', floorAmount, elevatorAmount);
         this.floorAmount = floorAmount;
         this.elevatorAmount = elevatorAmount;
         this.elevatorList = [];
@@ -46,12 +46,12 @@ class Column {
     //CallButton pressed on floor
     requestElevator(floor, direction) {
 
-        console.log("LOOKING FOR BEST ELEVATOR...\n");
+        console.log("...Looking for Best Elevator...\n");
 
         this.bestElevator = this.findBestElevator(floor, direction);
         
-        console.log("BEST ELEVATOR FOUND  :  Elevator " + this.bestElevator.id);
-        console.log("\nElevator " + this.bestElevator.id + " has been requested at Floor " + floor);
+        console.log("Best Elevator identified  :  Elevator " + this.bestElevator.id);
+        console.log("\n---> Call Button pressed on Floor " + floor + " <---\n");
         
         this.bestElevator.requestList.push(floor);
         this.bestElevator.moveElevator();
@@ -98,7 +98,7 @@ class Column {
  
     //FloorButton pressed inside Elevator
     requestFloor(elevator, floor) {
-        console.log("\n---> REQUESTED FLOOR : " + floor + "\n");
+        console.log("\n---> Floor Button # " + floor + " pressed <---\n");
         elevator.requestList.push(floor);
         elevator.moveElevator();
     }
@@ -107,7 +107,7 @@ class Column {
 
 class Elevator {
     constructor(id, status, position, direction, floor, doors) {
-        console.log('elevator constructor', id, status, position, direction, floor, doors);
+        //console.log('elevator constructor', id, status, position, direction, floor, doors);
         this.id = id;
         this.status = status;
         this.position = position;
