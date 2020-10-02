@@ -55,11 +55,11 @@ class Column:
         def findBestElevator(floor, direction):
             i = 0
             for i in range(self.elevatorList[i]):
-                if floor == self.elevatorList[i].position and self.elevatorList[i].direction == "idle":
+                if floor == self.elevatorList[i].position and self.elevatorList[i].direction == 'idle':
                     bestCase = self.elevatorList[i]
-                elif direction == "up" and (self.elevatorList[i].direction == "up" or self.elevatorList[i].direction == "idle") and self.elevatorList[i].position <= floor:
+                elif direction == 'up' and (self.elevatorList[i].direction == 'up' or self.elevatorList[i].direction == 'idle') and self.elevatorList[i].position <= floor:
                     bestCase = self.elevatorList[i]
-                elif direction == "down" and (self.elevatorList[i].direction == "down" or self.elevatorList[i].direction == "idle") and self.elevatorList[i].position <= floor:
+                elif direction == 'down' and (self.elevatorList[i].direction == 'down' or self.elevatorList[i].direction == 'idle') and self.elevatorList[i].position <= floor:
                     bestCase = self.elevatorList[i]
 
                 minDistance = 999
@@ -67,7 +67,7 @@ class Column:
                 i = 0
                 for i in range (self.elevatorList[i]):
                     distance = abs(self.elevatorList[i].position - floor)
-                    if self.elevatorList[i].direction == "idle" and bestDistance >= distance:
+                    if self.elevatorList[i].direction == 'idle' and bestDistance >= distance:
                         minDistance = distance
                         bestIdle = self.elevatorList[i]
                     
