@@ -46,19 +46,16 @@ class Column {
     //CallButton pressed on floor
     requestElevator(floor, direction) {
 
-        console.log("LOOKING FOR BEST ELEVATOR...");
+        console.log("LOOKING FOR BEST ELEVATOR...\n");
 
         this.bestElevator = this.findBestElevator(floor, direction);
         
-        console.log("BEST ELEVATOR FOUND...");
-        console.log(this.bestElevator);
-        console.log("Elevator " + this.bestElevator.id + " has been requested at Floor " + floor);
+        console.log("BEST ELEVATOR FOUND  :  Elevator " + this.bestElevator.id);
+        console.log("\nElevator " + this.bestElevator.id + " has been requested at Floor " + floor);
         
         this.bestElevator.requestList.push(floor);
         this.bestElevator.moveElevator();
         
-
-        //console.log(this.bestElevator.id);
         return this.bestElevator;
     }
         
@@ -102,7 +99,6 @@ class Column {
     //FloorButton pressed inside Elevator
     requestFloor(elevator, floor) {
         console.log("\n---> REQUESTED FLOOR : " + floor + "\n");
-        //console.log(elevator.id);
         elevator.requestList.push(floor);
         elevator.moveElevator();
     }
@@ -129,24 +125,24 @@ class Elevator {
         while (this.requestList.length != 0) {
             
             if (this.position > this.requestList[0]) {
-                console.log("... Elevator " + this.id + " is " + elevatorStatus + " " + elevatorDirection + " ... (Floor " + this.position + ")");
                 elevatorStatus = "moving";
                 elevatorDirection = "down";
+                this.status = elevatorStatus;
+                this.direction = elevatorDirection;
                 this.position--;
             } 
             else if (this.position < this.requestList[0]) {
-                console.log("... Elevator " + this.id + " is " + elevatorStatus + " " + elevatorDirection + " ... (Floor " + this.position + ")");
+                console.log("Elevator " + this.id + " is moving up ... currently at Floor " + this.position);
                 elevatorStatus = "moving";
                 elevatorDirection = "up";
+                this.status = elevatorStatus;
+                this.direction = elevatorDirection;
                 this.position++;
             } 
             else if (this.position == this.requestList[0]) {
                 elevatorStatus = "idle";
                 elevatorDirection = "idle";
-                console.log("Elevator " + this.id + " arrived at Floor " + this.position);
-                console.log("... Elevator " + this.id + " is now " + elevatorStatus);
-                console.log(elevatorStatus);
-                console.log(elevatorDirection);
+                console.log("\nElevator " + this.id + " arrived at Floor " + this.position);
                 this.status = elevatorStatus;
                 this.direction = elevatorDirection;
                 this.requestList.splice(0, 1);
@@ -155,7 +151,6 @@ class Elevator {
             }
             
             if (previousPosition != this.position) {
-                console.log("Elevator " + this.id + " is moving... (Floor " + this.position + ")");
                 previousPosition = this.position;
             }
         }
@@ -198,7 +193,13 @@ function scenario1() {
     column1.elevatorList[1].status = 'idle';
     column1.elevatorList[1].floor = 3;
 
-    console.log("FIRST CALL \n");
+    console.log("/// FIRST CALL ///");
+    console.log("  - Elevator A is Idle at floor 2.");
+    console.log("  - Elevator B is Idle at floor 6.");
+    console.log("  - Someone is on floor 3 and wants to go to the 7th floor.");
+    console.log("  - Elevator A is expected to be sent.");
+    console.log("/// FIRST CALL ///\n");
+
     var elevator = column1.requestElevator(3, "up");
     column1.requestFloor(elevator, 7);
       
@@ -220,7 +221,13 @@ function scenario2() {
     column1.elevatorList[1].status = 'idle';
     column1.elevatorList[1].floor = 1;
 
-    console.log("FIRST CALL \n");
+    console.log("/// FIRST CALL ///");
+    console.log("  - Elevator A is Idle at floor 10.");
+    console.log("  - Elevator B is idle at floor 3");
+    console.log("  - Someone is on the 1st floor and requests the 6th floor.");
+    console.log("  - Elevator B should be sent.");
+    console.log("/// FIRST CALL ///\n");
+
     var elevator = column1.requestElevator(1, "up");
     column1.requestFloor(elevator, 6);
 
@@ -228,7 +235,11 @@ function scenario2() {
         i.moveElevator();
     };
 
-    console.log("\nSECOND CALL \n");
+    console.log("\n/// SECOND CALL ///");
+    console.log("  - 2 minutes later, someone else is on the 3rd floor and requests the 5th floor.");
+    console.log("  - Elevator B should be sent.");
+    console.log("/// SECOND CALL ///\n");
+
     elevator = column1.requestElevator(3, "up");
     column1.requestFloor(elevator, 5);
 
@@ -236,7 +247,11 @@ function scenario2() {
         i.moveElevator();
     }; 
 
-    console.log("\nTHIRD CALL \n");
+    console.log("\n/// THIRD CALL ///");
+    console.log("  - Finally, a third person is at floor 9 and wants to go down to the 2nd floor.");
+    console.log("  - Elevator A should be sent.");
+    console.log("/// THIRD CALL ///\n");
+
     elevator = column1.requestElevator(9, "down");
     column1.requestFloor(elevator, 2);
     
@@ -259,8 +274,13 @@ function scenario3() {
     column1.elevatorList[1].status = 'moving';
     column1.elevatorList[1].floor = 6;
 
-    console.log("FIRST CALL \n");
-    console.log(column1.elevatorList[1]);
+    console.log("/// FIRST CALL ///");
+    console.log("  - Elevator A is Idle at floor 10.");
+    console.log("  - Elevator B is Moving from floor 3 to floor 6.");
+    console.log("  - Someone is on floor 3 and requests the 2nd floor.");
+    console.log("  - Elevator A should be sent.");
+    console.log("/// FIRST CALL ///\n");
+
     var elevator = column1.requestElevator(3, "down");
     column1.requestFloor(elevator, 2);
     
@@ -269,16 +289,22 @@ function scenario3() {
         i.moveElevator();
     };
 
-    console.log("\nSECOND CALL \n");
-    console.log(column1.elevatorList[1]);
+    console.log("\n/// SECOND CALL ///");
+    console.log("  - 5 minutes later, someone else is on the 10th floor and wants to go to the 3rd.");
+    console.log("  - Elevator B should be sent.");
+    console.log("/// SECOND CALL ///\n");
+    
     elevator = column1.requestElevator(10, "down");
     column1.requestFloor(elevator, 3);
     
+    console.log("\n\n\nTEST COMPLETED !!!!")
 };
 
 
 scenario1();
 scenario2();
 scenario3();
+
+    
 
 /* #################################### TEST ZONE ####################################*/
