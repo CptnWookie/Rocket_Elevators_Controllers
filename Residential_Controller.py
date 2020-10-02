@@ -7,7 +7,24 @@ class Column:
         self.floorRequestButtonList = []
         self.bestElevator
 
+        i = 1
+        while i <= self.elevatorAmount:
+            print('new Elevator')
+            elevator = Elevator('Elevator' + i, 'idle', 1, 'none', 10, 'closed')
+            self.elevatorList.append(elevator)
+            i += 1
 
+        print(self.elevatorList)
+
+
+        for floorAmount in range (1,11):
+            print(floorAmount)
+            floorRequestButton = FloorRequestButton(id, floorAmount)
+            self.floorRequestButtonList.append(floorRequestButton)
+
+        print(self.floorRequestButtonList)
+
+        for floorAmount in range(1,11):
 
 
 
@@ -20,8 +37,6 @@ class Elevator:
         self.floor = floor
         self.doors = doors
         self.requestList = []
-
-
 
 
 
