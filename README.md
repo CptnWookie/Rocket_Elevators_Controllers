@@ -53,8 +53,8 @@ Elevator A arrived at Floor 3                                   <---- The Elevat
 ---> Floor Button # 7 pressed <---                              <---- requestFloor function is called.
 
 Elevator A is moving up ... currently at Floor 3
-Elevator A is moving up ... currently at Floor 4                <---- moveElevator function is called.
-Elevator A is moving up ... currently at Floor 5                      and displays each floors
+Elevator A is moving up ... currently at Floor 4                <---- moveElevator function is called and displays each floors.
+Elevator A is moving up ... currently at Floor 5                      
 Elevator A is moving up ... currently at Floor 6
 
 Elevator A arrived at Floor 7                                   <---- the elevator has reached his destination.
