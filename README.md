@@ -18,7 +18,7 @@ If everything works, you should see the following items being generated in the c
 
 <h4>################################ Residential_Controller ################################</h4>
 
-<h2>Specifications</h2>
+<h3>Specifications</h3>
 
 
 - The JavaScript version has been coded so the Status and Direction of the Elevators update in real time based on if they are set 
