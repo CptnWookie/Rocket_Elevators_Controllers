@@ -18,50 +18,17 @@ If everything works, you should see the following items being generated in the c
 
 <h4>################################ Residential_Controller ################################</h4>
 
-COLUMN INITIALIZED                                              <---- A Column has been generated.
+<h2>Specifications</h2>
 
-ELEVATORS LIST                                                  <---- An Elevators List has generated with their 
-                                                                      respective attributes.
 
-CALL BUTTON LIST                                                <---- A Call Button List has been generated with their 
-                                                                      respective attributes.
+- The JavaScript version has been coded so the Status and Direction of the Elevators update in real time based on if they are set 
+to "idle" or "moving".
 
-FLOOR REQUEST BUTTON LIST                                       <---- A Floor Request Button List has been generated with 
-                                                                      their respective attributes.
+- The Python version has been coded with the value of each Elevators hard coded for the purpose of this exercise so it can demonstrate that the algorithm and the code are working according to the scenarios.
 
------------------------         
 
-SCENARIO 1                                                      <---- Name of the Scenario.
 
-/// FIRST CALL ///
-  - Elevator A is Idle at floor 2.
-  - Elevator B is Idle at floor 6.                              <---- Scenario 1 Information.
-  - Someone is on floor 3 and wants to go to the 7th floor.
-  - Elevator A is expected to be sent.
-/// FIRST CALL ///
-
-...Looking for Best Elevator...                                 <---- requestElevator Function is called.
-
-Best Elevator identified  :  Elevator A                         <---- findBestElevator Function is called.
-
----> Call Button pressed on Floor 3 <---                        
-
-Elevator A is moving up ... currently at Floor 2                <---- moveElevator function is called.
-
-Elevator A arrived at Floor 3                                   <---- The Elevator is on the requested Floor.
-
----> Floor Button # 7 pressed <---                              <---- requestFloor function is called.
-
-Elevator A is moving up ... currently at Floor 3
-Elevator A is moving up ... currently at Floor 4                <---- moveElevator function is called and displays each floors.
-Elevator A is moving up ... currently at Floor 5                      
-Elevator A is moving up ... currently at Floor 6
-
-Elevator A arrived at Floor 7                                   <---- the elevator has reached his destination.
-
------------------------
-
-TEST COMPLETED !!!!                                             <---- End of the TEST ZONE
+<h4>*Alexandre Leblanc*</h4>
 
 
 
