@@ -1,9 +1,11 @@
-<h2>################################ Residential_Controller ################################</h2>
+<h4>################################ Residential_Controller ################################</h4>
 
 To Access The JavaScript Version -----> [CLICK HERE](https://github.com/CptnWookie/Rocket_Elevators_Controllers/blob/master/Residential_Controller.js)
 
 To Access The Python Version -----> [CLICK HERE](https://github.com/CptnWookie/Rocket_Elevators_Controllers/blob/master/Residential_Controller.py)
 
+
+<h3>How-To</h3>
 In order to test this code, you'll need to install the Visual Studio Code Extension called "Code Runner". Which can be found in the Extension tad on the left section of the software.
 
 Then, if you open the Residential_Controller.js, you have access to the code itself.
@@ -14,7 +16,7 @@ In the event that you don't see anything, make sure you select the "OUPUT" tab.
 
 If everything works, you should see the following items being generated:
 
-<h2>################################ Residential_Controller ################################</h2>
+<h4>################################ Residential_Controller ################################</h4>
 
 (tables only displayed in JavaScript)
 
