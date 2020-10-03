@@ -22,7 +22,7 @@ If everything works, you should see the following items being generated in the c
 
 
 - The JavaScript version has been coded so the Status and Direction of the Elevators update in real time based on if they are set 
-to "idle" or "moving".
+to "idle" or "moving" and if their position is equal or not to the floor they need to reach.
 
 - The Python version has been coded with the value of each Elevators hard coded for the purpose of this exercise so it can demonstrate that the algorithm and the code are working according to the scenarios.
 
