@@ -1,7 +1,7 @@
 
 class Column:
     def __init__(self, floorAmount, elevatorAmount):
-        print('Column : ', floorAmount, 'Floors and ', elevatorAmount, 'Elevators')
+        print('Column : ', floorAmount, 'Floors and', elevatorAmount, 'Elevators')
         self.floorAmount = floorAmount
         self.elevatorAmount = elevatorAmount
         self.elevatorList = []
@@ -9,7 +9,7 @@ class Column:
         self.floorRequestButtonList = []
     
         
-        print('ELEVATOR LIST :')
+        print('\nELEVATOR LIST :')
         i = 0
         while i < self.elevatorAmount:
             elevator = Elevator('Elevator {}'.format(i + 1))

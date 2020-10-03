@@ -1,7 +1,7 @@
 
 class Column {
     constructor(floorAmount, elevatorAmount) {
-        //console.log('column constructor', floorAmount, elevatorAmount);
+        console.log('COLUMN INITIALIZED\n');
         this.floorAmount = floorAmount;
         this.elevatorAmount = elevatorAmount;
         this.elevatorList = [];
@@ -119,6 +119,7 @@ class Elevator {
 
     //Move Elevator
     moveElevator(status, direction) {
+        console.log("Elevator " + this.id + " Doors -----> Closed\n")
         var elevatorStatus = this.status;
         var elevatorDirection = this.direction;
         var previousPosition = this.position;
@@ -144,6 +145,7 @@ class Elevator {
                 elevatorStatus = "idle";
                 elevatorDirection = "idle";
                 console.log("\nElevator " + this.id + " arrived at Floor " + this.position);
+                console.log("\nElevator " + this.id + " Doors -----> Opened ")
                 this.status = elevatorStatus;
                 this.direction = elevatorDirection;
                 this.requestList.splice(0, 1);
