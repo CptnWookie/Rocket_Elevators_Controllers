@@ -1,0 +1,13 @@
+E:\Git\Rocket_Elevators_Controllers\bin\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.exe
+E:\Git\Rocket_Elevators_Controllers\bin\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.deps.json
+E:\Git\Rocket_Elevators_Controllers\bin\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.runtimeconfig.json
+E:\Git\Rocket_Elevators_Controllers\bin\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.runtimeconfig.dev.json
+E:\Git\Rocket_Elevators_Controllers\bin\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.dll
+E:\Git\Rocket_Elevators_Controllers\bin\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.pdb
+E:\Git\Rocket_Elevators_Controllers\obj\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.csprojAssemblyReference.cache
+E:\Git\Rocket_Elevators_Controllers\obj\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.AssemblyInfoInputs.cache
+E:\Git\Rocket_Elevators_Controllers\obj\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.AssemblyInfo.cs
+E:\Git\Rocket_Elevators_Controllers\obj\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.csproj.CoreCompileInputs.cache
+E:\Git\Rocket_Elevators_Controllers\obj\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.dll
+E:\Git\Rocket_Elevators_Controllers\obj\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.pdb
+E:\Git\Rocket_Elevators_Controllers\obj\Debug\netcoreapp3.1\Rocket_Elevators_Controllers.genruntimeconfig.cache
