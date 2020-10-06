@@ -1,32 +1,24 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 
     namespace Rocket_Elevators_Controllers
     {
-        class Commercial_Controller
+        public class Commercial_Controller
         {
             static void Main(string[] args)
             {
-                Battery bat = new Battery(4, 66, 4);
-                CallButton callBut = new CallButton(66);
-
-                foreach (Column column in bat.columnList)
-                {
-                    Console.WriteLine("Column" + column.id);
-                }
-
-                /* for (int i = 0; i < bat.columnList.Count; i++)
-                {
-                    Console.WriteLine("iteration {0}, element id {1}", i, bat.columnList[i].id);
-                } */
-
                 Console.WriteLine("Commercial Controller!");
-                //Console.ReadKey();
+                Battery battery = new Battery(4, 6, 66, 4);
+                //CallButton callBut = new CallButton(66);    
+                
+                
             }
 
             public class Battery
             {
                 public int columnAmount;
+                public int basementAmount;
                 public int floorAmount;
                 public int floorGroup;
                 public List<Column> columnList  = new List<Column>();
@@ -35,29 +27,39 @@ using System.Collections.Generic;
 
                 
                 
-                public Battery(int _columnAmount, int _floorAmount, int _floorGroup)
+                public Battery(int _columnAmount, int _basementAmount, int _floorAmount, int _floorGroup)
                 {
                     columnAmount = _columnAmount;
+                    basementAmount = _basementAmount;
                     floorAmount = _floorAmount;
                     floorGroup = _floorGroup;
                     
-                    
+                    Console.WriteLine("COLUMN LIST :");
                     for (int i = 0; i < columnAmount; i++)
                     {
-                        columnList.Add(new Column(i, _floorAmount, -6, 60, 3));
-                        Console.WriteLine("columnList");
+                        columnList.Add(new Column(i+1, _floorAmount, 6, 66, 5));
+                        Console.WriteLine("Column {0}", columnList[i].id);
+                    }
+                    
+                    Console.WriteLine("\nBASEMENT CALL BUTTON LIST :");
+                    for (int i = 0; i < basementAmount; i++)
+                    {
+                        callButtonList.Add(new CallButton(i+1));
+                        Console.WriteLine("Basement Call Button {0}", callButtonList[i].id);
                     }
 
-                    for (int i = 0; i < floorAmount; i++)
+                    Console.WriteLine("\nFLOOR CALL BUTTON LIST :");
+                    for (int i = 1; i < floorAmount; i++)
                     {
                         callButtonList.Add(new CallButton(i));
-                        Console.WriteLine("callButtonList");
+                        Console.WriteLine("Floor Call Button {0}", callButtonList[i].id);
                     }
 
+                    Console.WriteLine("\nFLOOR GROUP LIST :");
                     for (int i = 0; i < columnAmount; i++)
                     {
-                        floorGroupList.Add(new FloorGroup(i));
-                        Console.WriteLine("floorGroupList");
+                        floorGroupList.Add(new FloorGroup(i+1));
+                        Console.WriteLine("FloorGroup {0}", floorGroupList[i].id);
                     }
                 }
             }
@@ -122,5 +124,34 @@ using System.Collections.Generic;
                     id = _id;
                 }
             }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         }
     }
