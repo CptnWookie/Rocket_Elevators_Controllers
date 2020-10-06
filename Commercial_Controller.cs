@@ -9,10 +9,7 @@ using System.Collections.Generic;
             static void Main(string[] args)
             {
                 Console.WriteLine("Commercial Controller!");
-                Battery battery = new Battery(4, 6, 66, 4);
-                //CallButton callBut = new CallButton(66);    
-                
-                
+                Battery battery = new Battery(4, 6, 60, 4);
             }
 
             public class Battery
@@ -22,7 +19,8 @@ using System.Collections.Generic;
                 public int floorAmount;
                 public int floorGroup;
                 public List<Column> columnList  = new List<Column>();
-                public List<CallButton> callButtonList = new List<CallButton>();
+                public List<FloorCallButton> floorCallButtonList = new List<FloorCallButton>();
+                public List<BasementCallButton> basementCallButtonList = new List<BasementCallButton>();
                 public List<FloorGroup> floorGroupList = new List<FloorGroup>();
 
                 
@@ -37,22 +35,22 @@ using System.Collections.Generic;
                     Console.WriteLine("COLUMN LIST :");
                     for (int i = 0; i < columnAmount; i++)
                     {
-                        columnList.Add(new Column(i+1, _floorAmount, 6, 66, 5));
+                        columnList.Add(new Column(i+1, _floorAmount, 6, 60, 5));
                         Console.WriteLine("Column {0}", columnList[i].id);
                     }
                     
+                    Console.WriteLine("\nFLOOR CALL BUTTON LIST :");
+                    for (int i = 0; i < floorAmount-1; i++)
+                    {
+                        floorCallButtonList.Add(new FloorCallButton(i+2, "DOWN"));
+                        Console.WriteLine("Floor Call Button {0}", floorCallButtonList[i].id);
+                    }
+
                     Console.WriteLine("\nBASEMENT CALL BUTTON LIST :");
                     for (int i = 0; i < basementAmount; i++)
                     {
-                        callButtonList.Add(new CallButton(i+1));
-                        Console.WriteLine("Basement Call Button {0}", callButtonList[i].id);
-                    }
-
-                    Console.WriteLine("\nFLOOR CALL BUTTON LIST :");
-                    for (int i = 1; i < floorAmount; i++)
-                    {
-                        callButtonList.Add(new CallButton(i));
-                        Console.WriteLine("Floor Call Button {0}", callButtonList[i].id);
+                        basementCallButtonList.Add(new BasementCallButton(i+1, "UP"));
+                        Console.WriteLine("Basement Call Button {0}", basementCallButtonList[i].id);
                     }
 
                     Console.WriteLine("\nFLOOR GROUP LIST :");
@@ -102,14 +100,30 @@ using System.Collections.Generic;
                     id = _id;
                 }
             }
+            
 
-            public class CallButton
+            public class FloorCallButton
             {
                 public int id;
+                public string direction;
 
-                public CallButton(int _id)
+                public FloorCallButton(int _id, string _direction)
                 {
                     id = _id;
+                    direction = _direction;
+                }
+
+            }
+
+            public class BasementCallButton
+            {
+                public int id;
+                public string direction;
+
+                public BasementCallButton(int _id, string _direction)
+                {
+                    id = _id;
+                    direction = _direction;
                 }
 
             }
