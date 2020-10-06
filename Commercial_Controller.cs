@@ -7,11 +7,12 @@ using System.Collections.Generic;
         {
             static void Main(string[] args)
             {
-                Battery bat = new Battery(4, 66, 3);
+                Battery bat = new Battery(4, 66, 4);
+                CallButton callBut = new CallButton(66);
 
-                foreach (Column col in bat.columnList)
+                foreach (Column column in bat.columnList)
                 {
-                    Console.WriteLine("Column" + col.id);
+                    Console.WriteLine("Column" + column.id);
                 }
 
                 /* for (int i = 0; i < bat.columnList.Count; i++)
@@ -20,7 +21,7 @@ using System.Collections.Generic;
                 } */
 
                 Console.WriteLine("Commercial Controller!");
-                Console.ReadKey();
+                //Console.ReadKey();
             }
 
             class Battery
@@ -28,52 +29,98 @@ using System.Collections.Generic;
                 public int columnAmount;
                 public int floorAmount;
                 public int floorGroup;
-                public int elevatorAmountPerColumn;
-                public string direction;
                 public List<Column> columnList  = new List<Column>();
                 public List<CallButton> callButtonList = new List<CallButton>();
                 public List<FloorGroup> floorGroupList = new List<FloorGroup>();
 
                 
-                public Battery(int _columnAmount, int _floorAmount, int _elevatorAmountPerColumn)
+                
+                public Battery(int _columnAmount, int _floorAmount, int _floorGroup)
                 {
                     columnAmount = _columnAmount;
                     floorAmount = _floorAmount;
-                    elevatorAmountPerColumn = _elevatorAmountPerColumn;
-
-                    for (int i = 1; i <= columnAmount; i++)
+                    floorGroup = _floorGroup;
+                    
+                    
+                    for (int i = 0; i < columnAmount; i++)
                     {
                         columnList.Add(new Column(i));
-                        
+                        Console.WriteLine("columnList");
+                    }
+
+                    for (int i = 0; i < floorAmount; i++)
+                    {
+                        callButtonList.Add(new CallButton(i));
+                        Console.WriteLine("callButtonList");
+                    }
+
+                    for (int i = 0; i < columnAmount; i++)
+                    {
+                        floorGroupList.Add(new FloorGroup(i));
+                        Console.WriteLine("floorGroupList");
                     }
                 }
             }
 
-            class Column
+            public class Column
             {
                 public int id;
+                public bool idle;
+                public int floorAmount;
+                public int minFloor;
+                public int maxFloor;
+                public int elevatorAmountPerColumn;
+                public List<Elevator> elevatorList = new List<Elevator>();
                 
 
-                public Column(int _id)
+                public Column(int _id, int _floorAmount, int _minFloor, int _maxFloor, int _elevatorAmountPerColumn)
+                {
+                    id = _id;
+                    floorAmount = _floorAmount;
+                    minFloor = _minFloor;
+                    maxFloor = _maxFloor;
+                    elevatorAmountPerColumn = _elevatorAmountPerColumn;
+                    idle = true;
+                    
+
+                    for (int i = 0; i < elevatorAmountPerColumn; i++)
+                    {
+                        elevatorList.Add(new Elevator(i));
+                    }
+                }
+            }
+
+            public class Elevator
+            {
+                public int id;
+
+
+                public Elevator(int _id)
+                {
+                    id = _id;
+                }
+            }
+
+            public class CallButton
+            {
+                public int id;
+
+                public CallButton(int _id)
                 {
                     id = _id;
                 }
 
             }
 
-            class Elevator
+            public class FloorGroup
             {
-                
-            }
+                public int id;
 
-            class CallButton
-            {
 
-            }
-
-            class FloorGroup
-            {
-
+                public FloorGroup(int _id)
+                {
+                    id = _id;
+                }
             }
         }
     }
