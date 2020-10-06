@@ -148,7 +148,7 @@ class Elevator {
                 console.log("\nElevator " + this.id + " Doors -----> Opened ")
                 this.status = elevatorStatus;
                 this.direction = elevatorDirection;
-                this.requestList.splice(0, 1);
+                this.requestList.splice(0, 1);   
 
                 return status, direction;
             }

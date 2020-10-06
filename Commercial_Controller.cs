@@ -24,7 +24,7 @@ using System.Collections.Generic;
                 //Console.ReadKey();
             }
 
-            class Battery
+            public class Battery
             {
                 public int columnAmount;
                 public int floorAmount;
@@ -44,7 +44,7 @@ using System.Collections.Generic;
                     
                     for (int i = 0; i < columnAmount; i++)
                     {
-                        columnList.Add(new Column(i));
+                        columnList.Add(new Column(i, _floorAmount, -6, 60, 3));
                         Console.WriteLine("columnList");
                     }
 
