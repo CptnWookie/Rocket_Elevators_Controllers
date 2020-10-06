@@ -15,8 +15,8 @@ using System.Collections.Generic;
             public class Battery
             {
                 public int columnAmount;
-                public int basementAmount;
-                public int floorAmount;
+                public int basement;
+                public int floor;
                 public int floorGroup;
                 public List<Column> columnList  = new List<Column>();
                 public List<FloorCallButton> floorCallButtonList = new List<FloorCallButton>();
@@ -25,29 +25,29 @@ using System.Collections.Generic;
 
                 
                 
-                public Battery(int _columnAmount, int _basementAmount, int _floorAmount, int _floorGroup)
+                public Battery(int _columnAmount, int _basement, int _floor, int _floorGroup)
                 {
                     columnAmount = _columnAmount;
-                    basementAmount = _basementAmount;
-                    floorAmount = _floorAmount;
+                    basement = _basement;
+                    floor = _floor;
                     floorGroup = _floorGroup;
                     
                     Console.WriteLine("COLUMN LIST :");
                     for (int i = 0; i < columnAmount; i++)
                     {
-                        columnList.Add(new Column(i+1, _floorAmount, 6, 60, 5));
+                        columnList.Add(new Column(i+1, _floor, 6, 60, 5));
                         Console.WriteLine("Column {0}", columnList[i].id);
                     }
-                    
+ 
                     Console.WriteLine("\nFLOOR CALL BUTTON LIST :");
-                    for (int i = 0; i < floorAmount-1; i++)
-                    {
+                    for (int i = 0; i < floor-1; i++)
+                    {                        
                         floorCallButtonList.Add(new FloorCallButton(i+2, "DOWN"));
                         Console.WriteLine("Floor Call Button {0}", floorCallButtonList[i].id);
                     }
 
                     Console.WriteLine("\nBASEMENT CALL BUTTON LIST :");
-                    for (int i = 0; i < basementAmount; i++)
+                    for (int i = 0; i < basement; i++)
                     {
                         basementCallButtonList.Add(new BasementCallButton(i+1, "UP"));
                         Console.WriteLine("Basement Call Button {0}", basementCallButtonList[i].id);
@@ -66,17 +66,17 @@ using System.Collections.Generic;
             {
                 public int id;
                 public bool idle;
-                public int floorAmount;
+                public int floor;
                 public int minFloor;
                 public int maxFloor;
                 public int elevatorAmountPerColumn;
                 public List<Elevator> elevatorList = new List<Elevator>();
                 
 
-                public Column(int _id, int _floorAmount, int _minFloor, int _maxFloor, int _elevatorAmountPerColumn)
+                public Column(int _id, int _floor, int _minFloor, int _maxFloor, int _elevatorAmountPerColumn)
                 {
                     id = _id;
-                    floorAmount = _floorAmount;
+                    floor = _floor;
                     minFloor = _minFloor;
                     maxFloor = _maxFloor;
                     elevatorAmountPerColumn = _elevatorAmountPerColumn;
@@ -100,7 +100,6 @@ using System.Collections.Generic;
                     id = _id;
                 }
             }
-            
 
             public class FloorCallButton
             {
@@ -112,7 +111,6 @@ using System.Collections.Generic;
                     id = _id;
                     direction = _direction;
                 }
-
             }
 
             public class BasementCallButton
@@ -125,7 +123,6 @@ using System.Collections.Generic;
                     id = _id;
                     direction = _direction;
                 }
-
             }
 
             public class FloorGroup
