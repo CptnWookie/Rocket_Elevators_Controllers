@@ -31,21 +31,25 @@ namespace Rocket_Elevators_Controllers
                 if (i == 0 )
                 {
                     Column column = new Column("A", 66, 5, 1, -6, -1);
+                    columnList.Add(column);
                     Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
                 else if (i == 1)
                 {
                     Column column = new Column("B", 66, 5, 1, 2, 20);
+                    columnList.Add(column);
                     Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
                 else if (i == 2)
                 {
                     Column column = new Column("C", 66, 5, 1, 21, 40);
+                    columnList.Add(column);
                     Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
                 else 
                 {
                     Column column = new Column("D", 66, 5, 1, 41, 60);
+                    columnList.Add(column);
                     Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
             }
