@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
     namespace Rocket_Elevators_Controllers
     {
-        public class Commercial_Controller
+        public class Program
         {
             static void Main(string[] args)
             {
@@ -21,7 +20,7 @@ using System.Collections.Generic;
                 public List<Column> columnList  = new List<Column>();
                 public List<FloorCallButton> floorCallButtonList = new List<FloorCallButton>();
                 public List<BasementCallButton> basementCallButtonList = new List<BasementCallButton>();
-                public List<FloorGroup> floorGroupList = new List<FloorGroup>();
+                /* public List<FloorGroup> floorGroupList = new List<FloorGroup>(); */
 
                 
                 
@@ -53,12 +52,23 @@ using System.Collections.Generic;
                         Console.WriteLine("Basement Call Button {0}", basementCallButtonList[i].id);
                     }
 
-                    Console.WriteLine("\nFLOOR GROUP LIST :");
-                    for (int i = 0; i < columnAmount; i++)
+                    /* Console.WriteLine("\nFLOOR GROUP LIST :");
+                    for (int i = 0; i <= floor; i++)
                     {
-                        floorGroupList.Add(new FloorGroup(i+1));
-                        Console.WriteLine("FloorGroup {0}", floorGroupList[i].id);
-                    }
+                        foreach (var column in columnList)
+                        {
+                            if (i > 1 && i < 21)
+                            {
+                            floorGroupList.Add(new FloorGroup(i+1));
+                            Console.WriteLine("FloorGroup {0}", floorGroupList[i].id);
+                            }
+                            if (i >  && i < 21)
+                            {
+                            floorGroupList.Add(new FloorGroup(i+1));
+                            Console.WriteLine("FloorGroup {0}", floorGroupList[i].id);
+                            }
+                        }
+                    } */
                 }
             }
 
@@ -82,10 +92,11 @@ using System.Collections.Generic;
                     elevatorAmountPerColumn = _elevatorAmountPerColumn;
                     idle = true;
                     
-
+                    
                     for (int i = 0; i < elevatorAmountPerColumn; i++)
                     {
-                        elevatorList.Add(new Elevator(i));
+                        elevatorList.Add(new Elevator(i+1/* , _direction, _status, _floor, _requestedFloor, _doorStatus */));
+                        Console.WriteLine("Elevator {0}{1}", id, elevatorList[i].id);
                     }
                 }
             }
@@ -93,11 +104,22 @@ using System.Collections.Generic;
             public class Elevator
             {
                 public int id;
+                public string direction;
+                public string status;
+                public int floor;
+                public int requestedFloor;
+                public string doorStatus;
 
 
-                public Elevator(int _id)
+                public Elevator(int _id, string _direction, string _status, int _floor, int _requestedFloor, string _doorStatus)
                 {
                     id = _id;
+                    direction = _direction;
+                    status = _status;
+                    floor = _floor;
+                    requestedFloor = _requestedFloor;
+                    doorStatus = _doorStatus;
+
                 }
             }
 
@@ -125,7 +147,7 @@ using System.Collections.Generic;
                 }
             }
 
-            public class FloorGroup
+            /* public class FloorGroup
             {
                 public int id;
 
@@ -134,11 +156,11 @@ using System.Collections.Generic;
                 {
                     id = _id;
                 }
-            }
+            } */
         
         
         
-        
+
         
         
         
@@ -165,4 +187,5 @@ using System.Collections.Generic;
         
         
         }
+        
     }
