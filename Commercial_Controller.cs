@@ -30,7 +30,7 @@ namespace Rocket_Elevators_Controllers
             {
                 if (i == 0 )
                 {
-                    Column column = new Column("A", 66, 5, 1, -6, 1);
+                    Column column = new Column("A", 66, 5, 1, -6, -1);
                     Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
                 else if (i == 1)
