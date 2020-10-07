@@ -13,7 +13,7 @@
             "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/Rocket_Elevators_Controllers.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "stopAtEntry": false
         },
         {

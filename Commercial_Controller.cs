@@ -10,9 +10,11 @@ namespace Rocket_Elevators_Controllers
         public int elevatorAmountPerColumn;
         public int minFloor;
         public int maxFloor;
+        public Column bestColumn = null;
 
         public List<Column> columnList = new List<Column>();
         public List<CallButton> callButtonList = new List<CallButton>();
+        public List<FloorRequestPanel> floorRequestPanelList = new List<FloorRequestPanel>();
         
 
         public Battery(int _columnAmount, int _floorAmount, int _elevatorAmountPerColumn, int _lobby, int _minFloor, int _maxfloor)
@@ -69,6 +71,13 @@ namespace Rocket_Elevators_Controllers
                     Console.WriteLine("Call Button {0}", callButtonList[i].id);
                 }
             }
+
+            for (int i = 0; i < _lobby; i++)
+            {
+                FloorRequestPanel floorRequestPanel = new FloorRequestPanel(_floorAmount);
+                floorRequestPanelList.Add(floorRequestPanel);
+                Console.WriteLine("Lobby Floor Request Panel");
+            }
         }
     
         //This method represents an elevator request on a floor or basement.
@@ -93,10 +102,13 @@ namespace Rocket_Elevators_Controllers
         //This method will determine the best column to be send for the current request.
         public void findBestColumn(int _floorAmount, int _minFloor, int _maxFloor)
         {
-            requestedFloor = FloorRequestPanel.floorAmount;
+            int requestedFloor = floorRequestPanelList[0].floorAmount;
             for (int i = 0; i < requestedFloor; i++)
             {
-                if (requestedFloor >= columnList[i].minFloor && _floorAmount)
+                if (requestedFloor >= columnList[i].minFloor && requestedFloor <= columnList[i].maxFloor)
+                {
+                    var bestColumn = columnList[i].id;
+                }
             }
         }
     }
@@ -110,10 +122,10 @@ namespace Rocket_Elevators_Controllers
         public int lobby;
         public int minFloor;
         public int maxFloor;
-        public List<Elevator> elevatorList = new List<Elevator>();
-        //public List<FloorDisplay> floorDisplayList = new List<FloorDisplay>();
-        //public Elevator bestElevator = null;
+        public Elevator bestElevator = null;
 
+        public List<Elevator> elevatorList = new List<Elevator>();
+        
         public Column(string _id, int _floorAmount, int _elevatorAmountPerColumn, int _lobby, int _minFloor, int _maxFloor)
         {
             id = _id;
@@ -124,7 +136,7 @@ namespace Rocket_Elevators_Controllers
             maxFloor = _maxFloor;
 
 
-            for (int i = 0; i <= elevatorAmountPerColumn; i++)
+            for (int i = 0; i < elevatorAmountPerColumn; i++)
             {
                 Elevator elevator = new Elevator(i+1, 1, "idle", "idle", "closed");
                 elevatorList.Add(elevator);
@@ -134,9 +146,27 @@ namespace Rocket_Elevators_Controllers
 
 
         //This method will determine the best elevator to be send for the current request.
-        public void findBestElevator(int _floorAmount, int _currentFloor, string _direction)
+        public void findBestElevator(int _requestedFloor, int _currentFloor, string _direction)
         {
+            int distance = 0;
+            int bestDistance = 99;
 
+            if (_requestedFloor == 1)
+            {
+                foreach (Elevator elevator in elevatorList)
+                {
+                    if (_currentFloor == _requestedFloor && _currentStatus == "idle")
+                    {
+                        distance = Math.Abs(elevator.currentFloor - _requestedFloor);
+
+                        if (distance < bestDistance)
+                        {
+                            bestDistance = distance;
+                            bestElevator = elevator;
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -145,17 +175,17 @@ namespace Rocket_Elevators_Controllers
     {
         public int id;
         public int currentFloor;
-        public string direction;
+        public string currentDirection;
         public string status;
         public string doorStatus;
 
 
-        public Elevator(int _id, int _currentFloor, string _direction, string _status, string _doorStatus)
+        public Elevator(int _id, int _currentFloor, string _currentDirection, string _currentStatus, string _doorStatus)
         {
             id = _id;
             currentFloor = _currentFloor;
-            direction = _direction;
-            status = _status;
+            currentDirection = _currentDirection;
+            status = _currentStatus;
             doorStatus = _doorStatus;
         }
     }
@@ -163,11 +193,13 @@ namespace Rocket_Elevators_Controllers
     public class CallButton
     {
         public int id;
+        public string direction;
 
 
-        public CallButton(int _id)
+        public CallButton(int _id, string _direction)
         {
             id = _id;
+            direction = _direction;
         }
     }
 
@@ -178,7 +210,6 @@ namespace Rocket_Elevators_Controllers
         public FloorRequestPanel(int _floorAmount)
         {
             floorAmount = _floorAmount;
-            requestedFloor = floorAmount;
         }
     }
 
@@ -198,13 +229,32 @@ namespace Rocket_Elevators_Controllers
 
     public class Commercial_Controller
     {
-        
-
         static void Main(string[] args)
         {
             Console.WriteLine("Commercial Controller!");
             
             Battery battery = new Battery(4, 66, 5, 1, -6, 66);
+        
+        // SCENARIO 1
+            Console.WriteLine("\n SCENARIO 1 \n");
+
+            battery.columnList[1].elevatorList[0].direction = "down";
+            battery.columnList[1].elevatorList[0].currentFloor = 20;
+
+            battery.columnList[1].elevatorList[1].direction = "up";
+            battery.columnList[1].elevatorList[1].currentFloor = 3;
+
+            battery.columnList[1].elevatorList[2].direction = "down";
+            battery.columnList[1].elevatorList[2].currentFloor = 13;
+
+            battery.columnList[1].elevatorList[3].direction = "down";
+            battery.columnList[1].elevatorList[3].currentFloor = 15;
+
+            battery.columnList[1].elevatorList[4].direction = "down";
+            battery.columnList[1].elevatorList[4].currentFloor = 6;
+             
+            //battery.columnList[1].requestElevator(1, "up", 20 );
+        
         }
     
         
