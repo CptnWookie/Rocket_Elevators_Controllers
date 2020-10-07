@@ -71,7 +71,34 @@ namespace Rocket_Elevators_Controllers
             }
         }
     
-        //public void findBestColumn()
+        //This method represents an elevator request on a floor or basement.
+        public void requestElevator()
+        {
+
+        }
+
+
+
+
+
+        //This method will be used for the requests made on the first floor.
+        public void assignElevator()
+        {
+
+        }
+
+
+
+
+        //This method will determine the best column to be send for the current request.
+        public void findBestColumn(int _floorAmount, int _minFloor, int _maxFloor)
+        {
+            requestedFloor = FloorRequestPanel.floorAmount;
+            for (int i = 0; i < requestedFloor; i++)
+            {
+                if (requestedFloor >= columnList[i].minFloor && _floorAmount)
+            }
+        }
     }
 
 
@@ -97,19 +124,20 @@ namespace Rocket_Elevators_Controllers
             maxFloor = _maxFloor;
 
 
-            for (int i = 0; i < elevatorAmountPerColumn; i++)
+            for (int i = 0; i <= elevatorAmountPerColumn; i++)
             {
-                elevatorList.Add(new Elevator(i+1, 1, "idle", "idle", "closed"));
+                Elevator elevator = new Elevator(i+1, 1, "idle", "idle", "closed");
+                elevatorList.Add(elevator);
                 Console.WriteLine("Elevator {0}{1}", id, elevatorList[i].id);
             }
         }
 
-        /* public void coveredFloor(int _lobby, int _minFloor, int _maxFloor)
+
+        //This method will determine the best elevator to be send for the current request.
+        public void findBestElevator(int _floorAmount, int _currentFloor, string _direction)
         {
-            _lobby = 1
-            minFloor = _minFloor;
-            maxFloor = _maxFloor;
-        } */
+
+        }
     }
     
 
@@ -143,13 +171,14 @@ namespace Rocket_Elevators_Controllers
         }
     }
 
-    public class RequestFloorPanel
+    public class FloorRequestPanel
     {
         public int floorAmount;
 
-        public RequestFloorPanel(int _floorAmount)
+        public FloorRequestPanel(int _floorAmount)
         {
             floorAmount = _floorAmount;
+            requestedFloor = floorAmount;
         }
     }
 
