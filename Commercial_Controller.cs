@@ -12,7 +12,7 @@ namespace Rocket_Elevators_Controllers
         public int maxFloor;
 
         public List<Column> columnList = new List<Column>();
-        public List<CallButton> floorCallButtonList = new List<CallButton>();
+        public List<CallButton> callButtonList = new List<CallButton>();
         
 
         public Battery(int _columnAmount, int _floorAmount, int _elevatorAmountPerColumn, int _lobby, int _minFloor, int _maxfloor)
@@ -53,9 +53,25 @@ namespace Rocket_Elevators_Controllers
                     Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
             }
+
+            for (int i = 0; i < _floorAmount-1; i++)
+            {
+                if (i <= 5) 
+                {
+                    CallButton callButton = new CallButton(i-6);
+                    callButtonList.Add(callButton);
+                    Console.WriteLine("Call Button {0}", callButtonList[i].id);
+                }
+                else if (i >= 6)
+                {
+                    CallButton callButton = new CallButton(i-4);
+                    callButtonList.Add(callButton);
+                    Console.WriteLine("Call Button {0}", callButtonList[i].id);
+                }
+            }
         }
     
-        //public void findBestColumn(
+        //public void findBestColumn()
     }
 
 
