@@ -11,7 +11,7 @@ namespace Rocket_Elevators_Controllers
         {
             Console.WriteLine("Commercial Controller!");
             
-            Battery battery = new Battery(4, 66, 5, 1, 66);
+            Battery battery = new Battery(4, 66, 5, -6, 66);
         }
     
         public class Battery
@@ -39,23 +39,23 @@ namespace Rocket_Elevators_Controllers
                 {
                     if (i == 0 )
                     {
-                    columnList.Add(new Column("A", 66, 5, 1, 6));
-                    Console.WriteLine("Column {0}", columnList[i].id);
+                    columnList.Add(new Column("A", 66, 5, -6, 1));
+                    Console.WriteLine("Column {0}\n", columnList[i].id);
                     }
                     else if (i == 1)
                     {
-                        columnList.Add(new Column("B", 66, 5, 8, 26));
-                        Console.WriteLine("Column {0}", columnList[i].id);
+                        columnList.Add(new Column("B", 66, 5, 2, 20));
+                        Console.WriteLine("Column {0}\n", columnList[i].id);
                     }
                     else if (i == 2)
                     {
-                        columnList.Add(new Column("C", 66, 5, 27, 46));
-                        Console.WriteLine("Column {0}", columnList[i].id);
+                        columnList.Add(new Column("C", 66, 5, 21, 40));
+                        Console.WriteLine("Column {0}\n", columnList[i].id);
                     }
                     else 
                     {
-                        columnList.Add(new Column("D", 66, 5, 47, 66));
-                        Console.WriteLine("Column {0}", columnList[i].id);
+                        columnList.Add(new Column("D", 66, 5, 41, 60));
+                        Console.WriteLine("Column {0}\n", columnList[i].id);
                     }
                 }
             }
