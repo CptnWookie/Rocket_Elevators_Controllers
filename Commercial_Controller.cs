@@ -119,8 +119,7 @@ namespace Rocket_Elevators_Controllers
         public int minFloor;
         public int maxFloor;
         public Elevator bestElevator;
-        public Elevator bestAssignElevator;
-
+        
         public List<Elevator> elevatorList = new List<Elevator>();
         
         public Column(string _id, int _floorAmount, int _elevatorAmountPerColumn, int _lobby, int _minFloor, int _maxFloor)
@@ -314,7 +313,7 @@ namespace Rocket_Elevators_Controllers
             
             
 
-            while (requestList.Count != 0)
+            while (requestList.Count != 0 )
             {
                 if (currentFloor > requestList[0])
                 {
