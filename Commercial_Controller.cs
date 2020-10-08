@@ -144,17 +144,17 @@ namespace Rocket_Elevators_Controllers
         public void prints(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
             Console.WriteLine("Best Elevator identified : Elevator {0}{1}\n", id, bestElevator.id);
-            bestElevator.moveElevator(_requestedFloor);
-            bestElevator.doorOpenClosed("opened");
-            Console.WriteLine("<--<--<-- Doors are opening -->-->-->\n");
-            Console.WriteLine("User enters the Elevator...\n");
-            bestElevator.doorOpenClosed("closed");
-            Console.WriteLine("-->-->--> Doors are closing <--<--<--\n");
-            bestElevator.moveElevator(_destinationFloor);
-            Console.WriteLine("Elevator {0} has arrived to Destination : Floor {1}\n", id, bestElevator.id, _destinationFloor);
-            bestElevator.doorOpenClosed("opened");
-            Console.WriteLine("<-- <-- <-- Doors are opening --> --> -->\n");
-            Console.WriteLine("User exits the Elevator .....\n\n");
+            bestElevator.moveElevator(id);
+            //bestElevator.doorOpenClosed("opened");
+            //Console.WriteLine("<--<--<-- Doors are opening -->-->-->\n");
+            //Console.WriteLine("User enters the Elevator...\n");
+            //bestElevator.doorOpenClosed("closed");
+            //Console.WriteLine("-->-->--> Doors are closing <--<--<--\n");
+            //bestElevator.moveElevator(_destinationFloor, id);
+            //Console.WriteLine("Elevator {0} has arrived to Destination : Floor {1}\n", id, bestElevator.id, _destinationFloor);
+            //bestElevator.doorOpenClosed("opened");
+            //Console.WriteLine("<-- <-- <-- Doors are opening --> --> -->\n");
+            //Console.WriteLine("User exits the Elevator .....\n\n");
         }
 
         //This method represents an elevator request on a floor or basement.
@@ -201,11 +201,7 @@ namespace Rocket_Elevators_Controllers
                         bestElevator = elevatorList[i];
                     }
                 } 
-                
-             
-               
-                
-                
+                  
                 if ((elevatorList[i].currentDirection == "up" || elevatorList[i].currentDirection == "idle") && elevatorList[i].currentFloor <= _requestedFloor)
                 {
                     distance = Math.Abs(elevatorList[i].currentFloor - _requestedFloor);
@@ -309,18 +305,20 @@ namespace Rocket_Elevators_Controllers
         }
 
         //This method will move the elevator.
-        public void moveElevator(int _destinationFloor)
+        public void moveElevator(string columnId)
         {
+            Console.WriteLine("-->-->--> Doors are closing <--<--<--\n");
             var elevatorStatus = currentStatus;
             var elevatorDirection = currentDirection;
             var previousPosition = currentFloor;
             
-            //currentFloor = _destinationFloor;
+            
+
             while (requestList.Count != 0)
             {
                 if (currentFloor > requestList[0])
                 {
-                    Console.WriteLine("Elevator {0} is moving down ... currently at Floor {1}", id, currentFloor);
+                    Console.WriteLine("Elevator {0}{1} is moving down ... currently at Floor {2}", columnId, id, currentFloor);
                     elevatorStatus = "moving";
                     elevatorDirection = "down";
                     currentStatus = elevatorStatus;
@@ -329,7 +327,7 @@ namespace Rocket_Elevators_Controllers
 
                 } 
                 else if (currentFloor < requestList[0]) {
-                    Console.WriteLine("Elevator {0} is moving up ... currently at Floor {1}", id, currentFloor);
+                    Console.WriteLine("Elevator {0}{1} is moving up ... currently at Floor {2}", columnId, id, currentFloor);
                     elevatorStatus = "moving";
                     elevatorDirection = "up";
                     currentStatus = elevatorStatus;
@@ -339,9 +337,15 @@ namespace Rocket_Elevators_Controllers
                 else if (currentFloor == requestList[0]) {
                     elevatorStatus = "idle";
                     elevatorDirection = "idle";
-                    Console.WriteLine("\nElevator {0} has arrived at Floor {1}\n", id, currentFloor);
+                    Console.WriteLine("\nElevator {0}{1} has arrived at Floor {2}\n", columnId, id, currentFloor);
+                    doorOpenClosed("Opened");
+                    Console.WriteLine("<--<--<-- Doors are opening -->-->-->\n");
+                    //Console.WriteLine("User enters the Elevator...\n");
+                    doorOpenClosed("closed");
+                    Console.WriteLine("-->-->--> Doors are closing <--<--<--\n");
                     currentStatus = elevatorStatus;
                     currentDirection = elevatorDirection;
+                    
                     requestList.RemoveRange(0, 1);   
                 }
                 
