@@ -129,7 +129,6 @@ namespace Rocket_Elevators_Controllers
                 //Console.WriteLine("Elevator {0}{1}", id, elevatorList[i].id);
             }
         }
-
         //This method represents an elevator request on a floor or basement.
         public void requestElevator(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
@@ -149,18 +148,6 @@ namespace Rocket_Elevators_Controllers
             bestElevator.doorsStatus("opened");
             Console.WriteLine("Doors are opening and user exits the Elevator .....\n\n");
         }
-
-
-
-
-
-        //This method will be used for the requests made on the first floor.
-        public void assignElevator(int _currentFloor, string _direction, int _destinationFloor)
-        {
-
-        }
-
-
 
         //This method will determine the best elevator to be send for the current request.
         public void findBestElevator(int _requestedFloor, string _currentDirection)
@@ -235,14 +222,15 @@ namespace Rocket_Elevators_Controllers
             }
                 
                 
-            /* for (int i = 0; i < elevatorList.Count; i++)
+            /* or (int i = 0; i < elevatorList.Count; i++)
             {   
                 int distance = Math.Abs(elevatorList[i].currentFloor - _requestedFloor);
                     
                 if (elevatorList[i].currentDirection == "idle" && bestDistance >= distance)
                     {
-                        minDistance = distance;
-                        bestIdle = elevatorList[i];
+                        bestDistance = distance;
+                        bestElevator = elevatorList[i];
+                        }
                     }
             } 
             if (bestIdle != null)
@@ -252,9 +240,67 @@ namespace Rocket_Elevators_Controllers
             else
             {
                 bestElevator = bestIdle;
-            }   */
+            } */
+        }
+    
+
+         //This method will be used for the requests made on the first floor.
+        /* public void assignElevator(int _requestedFloor, string _currentdirection, int _destinationFloor)
+        {
+            Console.WriteLine("Elevator requested at Lobby !\n");
+            Console.WriteLine("...Looking for Best Elevator...\n");
+            findBestAssignElevator(1, bestElevator.destinationFloor);
+            Console.WriteLine("Best Elevator identified : Elevator {0}{1}\n", id, bestElevator.id);
+            bestElevator.moveElevator(_requestedFloor);
+            Console.WriteLine("Elevator {0} has arrived to Floor {1}\n", id, _requestedFloor);
+            bestElevator.doorsStatus("opened");
+            Console.WriteLine("Doors are opening...\n");
+            Console.WriteLine("User enters the Elevator...\n");
+            bestElevator.doorsStatus("closed");
+            Console.WriteLine("Doors are closing...\n");
+            bestElevator.moveElevator(_destinationFloor);
+            Console.WriteLine("Elevator {0} has arrived to Destination : Floor {1}\n", id, _requestedFloor);
+            bestElevator.doorsStatus("opened");
+            Console.WriteLine("Doors are opening and user exits the Elevator .....\n\n");
+        } */
+
+        //This method will determine the best elevator to be send for the current request.
+        public void findBestAssignElevator(int _requestedFloor, int _destinationFloor)
+        {
+            int distance = 0;
+            int bestDistance = 99;
+            for (int i = 0; i < floorAmount; i++)
+            {
+                if (_requestedFloor == 1 && elevatorList[i].currentFloor == _requestedFloor && elevatorList[i].currentDirection == "idle")
+                {
+                    bestElevator = elevatorList[i];
+                }
+                else if (_requestedFloor == 1 && (elevatorList[i].currentDirection == "up" || elevatorList[i].currentDirection == "idle") && elevatorList[i].currentFloor <= _requestedFloor)
+                {
+                    distance = Math.Abs(elevatorList[i].currentFloor - _requestedFloor);
+
+                    if (distance < bestDistance)
+                    {
+                        bestDistance = distance;
+                        bestElevator = elevatorList[i];
+                    }
+                }
+                else if (_requestedFloor == 1 && (elevatorList[i].currentDirection == "down" || elevatorList[i].currentDirection == "idle") && elevatorList[i].currentFloor >= _requestedFloor)
+                {
+                    distance = Math.Abs(elevatorList[i].currentFloor - _requestedFloor);
+
+                    if (distance < bestDistance)
+                    {
+                        bestDistance = distance;
+                        bestElevator = elevatorList[i];
+                    }
+                }
+            }
         }
     }
+    
+        
+    
     
     
 
@@ -265,7 +311,7 @@ namespace Rocket_Elevators_Controllers
         public string currentDirection;
         public string currentStatus;
         public string doorStatus;
-
+        
         //public List<Requests> requestsList = new List<Requests>();
 
 
@@ -365,7 +411,7 @@ namespace Rocket_Elevators_Controllers
             Console.WriteLine("    Elevator B5 is expected to be sent.");
             Console.WriteLine("\n----------------------------------------------------------\n");
             
-            battery.columnList[1].assignElevator(1, "up", 20 );
+            battery.columnList[1].requestElevator(1, "up", 20 );
         
 
             // SCENARIO 2
@@ -392,7 +438,7 @@ namespace Rocket_Elevators_Controllers
             Console.WriteLine("    Elevator C1 is expected to be sent.");
             Console.WriteLine("\n----------------------------------------------------------\n");
             
-            battery.columnList[2].assignElevator(1, "up", 36 );
+            battery.columnList[2].requestElevator(1, "up", 36 );
 
 
             // SCENARIO 3
