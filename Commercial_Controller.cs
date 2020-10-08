@@ -310,8 +310,7 @@ namespace Rocket_Elevators_Controllers
             var elevatorStatus = currentStatus;
             var elevatorDirection = currentDirection;
             var previousPosition = currentFloor;
-            
-            
+                
 
             while (requestList.Count != 0 )
             {
@@ -322,6 +321,10 @@ namespace Rocket_Elevators_Controllers
                     elevatorDirection = "down";
                     currentStatus = elevatorStatus;
                     currentDirection = elevatorDirection;
+                    if (currentFloor == 1)
+                    {
+                        currentFloor--;
+                    }
                     currentFloor--;
 
                 } 
@@ -331,6 +334,10 @@ namespace Rocket_Elevators_Controllers
                     elevatorDirection = "up";
                     currentStatus = elevatorStatus;
                     currentDirection = elevatorDirection;
+                    if (currentFloor == -1)
+                    {
+                        currentFloor++;
+                    }
                     currentFloor++;
                 } 
                 else if (currentFloor == requestList[0]) {
@@ -348,7 +355,8 @@ namespace Rocket_Elevators_Controllers
                     requestList.RemoveRange(0, 1);   
                 }
                 
-                if (previousPosition != currentFloor) {
+                if (previousPosition != currentFloor) 
+                {
                     previousPosition = currentFloor;
                 }
             }
