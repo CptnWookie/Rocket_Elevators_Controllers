@@ -145,16 +145,16 @@ namespace Rocket_Elevators_Controllers
         {
             Console.WriteLine("Best Elevator identified : Elevator {0}{1}\n", id, bestElevator.id);
             bestElevator.moveElevator(_requestedFloor);
-            Console.WriteLine("Elevator {0} has arrived to Floor {1}\n", id, _requestedFloor);
-            bestElevator.doorsStatus("opened");
-            Console.WriteLine("Doors are opening...\n");
+            bestElevator.doorOpenClosed("opened");
+            Console.WriteLine("<--<--<-- Doors are opening -->-->-->\n");
             Console.WriteLine("User enters the Elevator...\n");
-            bestElevator.doorsStatus("closed");
-            Console.WriteLine("Doors are closing...\n");
+            bestElevator.doorOpenClosed("closed");
+            Console.WriteLine("-->-->--> Doors are closing <--<--<--\n");
             bestElevator.moveElevator(_destinationFloor);
-            Console.WriteLine("Elevator {0} has arrived to Destination : Floor {1}\n", id, _requestedFloor);
-            bestElevator.doorsStatus("opened");
-            Console.WriteLine("Doors are opening and user exits the Elevator .....\n\n");
+            Console.WriteLine("Elevator {0} has arrived to Destination : Floor {1}\n", id, bestElevator.id, _destinationFloor);
+            bestElevator.doorOpenClosed("opened");
+            Console.WriteLine("<-- <-- <-- Doors are opening --> --> -->\n");
+            Console.WriteLine("User exits the Elevator .....\n\n");
         }
 
         //This method represents an elevator request on a floor or basement.
@@ -200,10 +200,10 @@ namespace Rocket_Elevators_Controllers
                         bestDistance = distance;
                         bestElevator = elevatorList[i];
                     }
-                }
+                } 
                 
-                
-                
+             
+               
                 
                 
                 if ((elevatorList[i].currentDirection == "up" || elevatorList[i].currentDirection == "idle") && elevatorList[i].currentFloor <= _requestedFloor)
@@ -241,6 +241,8 @@ namespace Rocket_Elevators_Controllers
                     bestElevator = elevatorList[i];
                 }
             }
+            bestElevator.requestList.Add(_requestedFloor);
+            bestElevator.requestList.Add(_destinationFloor);
         }
 
         public void findBestElevatorFloor(int _requestedFloor, string _currentDirection, int _destinationFloor)
@@ -280,6 +282,8 @@ namespace Rocket_Elevators_Controllers
                     }
                 }
             }
+            bestElevator.requestList.Add(_requestedFloor);
+            bestElevator.requestList.Add(_destinationFloor);
         }
     }
     
@@ -291,10 +295,9 @@ namespace Rocket_Elevators_Controllers
         public int destinationFloor;
         public string currentStatus;
         public string doorStatus;
+        public Request request;
+        public List<int> requestList = new List<int>();
         
-        //public List<Requests> requestsList = new List<Requests>();
-
-
         public Elevator(int _id, int _currentFloor, string _currentDirection, int _destinationFloor, string _currentStatus, string _doorStatus)
         {
             id = _id;
@@ -308,11 +311,47 @@ namespace Rocket_Elevators_Controllers
         //This method will move the elevator.
         public void moveElevator(int _destinationFloor)
         {
-            currentFloor = _destinationFloor;
+            var elevatorStatus = currentStatus;
+            var elevatorDirection = currentDirection;
+            var previousPosition = currentFloor;
+            
+            //currentFloor = _destinationFloor;
+            while (requestList.Count != 0)
+            {
+                if (currentFloor > requestList[0])
+                {
+                    Console.WriteLine("Elevator {0} is moving down ... currently at Floor {1}", id, currentFloor);
+                    elevatorStatus = "moving";
+                    elevatorDirection = "down";
+                    currentStatus = elevatorStatus;
+                    currentDirection = elevatorDirection;
+                    currentFloor--;
+
+                } 
+                else if (currentFloor < requestList[0]) {
+                    Console.WriteLine("Elevator {0} is moving up ... currently at Floor {1}", id, currentFloor);
+                    elevatorStatus = "moving";
+                    elevatorDirection = "up";
+                    currentStatus = elevatorStatus;
+                    currentDirection = elevatorDirection;
+                    currentFloor++;
+                } 
+                else if (currentFloor == requestList[0]) {
+                    elevatorStatus = "idle";
+                    elevatorDirection = "idle";
+                    Console.WriteLine("\nElevator {0} has arrived at Floor {1}\n", id, currentFloor);
+                    currentStatus = elevatorStatus;
+                    currentDirection = elevatorDirection;
+                    requestList.RemoveRange(0, 1);   
+                }
+                
+                if (previousPosition != currentFloor) {
+                    previousPosition = currentFloor;
+                }
+            }
         }
 
-
-        public void doorsStatus(string _doorStatus)
+        public void doorOpenClosed(string _doorStatus)
         {
             doorStatus = _doorStatus; 
         }
@@ -350,6 +389,11 @@ namespace Rocket_Elevators_Controllers
         {
             floorAmount = _floorAmount;
         }
+    }
+
+    public class Request
+    {
+        public int floorAmount;
     }
 
     public class Commercial_Controller
