@@ -26,7 +26,7 @@ namespace Rocket_Elevators_Controllers
             minFloor = _minFloor;
             maxFloor = _maxfloor;
 
-            Console.WriteLine("COLUMN LIST :");
+            //Console.WriteLine("COLUMN LIST :");
 
             for (int i = 0; i < _columnAmount; i++)
             {
@@ -34,25 +34,25 @@ namespace Rocket_Elevators_Controllers
                 {
                     Column column = new Column("A", 66, 5, 1, -6, -1);
                     columnList.Add(column);
-                    Console.WriteLine("Column {0}\n", columnList[i].id);
+                    //Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
                 else if (i == 1)
                 {
                     Column column = new Column("B", 66, 5, 1, 2, 20);
                     columnList.Add(column);
-                    Console.WriteLine("Column {0}\n", columnList[i].id);
+                    //Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
                 else if (i == 2)
                 {
                     Column column = new Column("C", 66, 5, 1, 21, 40);
                     columnList.Add(column);
-                    Console.WriteLine("Column {0}\n", columnList[i].id);
+                    //Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
                 else 
                 {
                     Column column = new Column("D", 66, 5, 1, 41, 60);
                     columnList.Add(column);
-                    Console.WriteLine("Column {0}\n", columnList[i].id);
+                    //Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
             }
 
@@ -62,13 +62,13 @@ namespace Rocket_Elevators_Controllers
                 {
                     CallButton callButton = new CallButton(i-6, "up");
                     callButtonList.Add(callButton);
-                    Console.WriteLine("Call Button {0}", callButtonList[i].id);
+                    //Console.WriteLine("Call Button {0}", callButtonList[i].id);
                 }
                 else if (i >= 6)
                 {
                     CallButton callButton = new CallButton(i-4, "down");
                     callButtonList.Add(callButton);
-                    Console.WriteLine("Call Button {0}", callButtonList[i].id);
+                    //Console.WriteLine("Call Button {0}", callButtonList[i].id);
                 }
             }
 
@@ -76,7 +76,7 @@ namespace Rocket_Elevators_Controllers
             {
                 FloorRequestPanel floorRequestPanel = new FloorRequestPanel(_floorAmount);
                 floorRequestPanelList.Add(floorRequestPanel);
-                Console.WriteLine("Lobby Floor Request Panel");
+                //Console.WriteLine("Lobby Floor Request Panel");
             }
         }
     
@@ -109,7 +109,7 @@ namespace Rocket_Elevators_Controllers
         public int minFloor;
         public int maxFloor;
         public Elevator bestCase = null;
-        public Elevator bestIdle = null;
+        public Elevator bestChoice = null;
         public Elevator bestElevator = null;
 
         public List<Elevator> elevatorList = new List<Elevator>();
@@ -128,21 +128,28 @@ namespace Rocket_Elevators_Controllers
             {
                 Elevator elevator = new Elevator(i+1, 1, "idle", "idle", "closed");
                 elevatorList.Add(elevator);
-                Console.WriteLine("Elevator {0}{1}", id, elevatorList[i].id);
+                //Console.WriteLine("Elevator {0}{1}", id, elevatorList[i].id);
             }
         }
 
         //This method represents an elevator request on a floor or basement.
         public void requestElevator(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
+            Console.WriteLine("Elevator requested !\n");
+            Console.WriteLine("...Looking for Best Elevator...\n");
             findBestElevator(_requestedFloor, _currentDirection);
-            Console.WriteLine("Best Elevator Found : Elevator {0}", id);
-            //bestElevator.moveElevator(_requestedFloor);
-            //bestElevator.doorsStatus("opened");
-            //bestElevator.doorsStatus("closed");
-            //bestElevator.moveElevator(_destinationFloor);
-            //bestElevator.doorsStatus("opened");
-            //bestElevator.doorsStatus("closed");
+            Console.WriteLine("Best Elevator identified : Elevator {0}{1}\n", id, bestElevator.id);
+            bestElevator.moveElevator(_requestedFloor);
+            Console.WriteLine("Elevator {0} has arrived to Floor {1}\n", id, _requestedFloor);
+            bestElevator.doorsStatus("opened");
+            Console.WriteLine("Doors are opening...\n");
+            Console.WriteLine("User enters the Elevator...\n");
+            bestElevator.doorsStatus("closed");
+            Console.WriteLine("Doors are closing...\n");
+            bestElevator.moveElevator(_destinationFloor);
+            Console.WriteLine("Elevator {0} has arrived to Destination : Floor {1}\n", id, _requestedFloor);
+            bestElevator.doorsStatus("opened");
+            Console.WriteLine("Doors are opening and user exits the Elevator .....");
             
         }
 
@@ -161,7 +168,7 @@ namespace Rocket_Elevators_Controllers
         {
             int distance = 0;
             int bestDistance = 99;
-
+            
             if (_requestedFloor == 1)
             {
                 foreach (Elevator elevator in elevatorList)
@@ -191,8 +198,6 @@ namespace Rocket_Elevators_Controllers
                         }
                     }   
                 }
-
-                
             }
             else 
             {
@@ -219,10 +224,19 @@ namespace Rocket_Elevators_Controllers
                         if (distance < bestDistance)
                         {
                             bestDistance = distance;
-                            bestElevator = elevator;
+                            bestChoice = elevator;
                         }
                     }   
                 }
+
+                /* if (bestCase != null)
+                {
+                    bestElevator = bestCase;
+                }
+                else
+                {
+                    bestElevator = bestChoice;
+                } */
             }
         }
     }
@@ -302,13 +316,12 @@ namespace Rocket_Elevators_Controllers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Commercial Controller!");
+            Console.WriteLine("\n\n\n----------------------------------------------------------");
+            Console.WriteLine("\n <<<<<<<<<< COMMERCIAL CONTROLLER TEST ZONE! >>>>>>>>>>");
             
             Battery battery = new Battery(4, 66, 5, 1, -6, 66);
         
             // SCENARIO 1
-            Console.WriteLine("\n SCENARIO 1 \n");
-
             battery.columnList[1].elevatorList[0].currentDirection = "down";
             battery.columnList[1].elevatorList[0].currentFloor = 20;
             battery.columnList[1].elevatorList[1].currentDirection = "up";
@@ -319,11 +332,21 @@ namespace Rocket_Elevators_Controllers
             battery.columnList[1].elevatorList[3].currentFloor = 15;
             battery.columnList[1].elevatorList[4].currentDirection = "down";
             battery.columnList[1].elevatorList[4].currentFloor = 6;
+
+            Console.WriteLine("\n----------------------- SCENARIO 1 -----------------------\n");
+            Console.WriteLine("  - Elevator B1 at 20th floor going to the 5th floor.");
+            Console.WriteLine("  - Elevator B2 at 3rd floor going to the 15th floor.");
+            Console.WriteLine("  - Elevator B3 at 13th floor going to RC.");
+            Console.WriteLine("  - Elevator B4 at 15th floor going to the 2nd floor.");
+            Console.WriteLine("  - Elevator B5 at 6th floor going to RC.\n");
+            Console.WriteLine("    Someone at RC wants to go to the 20th floor.\n");
+            Console.WriteLine("    Elevator B5 is expected to be sent.");
+            Console.WriteLine("\n----------------------- SCENARIO 1 -----------------------\n");
+
             battery.columnList[1].assignElevator(1, "up", 20 );
         
 
             // SCENARIO 2
-            Console.WriteLine("\n SCENARIO 2 \n");
             battery.columnList[2].elevatorList[0].currentDirection = "idle";
             battery.columnList[2].elevatorList[0].currentFloor = 1;
             battery.columnList[2].elevatorList[1].currentDirection = "up";
@@ -334,10 +357,20 @@ namespace Rocket_Elevators_Controllers
             battery.columnList[2].elevatorList[3].currentFloor = 40;
             battery.columnList[2].elevatorList[4].currentDirection = "down";
             battery.columnList[2].elevatorList[4].currentFloor = 39;
+
+            Console.WriteLine("\n\n----------------------- SCENARIO 2 -----------------------\n");
+            Console.WriteLine("  - Elevator C1 at RC going to the 21st floor (not yet departed).");
+            Console.WriteLine("  - Elevator C2 at 23rd floor going to the 28th floor.");
+            Console.WriteLine("  - Elevator C3 at 33rd floor going to RC.");
+            Console.WriteLine("  - Elevator C4 at 40th floor going to the 24th floor.");
+            Console.WriteLine("  - Elevator C5 at 39th floor going to RC.\n");
+            Console.WriteLine("    Someone at RC wants to go to the 36th floor.\n");
+            Console.WriteLine("    Elevator C1 is expected to be sent.");
+            Console.WriteLine("\n----------------------- SCENARIO 2 -----------------------\n");
+
             battery.columnList[2].assignElevator(1, "up", 36 );
 
             // SCENARIO 3
-            Console.WriteLine("\n SCENARIO 3 \n");
             battery.columnList[3].elevatorList[0].currentDirection = "down";
             battery.columnList[3].elevatorList[0].currentFloor = 58;
             battery.columnList[3].elevatorList[1].currentDirection = "up";
@@ -348,10 +381,20 @@ namespace Rocket_Elevators_Controllers
             battery.columnList[3].elevatorList[3].currentFloor = 1;
             battery.columnList[3].elevatorList[4].currentDirection = "down";
             battery.columnList[3].elevatorList[4].currentFloor = 60;
-            battery.columnList[3].requestElevator(54, "down", 1 );
+            
+            Console.WriteLine("\n\n----------------------- SCENARIO 3 -----------------------\n");
+            Console.WriteLine("  - Elevator D1 at 58th going to RC.");
+            Console.WriteLine("  - Elevator D2 at 50th floor going to the 60th floor.");
+            Console.WriteLine("  - Elevator D3 at 46th floor going to the 58th floor.");
+            Console.WriteLine("  - Elevator D4 at RC going to the 54th floor.");
+            Console.WriteLine("  - Elevator D5 at 60th floor going to RC.\n");
+            Console.WriteLine("    Someone at 54e floor wants to go to RC.\n");
+            Console.WriteLine("    Elevator D1 is expected to be sent.");
+            Console.WriteLine("\n----------------------- SCENARIO 3 -----------------------\n");
+
+            battery.columnList[3].requestElevator(54, "down", 1);
 
             // SCENARIO 4
-            Console.WriteLine("\n SCENARIO 4 \n");
             battery.columnList[0].elevatorList[0].currentDirection = "idle";
             battery.columnList[0].elevatorList[0].currentFloor = -4;
             battery.columnList[0].elevatorList[1].currentDirection = "idle";
@@ -362,7 +405,18 @@ namespace Rocket_Elevators_Controllers
             battery.columnList[0].elevatorList[3].currentFloor = -6;
             battery.columnList[0].elevatorList[4].currentDirection = "down";
             battery.columnList[0].elevatorList[4].currentFloor = -1;
-            battery.columnList[0].requestElevator(-3, "up", 1 );
+
+            Console.WriteLine("\n\n----------------------- SCENARIO 4 -----------------------\n");
+            Console.WriteLine("  - Elevator A1 “Idle” at SS4.");
+            Console.WriteLine("  - Elevator A2 “Idle” at RC.");
+            Console.WriteLine("  - Elevator A3 at SS3 going to SS5.");
+            Console.WriteLine("  - Elevator A4 at SS6 going to RC.");
+            Console.WriteLine("  - Elevator A5 at SS1 going to SS6.\n");
+            Console.WriteLine("    Someone at SS3 wants to go to RC.\n");
+            Console.WriteLine("    Elevator A4 is expected to be sent.");
+            Console.WriteLine("\n----------------------- SCENARIO 4 -----------------------\n");
+
+            battery.columnList[0].requestElevator(-3, "up", 1);
 
         }
     
