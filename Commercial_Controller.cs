@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ****************************************************************************************** \\
+// * Project           : Rocket Elevators Inc. - Commercial Division					  	* \\
+// *																						* \\
+// * Program name      : Commercial_Controller.go										  	* \\
+// *																						* \\
+// * Author            : Alexandre Leblanc												  	* \\
+// *																						* \\
+// * Date created      : 20100816														  	* \\
+// * 																						* \\
+// * Purpose           : Code for Commercial products and Solutions						  	* \\
+// *																						* \\
+// ****************************************************************************************** \\
+
+using System;
 using System.Collections.Generic;
 
 namespace Rocket_Elevators_Controllers
@@ -140,7 +153,7 @@ namespace Rocket_Elevators_Controllers
             }
         }
 
-        public void prints(int _requestedFloor, string _currentDirection, int _destinationFloor)
+        public void bestOfBest(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
             Console.WriteLine("Best Elevator identified : Elevator {0}{1}\n", id, bestElevator.id);
             bestElevator.moveElevator(id);
@@ -151,7 +164,7 @@ namespace Rocket_Elevators_Controllers
         {
             Console.WriteLine("...Looking for Best Elevator...\n");
             findBestElevatorFloor(_requestedFloor, _currentDirection, _destinationFloor);
-            prints(_requestedFloor, _currentDirection, _destinationFloor);
+            bestOfBest(_requestedFloor, _currentDirection, _destinationFloor);
             
         }
 
@@ -160,7 +173,7 @@ namespace Rocket_Elevators_Controllers
         {
             Console.WriteLine("...Looking for Best Elevator...\n");
             findBestElevatorLobby(_requestedFloor, _currentDirection, _destinationFloor);
-            prints(_requestedFloor, _currentDirection, _destinationFloor);
+            bestOfBest(_requestedFloor, _currentDirection, _destinationFloor);
         }
 
         //This method will determine the best elevator to be send for the current request.
