@@ -8,6 +8,14 @@ import (
 // Scenario Zone
 func main() {
 	fmt.Println("Hello World")
+	battery := Battery{}
+	battery.initBattery(4, 66, 5, 1, -6, 66)
+	/* battery.columnList[0].initColumn("A", 66, 5, 1, -6, -1)
+	battery.columnList[1].initColumn("B", 66, 5, 1, 2, 20)
+	battery.columnList[2].initColumn("C", 66, 5, 1, 21, 40)
+	battery.columnList[3].initColumn("D", 66, 5, 1, 41, 60) */
+
+	fmt.Println(battery)
 
 	/* fmt.Println("\n\n         <<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>           ");
 	fmt.Println("         <<                                      >>           ");
@@ -15,7 +23,7 @@ func main() {
 	fmt.Println("         <<                                      >>           ");
 	fmt.Println("         <<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>           "); */
 
-	//Battery battery = new Battery(4, 66, 5, 1, -6, 66);
+	
 
 	// SCENARIO 1
 	/* battery.columnList[1].elevatorList[0].currentDirection = "down";
@@ -135,9 +143,67 @@ type Battery struct {
 	floorRequestPanelList   []FloorRequestPanel
 }
 
+// Initiating Battery ...
+func (b *Battery) initBattery(_columnAmount int, _floorAmount int, _elevatorAmountPerColumn int, _lobby int, _minFloor int, _maxfloor int){
+		
+		//Initiating Column List ...
+		for i := 0; i < _columnAmount; i++ {
+			//b.columnList = append(b.columnList, Column{})
+			//b.columnList[i].initColumn(_id, _floorAmount, _elevatorAmountPerColumn, _lobby, _minFloor, _maxFloor)
+			
+			if i == 0 {
+				b.columnList = append(b.columnList, Column{})
+				b.columnList[i].initColumn("A", 66, 5, 1, -6, -1)
+			} else if i == 1 {
+				b.columnList = append(b.columnList, Column{})
+				b.columnList[i].initColumn("B", 66, 5, 1, 2, 20)
+			} else if i == 1 {
+				b.columnList = append(b.columnList, Column{})
+				b.columnList[i].initColumn("C", 66, 5, 1, 21, 40)
+			} else {
+				b.columnList = append(b.columnList, Column{})
+				b.columnList[i].initColumn("D", 66, 5, 1, 41, 60)
+			}
+		}
+
+
+		// Initiating Call Button List ...
+		for i := 0; i < _floorAmount; i++ {
+			if i <= 5 {
+				b.callButtonList = append(b.callButtonList, CallButton{i-6, "up"})
+			} else if i < _floorAmount-1 {
+				b.callButtonList = append(b.callButtonList, CallButton{i-4, "down"})
+			}
+		}
+
+
+		/* // Initiating Lobby ...
+		for i := 0; i < _lobby; i++ {
+			b.floorRequestPanelList = append(b.floorRequestPanelList, FloorRequestPanel{})
+			b.floorRequestPanelList[i].initFloorRequestPanel(_floorAmount)
+		} */
+}
+
+// Find the Best Column based on the requested floor
+func (b *Battery) findBestColumn(_requestedFloor int, _currentDirection string, _destinationFloor int) {
+	for i := 0; i < len(b.columnList); i++ {
+		if _requestedFloor == 1 {
+			if _destinationFloor >= b.columnList[i].minFloor && _destinationFloor <= b.columnList[i].maxFloor	{
+				fmt.Println("The selected column is \n", b.columnList[i].minFloor);
+				b.columnList[i].assignElevator(_requestedFloor, _currentDirection, _destinationFloor);
+			}
+		} else {
+			if (_requestedFloor >= b.columnList[i].minFloor && _requestedFloor <= b.columnList[i].minFloor)	{
+				b.columnList[i].requestElevator(_requestedFloor, _currentDirection, _destinationFloor);
+			}
+		}
+	}
+}
+
+
 // Column ...
 type Column struct {
-	id                      int
+	id                      string
 	floorAmount             int
 	elevatorAmountPerColumn int
 	lobby                   int
@@ -146,6 +212,35 @@ type Column struct {
 	bestElevator            int
 	elevatorList            []Elevator
 }
+
+// Initiating Column ...
+func (c *Column) initColumn(_id string, _floorAmount int, _elevatorAmountPerColumn int, _lobby int, _minFloor int, _maxFloor int){
+		c.id = _id
+		fmt.Println("This is a Column")
+}
+
+// This Function returns the best Elevator based on either requestElevator or assignElevator
+func (c *Column) prints(_requestedFloor int, _currentDirection string, _destinationFloor int) {
+	fmt.Println("Best Elevator identified : Elevator {0}{1}\n", id, bestElevator.id)
+
+}
+
+//This method represents an elevator request on a floor or basement.
+func (c *Column) requestElevator(_requestedFloor int, _currentDirection string, _destinationFloor int) {
+	c.findBestElevatorFloor(_requestedFloor, _currentDirection, _destinationFloor);
+	c.prints(_requestedFloor, _currentDirection, _destinationFloor);
+	fmt.Println("...Looking for Best Elevator...\n");
+	
+	
+}
+
+// lobby
+func (c *Column) assignElevator(_requestedFloor int, _currentDirection string, _destinationFloor int) {
+	c.findBestElevatorLobby(_requestedFloor, _currentDirection, _destinationFloor);
+	c.prints(_requestedFloor, _currentDirection, _destinationFloor);
+	fmt.Println("...Looking for Best Elevator...\n");
+}
+
 
 // Elevator ...
 type Elevator struct {
@@ -160,14 +255,25 @@ type Elevator struct {
 
 // CallButton ...
 type CallButton struct {
-	id        int
-	direction string
+	id int
+	currentDirection string
 }
 
+// Initiating Call Button ...
+func (c *Column) initCallButton(_id int, _currentFloor int, _currentDirection string, destinationFloor int, _currentStatus string, _doorStatus string, _request int) {
+	
+	fmt.Println("This is a Call Button")
+}
 // FloorRequestPanel ...
 type FloorRequestPanel struct {
 	floorAmount int
 }
+
+// Initiation Floor Request Panel ...
+func (b *Battery) initFloorRequestPanelList(_floorAmount int) {
+	fmt.Println("This is a Floor Request Panel")
+}
+
 
 // FloorDisplay ...
 type FloorDisplay struct {

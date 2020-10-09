@@ -144,16 +144,6 @@ namespace Rocket_Elevators_Controllers
         {
             Console.WriteLine("Best Elevator identified : Elevator {0}{1}\n", id, bestElevator.id);
             bestElevator.moveElevator(id);
-            //bestElevator.doorOpenClosed("opened");
-            //Console.WriteLine("<--<--<-- Doors are opening -->-->-->\n");
-            //Console.WriteLine("User enters the Elevator...\n");
-            //bestElevator.doorOpenClosed("closed");
-            //Console.WriteLine("-->-->--> Doors are closing <--<--<--\n");
-            //bestElevator.moveElevator(_destinationFloor, id);
-            //Console.WriteLine("Elevator {0} has arrived to Destination : Floor {1}\n", id, bestElevator.id, _destinationFloor);
-            //bestElevator.doorOpenClosed("opened");
-            //Console.WriteLine("<-- <-- <-- Doors are opening --> --> -->\n");
-            //Console.WriteLine("User exits the Elevator .....\n\n");
         }
 
         //This method represents an elevator request on a floor or basement.
