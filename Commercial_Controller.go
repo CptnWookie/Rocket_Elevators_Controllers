@@ -1,13 +1,13 @@
 // ****************************************************************************************** \\
-// * Project           : Rocket Elevators Inc. - Commercial Division					  	* \\
+// * Project           : Rocket Elevators Inc. - Commercial Division						* \\
 // *																						* \\
-// * Program name      : Commercial_Controller.go										  	* \\
+// * Program name      : Commercial_Controller.go											* \\
 // *																						* \\
-// * Author            : Alexandre Leblanc												  	* \\
+// * Author            : Alexandre Leblanc													* \\
 // *																						* \\
-// * Date created      : 20100816														  	* \\
-// * 																						* \\
-// * Purpose           : Code for Commercial products and Solutions						  	* \\
+// * Date created      : 20100816															* \\
+// *																						* \\
+// * Purpose           : Code for Commercial products and Solutions							* \\
 // *																						* \\
 // ****************************************************************************************** \\
 
@@ -31,12 +31,12 @@ type Battery struct {
 }
 
 // Initiating Battery ...
-func (b *Battery) initBattery(_columnAmount int, _floorAmount int, _elevatorAmountPerColumn int, _lobby int, _minFloor int, _maxfloor int) {
+func (b *Battery) initBattery(columnAmount int, floorAmount int, elevatorAmountPerColumn int, lobby int, minFloor int, maxfloor int) {
 
 	//Initiating Column List ...
-	for i := 0; i < _columnAmount; i++ {
+	for i := 0; i < columnAmount; i++ {
 		//b.columnList = append(b.columnList, Column{})
-		//b.columnList[i].initColumn(_id, _floorAmount, _elevatorAmountPerColumn, _lobby, _minFloor, _maxFloor)
+		//b.columnList[i].initColumn(id, floorAmount, elevatorAmountPerColumn, lobby, minFloor, maxfloor)
 
 		if i == 0 {
 			b.columnList = append(b.columnList, Column{})
@@ -55,32 +55,32 @@ func (b *Battery) initBattery(_columnAmount int, _floorAmount int, _elevatorAmou
 	}
 
 	// Initiating Call Button List ...
-	for i := 0; i < _floorAmount; i++ {
+	for i := 0; i < floorAmount; i++ {
 		if i <= 5 {
 			b.callButtonList = append(b.callButtonList, CallButton{i - 6, "up"})
-		} else if i < _floorAmount-1 {
+		} else if i < floorAmount-1 {
 			b.callButtonList = append(b.callButtonList, CallButton{i - 4, "down"})
 		}
 	}
 
 	/* // Initiating Lobby ...
-	for i := 0; i < _lobby; i++ {
+	for i := 0; i < lobby; i++ {
 		b.floorRequestPanelList = append(b.floorRequestPanelList, FloorRequestPanel{})
-		b.floorRequestPanelList[i].initFloorRequestPanel(_floorAmount)
+		b.floorRequestPanelList[i].initFloorRequestPanel(floorAmount)
 	} */
 }
 
 // Find the Best Column based on the requested floor
-func (b *Battery) findBestColumn(_requestedFloor int, _currentDirection string, _destinationFloor int) {
+func (b *Battery) findBestColumn(requestedFloor int, currentDirection string, destinationFloor int) {
 	for i := 0; i < len(b.columnList); i++ {
-		if _requestedFloor == 1 {
-			if _destinationFloor >= b.columnList[i].minFloor && _destinationFloor <= b.columnList[i].maxFloor {
+		if requestedFloor == 1 {
+			if destinationFloor >= b.columnList[i].minFloor && destinationFloor <= b.columnList[i].maxFloor {
 				fmt.Println("The selected column is ", b.columnList[i].minFloor)
-				b.columnList[i].assignElevator(_requestedFloor, _currentDirection, _destinationFloor)
+				b.columnList[i].assignElevator(requestedFloor, currentDirection, destinationFloor)
 			}
 		} else {
-			if _requestedFloor >= b.columnList[i].minFloor && _requestedFloor <= b.columnList[i].minFloor {
-				b.columnList[i].requestElevator(_requestedFloor, _currentDirection, _destinationFloor)
+			if requestedFloor >= b.columnList[i].minFloor && requestedFloor <= b.columnList[i].minFloor {
+				b.columnList[i].requestElevator(requestedFloor, currentDirection, destinationFloor)
 			}
 		}
 	}
@@ -99,117 +99,116 @@ type Column struct {
 }
 
 // Initiating Column ...
-func (c *Column) initColumn(_id string, _floorAmount int, _elevatorAmountPerColumn int, _lobby int, _minFloor int, _maxFloor int) {
-	c.id = _id
+func (c *Column) initColumn(id string, floorAmount int, elevatorAmountPerColumn int, lobby int, minFloor int, maxFloor int) {
+	c.id = id
 	c.bestElevator = Elevator{}
 
 	// Creating Elevator List ...
-	for i := 0; i < _elevatorAmountPerColumn; i++ {
-		c.elevatorList = append(c.elevatorList, Elevator{i+1, _currentFloor, _currentDirection, _destinationFloor, "idle", "closed"})
+	for i := 0; i < elevatorAmountPerColumn; i++ {
+		c.elevatorList = append(c.elevatorList, Elevator{i + 1, 1, "idle", 1, "idle", "closed"})
 	}
 	fmt.Println("This is an Elevator")
 }
 
 // This Function returns the best Elevator based on either requestElevator or assignElevator
-func (c *Column) bestOfBest(_requestedFloor int, _currentDirection string, _destinationFloor int) {
+func (c *Column) bestOfBest(requestedFloor int, currentDirection string, destinationFloor int) {
 	fmt.Println("Best Elevator identified : Elevator")
-	c.bestElevator.moveElevator(id)
+	c.bestElevator.moveElevator(_currentFloor)
 }
 
 //This function represents an elevator request on a floor or basement.
-func (c *Column) requestElevator(_requestedFloor int, _currentDirection string, _destinationFloor int) {
-	c.findBestElevatorFloor(_requestedFloor, _currentDirection, _destinationFloor)
-	c.bestOfBest(_requestedFloor, _currentDirection, _destinationFloor)
+func (c *Column) requestElevator(requestedFloor int, currentDirection string, destinationFloor int) {
+	c.findBestElevatorFloor(requestedFloor, currentDirection, destinationFloor)
+	c.bestOfBest(requestedFloor, currentDirection, destinationFloor)
 	fmt.Println("...Looking for Best Elevator...")
 
 }
 
 // This function returns the Best Elevator for a request made on a floor or basement.
-func (c *Column) findBestElevatorFloor(_requestedFloor int, _currentDirection string, _destinationFloor int) {
+func (c *Column) findBestElevatorFloor(requestedFloor int, currentDirection string, destinationFloor int) {
 	distance := 0
 	bestDistance := 99
 	for i := 0; i < len(c.elevatorList); i++ {
-		if _currentDirection == "up" && _currentDirection == c.elevatorList[i].currentDirection && c.elevatorList[i].currentFloor <= _requestedFloor {
-			distance = c.elevatorList[i].currentFloor - _requestedFloor
+		if currentDirection == "up" && currentDirection == c.elevatorList[i].currentDirection && c.elevatorList[i].currentFloor <= requestedFloor {
+			distance = c.elevatorList[i].currentFloor - requestedFloor
 			if distance < bestDistance {
 				bestDistance = distance
 				c.bestElevator = c.elevatorList[i]
 			}
-		} else if _currentDirection == "down" && _currentDirection == c.elevatorList[i].currentDirection && c.elevatorList[i].currentFloor >= _requestedFloor {
-			distance = c.elevatorList[i].currentFloor - _requestedFloor
+		} else if currentDirection == "down" && currentDirection == c.elevatorList[i].currentDirection && c.elevatorList[i].currentFloor >= requestedFloor {
+			distance = c.elevatorList[i].currentFloor - requestedFloor
 			if distance < bestDistance {
 				bestDistance = distance
 				c.bestElevator = c.elevatorList[i]
 			}
-		} else if _requestedFloor == c.elevatorList[i].currentFloor && c.elevatorList[i].currentDirection == "idle" {
-			distance = c.elevatorList[i].currentFloor - _requestedFloor
+		} else if requestedFloor == c.elevatorList[i].currentFloor && c.elevatorList[i].currentDirection == "idle" {
+			distance = c.elevatorList[i].currentFloor - requestedFloor
 			if distance < bestDistance {
 				bestDistance = distance
 				c.bestElevator = c.elevatorList[i]
 			}
 		}
 	}
-	c.bestElevator.requestList = append(c.bestElevator.requestList, Request{_requestedFloor})
-	c.bestElevator.requestList = append(c.bestElevator.requestList, Request{_destinationFloor})
+	//c.bestElevator.requestList = append(c.bestElevator.requestList, Request{requestedFloor})
+	//c.bestElevator.requestList = append(c.bestElevator.requestList, Request{destinationFloor})
 }
 
 // Elevator Request from the Lobby
-func (c *Column) assignElevator(_requestedFloor int, _currentDirection string, _destinationFloor int) {
-	c.findBestElevatorLobby(_requestedFloor, _currentDirection, _destinationFloor)
-	c.bestOfBest(_requestedFloor, _currentDirection, _destinationFloor)
+func (c *Column) assignElevator(requestedFloor int, currentDirection string, destinationFloor int) {
+	c.findBestElevatorLobby(requestedFloor, currentDirection, destinationFloor)
+	c.bestOfBest(requestedFloor, currentDirection, destinationFloor)
 	fmt.Println("...Looking for Best Elevator...")
 }
 
-func (c *Column) findBestElevatorLobby(_requestedFloor int, _currentDirection string, _destinationFloor int) {
-	distance := 0;
-	bestDistance := 99;
+func (c *Column) findBestElevatorLobby(requestedFloor int, currentDirection string, destinationFloor int) {
+	distance := 0
+	bestDistance := 99
 	for i := 0; i < len(c.elevatorList); i++ {
 
-		if _currentDirection == "up" && _currentDirection == c.elevatorList[i].currentDirection && c.elevatorList[i].destinationFloor >= _destinationFloor {
-			distance = c.elevatorList[i].currentFloor - _requestedFloor
+		if currentDirection == "up" && currentDirection == c.elevatorList[i].currentDirection && c.elevatorList[i].destinationFloor >= destinationFloor {
+			distance = c.elevatorList[i].currentFloor - requestedFloor
 
 			if distance < bestDistance {
-				bestDistance = distance;
+				bestDistance = distance
 				c.bestElevator = c.elevatorList[i]
 			}
-		} else if _currentDirection == "up" && _currentDirection == c.elevatorList[i].currentDirection && c.elevatorList[i].destinationFloor >= _destinationFloor {
-			distance = c.elevatorList[i].currentFloor - _requestedFloor
+		} else if currentDirection == "up" && currentDirection == c.elevatorList[i].currentDirection && c.elevatorList[i].destinationFloor >= destinationFloor {
+			distance = c.elevatorList[i].currentFloor - requestedFloor
 
-			if distance < bestDistance  {
-				bestDistance = distance;
+			if distance < bestDistance {
+				bestDistance = distance
 				c.bestElevator = c.elevatorList[i]
 			}
 		}
 
-		if (c.elevatorList[i].currentDirection == "up" || c.elevatorList[i].currentDirection == "idle") && c.elevatorList[i].currentFloor <= _requestedFloor {
-			distance = c.elevatorList[i].currentFloor - _requestedFloor
+		if (c.elevatorList[i].currentDirection == "up" || c.elevatorList[i].currentDirection == "idle") && c.elevatorList[i].currentFloor <= requestedFloor {
+			distance = c.elevatorList[i].currentFloor - requestedFloor
 
 			if distance < bestDistance {
-				bestDistance = distance;
+				bestDistance = distance
 				c.bestElevator = c.elevatorList[i]
 			}
-		} else if (c.elevatorList[i].currentDirection == "up" || c.elevatorList[i].currentDirection == "idle") && c.elevatorList[i].currentFloor <= _requestedFloor {
-			distance = c.elevatorList[i].currentFloor - _requestedFloor
+		} else if (c.elevatorList[i].currentDirection == "up" || c.elevatorList[i].currentDirection == "idle") && c.elevatorList[i].currentFloor <= requestedFloor {
+			distance = c.elevatorList[i].currentFloor - requestedFloor
 
 			if distance < bestDistance {
-				bestDistance = distance;
+				bestDistance = distance
 				c.bestElevator = c.elevatorList[i]
 			}
-		} else if (c.elevatorList[i].currentDirection == "down" || c.elevatorList[i].currentDirection == "idle") && c.elevatorList[i].currentFloor >= _requestedFloor {
-			distance = c.elevatorList[i].currentFloor - _requestedFloor
+		} else if (c.elevatorList[i].currentDirection == "down" || c.elevatorList[i].currentDirection == "idle") && c.elevatorList[i].currentFloor >= requestedFloor {
+			distance = c.elevatorList[i].currentFloor - requestedFloor
 
 			if distance < bestDistance {
-				bestDistance = distance;
+				bestDistance = distance
 				c.bestElevator = c.elevatorList[i]
 			}
-		} else if _requestedFloor == c.elevatorList[i].currentFloor && c.elevatorList[i].currentDirection == "idle" {
+		} else if requestedFloor == c.elevatorList[i].currentFloor && c.elevatorList[i].currentDirection == "idle" {
 			c.bestElevator = c.elevatorList[i]
 		}
 	}
-	c.bestElevator.requestList = append(c.bestElevator.requestList, Request{_requestedFloor})
-	c.bestElevator.requestList = append(c.bestElevator.requestList, Request{_destinationFloor})
+	//c.bestElevator.requestList = append(c.bestElevator.requestList, Request{requestedFloor})
+	//c.bestElevator.requestList = append(c.bestElevator.requestList, Request{destinationFloor})
 }
-
 
 // Elevator ...
 type Elevator struct {
@@ -219,64 +218,68 @@ type Elevator struct {
 	destinationFloor int
 	currentStatus    string
 	doorStatus       string
-	request          Request
-	requestList      []Request
+	//request          int
+	//requestList      []Request
+}
+
+//Initiating Elevator ...
+func (e *Elevator) doorOpenClosed(currentFloor) {
+	c.requestedFloor = currentFloor
 }
 
 // Initiating Elevator ...
-func (e *Elevator) moveElevator() {
-	//fmt.Println("-->-->--> Doors are closing <--<--<--\n")
-	elevatorStatus = currentStatus
-	elevatorDirection = currentDirection
-	previousPosition = currentFloor
-	
-	for len(requestList != 0) {
-		if currentFloor > requestList[0] {
-			fmt.Println("Elevator {0}{1} is moving down ... currently at Floor {2}", columnId, id, currentFloor)
-			elevatorStatus = "moving";
-			elevatorDirection = "down";
-			currentStatus = elevatorStatus;
-			currentDirection = elevatorDirection;
-			if currentFloor == 1 {
-				currentFloor--
-			}
-			currentFloor--
+/* func (e *Elevator) moveElevator(_currentStatus string, currentDirection string, _currentFloor int) {
+//fmt.Println("-->-->--> Doors are closing <--<--<--")
+/* elevatorStatus := e.currentStatus
+elevatorDirection := e.currentDirection
+previousPosition := e.currentFloor */
 
-		} else if currentFloor < requestList[0] {
-			fmt.Println("Elevator {0}{1} is moving up ... currently at Floor {2}", columnId, id, currentFloor);
+/* for len(e.requestList) != 0 {
+		if e.currentFloor > e.requestList[0] {
+			//fmt.Println("Elevator {0}{1} is moving down ... currently at Floor {2}", columnId, id, currentFloor)
+			elevatorStatus = "moving"
+			elevatorDirection = "down"
+			e.currentStatus = elevatorStatus
+			e.currentDirection = elevatorDirection
+			if e.currentFloor == 1 {
+				e.currentFloor--
+			}
+			e.currentFloor--
+
+		} else if e.currentFloor < e.requestList[0] {
+			//fmt.Println("Elevator {0}{1} is moving up ... currently at Floor {2}", columnId, id, currentFloor)
 			elevatorStatus = "moving"
 			elevatorDirection = "up"
+			e.currentStatus = elevatorStatus
+			e.currentDirection = elevatorDirection
+			if e.currentFloor == -1 {
+				e.currentFloor++
+			}
+			e.currentFloor++
+		} else if e.currentFloor == e.requestList[0] {
+			elevatorStatus = "idle"
+			elevatorDirection = "idle"
+			//fmt.Println("\nElevator {0}{1} has arrived at Floor {2}\n", columnId, id, currentFloor)
+			c.bestElevator.doorOpenClosed("Opened")
+			//fmt.Println("<--<--<-- Doors are opening -->-->-->\n")
+			//fmt.Println("User enters the Elevator...\n");
+			doorOpenClosed("closed")
+			//fmt.Println("-->-->--> Doors are closing <--<--<--\n")
 			currentStatus = elevatorStatus
 			currentDirection = elevatorDirection
-			if currentFloor == -1 {
-				currentFloor++
-			}
-			currentFloor++
-		} else if currentFloor == requestList[0] {
-			elevatorStatus = "idle";
-			elevatorDirection = "idle";
-			fmt.Println("\nElevator {0}{1} has arrived at Floor {2}\n", columnId, id, currentFloor);
-			doorOpenClosed("Opened");
-			fmt.Println("<--<--<-- Doors are opening -->-->-->\n");
-			//fmt.Println("User enters the Elevator...\n");
-			doorOpenClosed("closed");
-			fmt.Println("-->-->--> Doors are closing <--<--<--\n");
-			currentStatus = elevatorStatus;
-			currentDirection = elevatorDirection;
-			
-			requestList.RemoveRange(0, 1);   
+
+			requestList.RemoveRange(0, 1)
 		}
-		
-		if previousPosition != currentFloor	{
+
+		if previousPosition != currentFloor {
 			previousPosition = currentFloor
 		}
 	}
-}
+} */
 
-func (e *Elevator) doorOpenClosed(doorStatus) {
-	doorStatus = _doorStatus 
+func (e *Elevator) doorOpenClosed(doorStatus string) {
+	doorStatus = e.doorStatus
 }
-
 
 // CallButton ...
 type CallButton struct {
@@ -285,7 +288,7 @@ type CallButton struct {
 }
 
 // Initiating Call Button ...
-func (c *Column) initCallButton(_id int, _currentFloor int, _currentDirection string, destinationFloor int, _currentStatus string, _doorStatus string, _request int) {
+func (c *Column) initCallButton(id int, _currentFloor int, currentDirection string, destinationFloor int, _currentStatus string, _doorStatus string, _request int) {
 
 	fmt.Println("This is a Call Button")
 }
@@ -296,7 +299,7 @@ type FloorRequestPanel struct {
 }
 
 // Initiation Floor Request Panel ...
-func (b *Battery) initFloorRequestPanelList(_floorAmount int) {
+func (b *Battery) initFloorRequestPanelList(floorAmount int) {
 	fmt.Println("This is a Floor Request Panel")
 }
 
@@ -308,39 +311,38 @@ type FloorDisplay struct {
 // Request ...
 type Request struct {
 	floorAmount int
+	requestList []Request
 }
-
-
 
 // Scenario Zone
 func main() {
 	fmt.Println("Hello World")
 	battery := Battery{}
 	battery.initBattery(4, 66, 5, 1, -6, 66)
-	/* battery.columnList[0].initColumn("A", 66, 5, 1, -6, -1)
-	battery.columnList[1].initColumn("B", 66, 5, 1, 2, 20)
-	battery.columnList[2].initColumn("C", 66, 5, 1, 21, 40)
-	battery.columnList[3].initColumn("D", 66, 5, 1, 41, 60) */
+	//battery.columnList[0].initColumn("A", 66, 5, 1, -6, -1)
+	//battery.columnList[1].initColumn("B", 66, 5, 1, 2, 20)
+	//battery.columnList[2].initColumn("C", 66, 5, 1, 21, 40)
+	//battery.columnList[3].initColumn("D", 66, 5, 1, 41, 60)
 
 	fmt.Println(battery)
 
-	/* fmt.Println("         <<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>           ");
-	fmt.Println("         <<                                      >>           ");
-	fmt.Println("         <<   COMMERCIAL CONTROLLER TEST ZONE!   >>           ");
-	fmt.Println("         <<                                      >>           ");
-	fmt.Println("         <<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>           "); */
+	fmt.Println("         <<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>           ")
+	fmt.Println("         <<                                      >>           ")
+	fmt.Println("         <<   COMMERCIAL CONTROLLER TEST ZONE!   >>           ")
+	fmt.Println("         <<                                      >>           ")
+	fmt.Println("         <<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>           ")
 
 	// SCENARIO 1
-	/* battery.columnList[1].elevatorList[0].currentDirection = "down";
-	battery.columnList[1].elevatorList[0].currentFloor = 20;
-	battery.columnList[1].elevatorList[1].currentDirection = "up";
-	battery.columnList[1].elevatorList[1].currentFloor = 3;
-	battery.columnList[1].elevatorList[2].currentDirection = "down";
-	battery.columnList[1].elevatorList[2].currentFloor = 13;
-	battery.columnList[1].elevatorList[3].currentDirection = "down";
-	battery.columnList[1].elevatorList[3].currentFloor = 15;
-	battery.columnList[1].elevatorList[4].currentDirection = "down";
-	battery.columnList[1].elevatorList[4].currentFloor = 6; */
+	battery.columnList[1].elevatorList[0].currentDirection = "down"
+	battery.columnList[1].elevatorList[0].currentFloor = 20
+	battery.columnList[1].elevatorList[1].currentDirection = "up"
+	battery.columnList[1].elevatorList[1].currentFloor = 3
+	battery.columnList[1].elevatorList[2].currentDirection = "down"
+	battery.columnList[1].elevatorList[2].currentFloor = 13
+	battery.columnList[1].elevatorList[3].currentDirection = "down"
+	battery.columnList[1].elevatorList[3].currentFloor = 15
+	battery.columnList[1].elevatorList[4].currentDirection = "down"
+	battery.columnList[1].elevatorList[4].currentFloor = 6
 
 	/* fmt.Println("----------------------------------------------------------");
 	fmt.Println("----------------------------------------------------------");
