@@ -4,7 +4,7 @@ To Access The **C#** Version -----> [**CLICK HERE**](https://github.com/CptnWook
 
 To Access The **Go** Version -----> [**CLICK HERE**](https://github.com/CptnWookie/Rocket_Elevators_Controllers/blob/master/Commercial_Controller.go)
 
-<h2>How-To (JS and PY)</h2>
+<h2>How-To (C# and GO)</h2>
 In order to test this C# code, you'll need to install the Microsoft .NET Core from Microsoft website and Visual Studio Code Extension called "*C#*". Which can be found in the Extension tad on the left section of the software.
 
 Then, if you open the Commercial_Controller.cs, you have access to the code itself.
