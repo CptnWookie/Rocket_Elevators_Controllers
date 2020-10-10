@@ -451,7 +451,7 @@ namespace Rocket_Elevators_Controllers
             
 
             // SCENARIO 2
-            battery.columnList[2].elevatorList[0].currentDirection = "up";
+            battery.columnList[2].elevatorList[0].currentDirection = "idle";
             battery.columnList[2].elevatorList[0].currentFloor = 1;
             battery.columnList[2].elevatorList[1].currentDirection = "up";
             battery.columnList[2].elevatorList[1].currentFloor = 23;
