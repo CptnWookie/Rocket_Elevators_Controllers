@@ -16,6 +16,7 @@ using System.Collections.Generic;
 
 namespace Rocket_Elevators_Controllers
 {
+    // Definition of the Battery Object Class
     public class Battery
     {
         public int columnAmount;
@@ -29,7 +30,7 @@ namespace Rocket_Elevators_Controllers
         public List<CallButton> callButtonList = new List<CallButton>();
         public List<FloorRequestPanel> floorRequestPanelList = new List<FloorRequestPanel>();
         
-
+        // Constructor of the Battery Object Class
         public Battery(int _columnAmount, int _floorAmount, int _elevatorAmountPerColumn, int _lobby, int _minFloor, int _maxfloor)
         {
             columnAmount = _columnAmount;
@@ -39,8 +40,8 @@ namespace Rocket_Elevators_Controllers
             minFloor = _minFloor;
             maxFloor = _maxfloor;
 
-            //Console.WriteLine("COLUMN LIST :");
-
+            /* Console.WriteLine("COLUMN LIST :"); */
+            // This is where the Column List is created
             for (int i = 0; i < _columnAmount; i++)
             {
                 if (i == 0 )
@@ -68,7 +69,7 @@ namespace Rocket_Elevators_Controllers
                     //Console.WriteLine("Column {0}\n", columnList[i].id);
                 }
             }
-
+            // This is where the CallButton List is created
             for (int i = 0; i < _floorAmount-1; i++)
             {
                 if (i <= 5) 
@@ -84,7 +85,7 @@ namespace Rocket_Elevators_Controllers
                     //Console.WriteLine("Call Button {0}", callButtonList[i].id);
                 }
             }
-
+            // This is where the Floor Request Panel of the Lobby is created
             for (int i = 0; i < _lobby; i++)
             {
                 FloorRequestPanel floorRequestPanel = new FloorRequestPanel(_floorAmount);
@@ -92,18 +93,13 @@ namespace Rocket_Elevators_Controllers
                 //Console.WriteLine("Lobby Floor Request Panel");
             }
         }
-    
-        
-
-
-
-
+            
         //This method will determine the best column to be send for the current request.
         public void findBestColumn(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
             for (int i = 0; i < columnList.Count; i++)
             {
-                if (_requestedFloor == 1)
+                if (_requestedFloor == 1) // This is for an elevator request from the Lobby to a Floor or Basement
                 {
                     if (_destinationFloor >= columnList[i].minFloor && _destinationFloor <= columnList[i].maxFloor)
                     {
@@ -111,7 +107,7 @@ namespace Rocket_Elevators_Controllers
                         columnList[i].assignElevator(_requestedFloor, _currentDirection, _destinationFloor);
                     }
                 }
-                else
+                else // This is for a request from a Basement or Floor to the Lobby
                 {
                     if (_requestedFloor >= columnList[i].minFloor && _requestedFloor <= columnList[i].maxFloor)
                     {
@@ -122,7 +118,7 @@ namespace Rocket_Elevators_Controllers
         }
     }
 
-
+    // Definition of the Column Object Class
     public class Column
     {
         public string id;
@@ -144,7 +140,7 @@ namespace Rocket_Elevators_Controllers
             minFloor = _minFloor;
             maxFloor = _maxFloor;
 
-
+            // This is where the Elevator List is created
             for (int i = 0; i < elevatorAmountPerColumn; i++)
             {
                 Elevator elevator = new Elevator(i+1, 1, "idle", 1, "idle", "closed");
@@ -152,14 +148,14 @@ namespace Rocket_Elevators_Controllers
                 //Console.WriteLine("Elevator {0}{1}", id, elevatorList[i].id);
             }
         }
-
+        // This is where the moveElevator function will be call for the absolute Best Choice of Elevator
         public void bestOfBest(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
             Console.WriteLine("Best Elevator identified : Elevator {0}{1}\n", id, bestElevator.id);
             bestElevator.moveElevator(id);
         }
 
-        //This method represents an elevator request on a floor or basement.
+        // This method represents an elevator request from a Floor or Basement to the Lobby
         public void requestElevator(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
             Console.WriteLine("...Looking for Best Elevator...\n");
@@ -168,7 +164,7 @@ namespace Rocket_Elevators_Controllers
             
         }
 
-        // lobby
+        // The method represents an elevator request from the Lobby to a Basement or Floor
         public void assignElevator(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
             Console.WriteLine("...Looking for Best Elevator...\n");
@@ -176,7 +172,7 @@ namespace Rocket_Elevators_Controllers
             bestOfBest(_requestedFloor, _currentDirection, _destinationFloor);
         }
 
-        //This method will determine the best elevator to be send for the current request.
+        //This method will determine the best elevator to be send for the current request (From Lobby to Basement or Floor)
         public void findBestElevatorLobby(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
             int distance = 0;
@@ -239,10 +235,11 @@ namespace Rocket_Elevators_Controllers
                     bestElevator = elevatorList[i];
                 }
             }
+            // This will add the requested floor (where the user is) and the destination floor (where the user wants to go) to the resquest list
             bestElevator.requestList.Add(_requestedFloor);
             bestElevator.requestList.Add(_destinationFloor);
         }
-
+        //This method will determine the best elevator to be send for the current request (From Basement or Floor to Lobby)
         public void findBestElevatorFloor(int _requestedFloor, string _currentDirection, int _destinationFloor)
         {
             int distance = 0;
@@ -280,11 +277,13 @@ namespace Rocket_Elevators_Controllers
                     }
                 }
             }
+            // This will add the requested floor (where the user is) and the destination floor (where the user wants to go) to the resquest list
             bestElevator.requestList.Add(_requestedFloor);
             bestElevator.requestList.Add(_destinationFloor);
         }
     }
     
+    // Definition of the Elevator Object Class
     public class Elevator
     {
         public int id;
@@ -295,7 +294,8 @@ namespace Rocket_Elevators_Controllers
         public string doorStatus;
         public Request request;
         public List<int> requestList = new List<int>();
-        
+
+        // Constructor of the Elevator Object Class
         public Elevator(int _id, int _currentFloor, string _currentDirection, int _destinationFloor, string _currentStatus, string _doorStatus)
         {
             id = _id;
@@ -314,10 +314,10 @@ namespace Rocket_Elevators_Controllers
             var elevatorDirection = currentDirection;
             var previousPosition = currentFloor;
                 
-
+            // Until the request list is not empty ...
             while (requestList.Count != 0 )
             {
-                if (currentFloor > requestList[0])
+                if (currentFloor > requestList[0]) // For an elevator moving down ...
                 {
                     Console.WriteLine("Elevator {0}{1} is moving down ... currently at Floor {2}", columnId, id, currentFloor);
                     elevatorStatus = "moving";
@@ -331,7 +331,7 @@ namespace Rocket_Elevators_Controllers
                     currentFloor--;
 
                 } 
-                else if (currentFloor < requestList[0]) {
+                else if (currentFloor < requestList[0]) { // For an elevator moving up ...
                     Console.WriteLine("Elevator {0}{1} is moving up ... currently at Floor {2}", columnId, id, currentFloor);
                     elevatorStatus = "moving";
                     elevatorDirection = "up";
@@ -343,7 +343,7 @@ namespace Rocket_Elevators_Controllers
                     }
                     currentFloor++;
                 } 
-                else if (currentFloor == requestList[0]) {
+                else if (currentFloor == requestList[0]) { //For an elevator arriving at destination ...
                     elevatorStatus = "idle";
                     elevatorDirection = "idle";
                     Console.WriteLine("\nElevator {0}{1} has arrived at Floor {2}\n", columnId, id, currentFloor);
@@ -365,18 +365,20 @@ namespace Rocket_Elevators_Controllers
             }
         }
 
+        // This method will indicate the status of the Doors (Opened or Closed)
         public void doorOpenClosed(string _doorStatus)
         {
             doorStatus = _doorStatus; 
         }
     }
 
+// Definition of the CallButton Object Class
     public class CallButton
     {
         public int id;
         public string direction;
 
-
+        // Constructor of the CallButton Object Class
         public CallButton(int _id, string _direction)
         {
             id = _id;
@@ -384,34 +386,41 @@ namespace Rocket_Elevators_Controllers
         }
     }
 
+// Definition of the FloorRequestPanel Object Class
     public class FloorRequestPanel
     {
         public int floorAmount;
-        
+
+        // Constructor of the FloorRequestPanel Object Class
         public FloorRequestPanel(int _floorAmount)
         {
             floorAmount = _floorAmount;
         }
     }
 
-
+// Definition of the FloorDisplay Object Class
     public class FloorDisplay
     {
         public int floorAmount;
 
+        // Constructor of the FloorDisplay Object Class
         public FloorDisplay(int _floorAmount)
         {
             floorAmount = _floorAmount;
         }
     }
 
+// Definition of the Request Object Class
     public class Request
     {
         public int floorAmount;
     }
 
+// Definition of the Commercial_Controller Program
     public class Commercial_Controller
     {
+        // This is the test zone with 4 scenarios set to test various aspects of the Program    
+        // This is the main method of the Program that will trigger all other Methods
         static void Main(string[] args)
         {
             Console.WriteLine("\n\n         <<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>           ");

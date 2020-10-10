@@ -195,7 +195,7 @@ func (b *Battery) findBestColumn(requestedFloor int, currentDirection string, de
 			}
 		}
 
-		// In the event a request for an elevator is made from the Lobby, call assignElevator function.
+	// In the event a request for an elevator is made from the Lobby, call assignElevator function.
 	} else {
 		for i := 0; i < len(b.columnList); i++ {
 			if destinationFloor <= b.columnList[i].maxFloor && destinationFloor >= b.columnList[i].minFloor {
@@ -206,7 +206,6 @@ func (b *Battery) findBestColumn(requestedFloor int, currentDirection string, de
 			}
 		}
 	}
-	//fmt.Println("The selected column is ", b.bestColumn)
 }
 
 // Column ...
@@ -241,12 +240,6 @@ func (c *Column) minMax(min int, max int) {
 	c.minFloor = min
 	c.maxFloor = max
 }
-
-// This Function returns the best Elevator based on either requestElevator or assignElevator
-/* func (c *Column) bestOfBest(requestedFloor int, currentDirection string, destinationFloor int) {
-	fmt.Println("Best Elevator identified : ", c.bestElevator)
-	c.bestElevator.moveElevator(requestedFloor)
-} */
 
 //This function represents an elevator request on a floor or basement.
 func (c *Column) requestElevator(requestedFloor int, currentDirection string, destinationFloor int) {
@@ -285,12 +278,12 @@ func (c *Column) assignElevator(requestedFloor int, currentDirection string, des
 }
 
 
-
+// This function will determine the best elevator to be send ...
 func (c *Column) findBestElevator(requestedFloor int, currentDirection string) {
 	distance := 0
 	bestDistance := 99
 
-	if requestedFloor == 1 {
+	if requestedFloor == 1 { // This is if the request is submitted from the Lobby
 		for i := 0; i < len(c.elevatorList); i++ {
 
 			if currentDirection == "up" && currentDirection != c.elevatorList[i].currentDirection && requestedFloor <= c.elevatorList[i].currentFloor {
@@ -326,7 +319,7 @@ func (c *Column) findBestElevator(requestedFloor int, currentDirection string) {
 				fmt.Println("\nBest Elevator identified : #", c.bestElevator.id)
 			}
 		}
-	} else {
+	} else { // This is if the reques is submitted from a basement or a floor ...
 		for i := 0; i < len(c.elevatorList); i++ {
 			if currentDirection == "up" && currentDirection == c.elevatorList[i].currentDirection && requestedFloor >= c.elevatorList[i].currentFloor {
 				distance = c.elevatorList[i].currentFloor - requestedFloor
@@ -372,11 +365,12 @@ type Elevator struct {
 	currentStatus    string
 	doorStatus       string
 }
-
+// This function will activate the movement of the elevator from his current position to the user's position ...
 func (e *Elevator) moveElevator(destinationFloor int) {
 	destinationFloor = e.currentFloor
 }
 
+// This function will set the doors to Opened or Closed ...
 func (e *Elevator) doorOpenClosed(doorStatus string) {
 	doorStatus = e.doorStatus
 }
